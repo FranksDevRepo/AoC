@@ -9,8 +9,13 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part1Async(input));
+            var input = @"1721
+979
+366
+299
+675
+1456";
+            Assert.Equal("514579", await Solution.Part1Async(input));
         }
 
         [Fact]
