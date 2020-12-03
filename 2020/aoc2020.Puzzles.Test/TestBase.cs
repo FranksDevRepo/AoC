@@ -1,6 +1,5 @@
-﻿using NUnit.Framework;
+﻿using aoc2020.Puzzles.Core;
 using System;
-using aoc2020.Puzzles.Core;
 
 namespace aoc2020.Puzzles.Test
 {
@@ -9,12 +8,6 @@ namespace aoc2020.Puzzles.Test
         protected TSolution Solution { get; private set; }
 
         public TestBase()
-        {
-            this.SetUp();
-        }
-
-        [SetUp]
-        protected virtual void SetUp()
         {
             Solution = Activator.CreateInstance<TSolution>();
         }
