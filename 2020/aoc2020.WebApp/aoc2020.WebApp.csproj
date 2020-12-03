@@ -6,9 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Visualizers\Day13Visualizer.razor.cs" />
+    <Compile Remove="Visualizers\Day15Visualizer.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Visualizers\Day13Visualizer.razor" />
+    <Content Remove="Visualizers\Day15Visualizer.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview3.19555.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview3.19555.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview3.20168.3" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
   </ItemGroup>
 
