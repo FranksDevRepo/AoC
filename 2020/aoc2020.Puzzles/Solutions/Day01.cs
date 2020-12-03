@@ -11,7 +11,7 @@ namespace aoc2020.Puzzles.Solutions
     {
         public override async Task<string> Part1Async(string input)
         {
-            var expenses = GetExpenses(input).ToArray();
+            var expenses = GetExpenses(input);
             var solution = PairExists(expenses, 2020);
             return (solution.Value.x1 * solution.Value.x2).ToString();
         }
@@ -23,10 +23,9 @@ namespace aoc2020.Puzzles.Solutions
 
         private static IEnumerable<int> GetExpenses(string input) => GetLines(input).Select(x => Convert.ToInt32(x));
 
-        static (int x1, int x2)? PairExists(int[] arr, int sum)
+        static (int x1, int x2)? PairExists(IEnumerable<int> numbers, int sum)
         {
-            var set = new HashSet<int>();
-            foreach (int elem in arr) set.Add(elem);
+            var set = new HashSet<int>(numbers);
             foreach (int elem in set)
                 if (set.Contains(sum - elem))
                 {
