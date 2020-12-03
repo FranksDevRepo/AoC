@@ -2,7 +2,7 @@
 SETLOCAL EnableDelayedExpansion
 
 REM ***
-REM Runs aoc2019.ConsoleApp.
+REM Runs aoc2020.ConsoleApp.
 REM ***
 
-dotnet run -p aoc2019.ConsoleApp -- %*
+dotnet run -p aoc2020.ConsoleApp -- %*

@@ -2,19 +2,19 @@
 SETLOCAL EnableDelayedExpansion
 
 REM ***
-REM Publishes aoc2019.WebApp for github pages to /docs/.
+REM Publishes aoc2020.WebApp for github pages to /docs/.
 REM
 REM - Run tests
-REM - Publish the aoc2019.WebApp project
+REM - Publish the aoc2020.WebApp project
 REM - Clean /docs/** directories
 REM - Copy all published files and directories to /docs/
 REM - Set <base> tag to github pages url in /docs/index.html
 REM ***
 
-set webappbase=aoc2019.WebApp
+set webappbase=aoc2020.WebApp
 set docsbase=docs
-set distbase=%webappbase%\bin\Release\netstandard2.0\publish\aoc2019.WebApp\dist
-set githuburl=https://sanraith.github.io/aoc2019/
+set distbase=%webappbase%\bin\Release\netstandard2.0\publish\aoc2020.WebApp\dist
+rem set githuburl=https://sanraith.github.io/aoc2019/
 
 echo Running tests...
 dotnet test --nologo -c Release
