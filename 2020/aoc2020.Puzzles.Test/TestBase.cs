@@ -8,6 +8,11 @@ namespace aoc2020.Puzzles.Test
     {
         protected TSolution Solution { get; private set; }
 
+        public TestBase()
+        {
+            this.SetUp();
+        }
+
         [SetUp]
         protected virtual void SetUp()
         {

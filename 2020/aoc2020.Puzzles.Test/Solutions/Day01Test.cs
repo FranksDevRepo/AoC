@@ -1,26 +1,26 @@
-﻿using NUnit.Framework;
+﻿using aoc2020.Puzzles.Solutions;
 using System.Threading.Tasks;
-using aoc2020.Puzzles.Solutions;
+using Xunit;
 
 namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day01Test : TestBase<Day01>
     {
-        [Test]
+        [Fact]
         public async Task Part1()
         {
-            Assert.That(await Solution.Part1Async("12"), Is.EqualTo("2"));
-            Assert.That(await Solution.Part1Async("14"), Is.EqualTo("2"));
-            Assert.That(await Solution.Part1Async("1969"), Is.EqualTo("654"));
-            Assert.That(await Solution.Part1Async("100756"), Is.EqualTo("33583"));
+            Assert.Equal("2", await Solution.Part1Async("12"));
+            Assert.Equal("2", await Solution.Part1Async("14"));
+            Assert.Equal("654", await Solution.Part1Async("1969"));
+            Assert.Equal("33583", await Solution.Part1Async("100756"));
         }
 
-        [Test]
+        [Fact]
         public async Task Part2()
         {
-            Assert.That(await Solution.Part2Async("12"), Is.EqualTo("2"));
-            Assert.That(await Solution.Part2Async("1969"), Is.EqualTo("966"));
-            Assert.That(await Solution.Part2Async("100756"), Is.EqualTo("50346"));
+            Assert.Equal("2", await Solution.Part2Async("12"));
+            Assert.Equal("966", await Solution.Part2Async("1969"));
+            Assert.Equal("50346", await Solution.Part2Async("100756"));
         }
     }
 }

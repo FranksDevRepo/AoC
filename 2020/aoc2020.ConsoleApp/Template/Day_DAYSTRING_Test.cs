@@ -1,23 +1,23 @@
 ﻿using aoc2020.Puzzles.Solutions;
-using NUnit.Framework;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day_DAYSTRING_Test : TestBase<Day_DAYSTRING_>
     {
-        [Test]
+        [Fact]
         public async Task Part1()
         {
             var input = @"";
-            Assert.That(await Solution.Part1Async(input), Is.EqualTo(""));
+            Assert.Equal("", await Solution.Part1Async(input));
         }
 
-        [Test]
+        [Fact]
         public async Task Part2()
         {
             var input = @"";
-            Assert.That(await Solution.Part2Async(input), Is.EqualTo(""));
+            Assert.Equal("", await Solution.Part2Async(input));
         }
     }
 }
