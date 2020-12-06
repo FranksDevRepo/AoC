@@ -9,8 +9,22 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part1Async(input));
+            var input = @"abc
+
+a
+b
+c
+
+ab
+ac
+
+a
+a
+a
+a
+
+b";
+            Assert.Equal("11", await Solution.Part1Async(input));
         }
 
         [Fact]
