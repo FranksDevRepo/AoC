@@ -48,8 +48,7 @@ namespace aoc2020.Puzzles.Solutions
                 var pos2 = Int32.Parse(positions[1]);
                 var letter = elements[1].ToCharArray().First();
                 var password = elements[2];
-                bool isValidPassword = (password[pos1 - 1] == letter && password[pos2 - 1] != letter) ||
-                                       (password[pos2 - 1] == letter && password[pos1 - 1] != letter);
+                bool isValidPassword = (password[pos1 - 1] == letter ^ password[pos2 - 1] == letter);
                 countValidPasswords += isValidPassword ? 1 : 0;
                 solution.Add($"{line,-40}: {letter} => {isValidPassword.ToString()}");
             }
