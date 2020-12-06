@@ -38,7 +38,6 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part2Async(string input)
         {
             var lines = GetLines(input);
-            var solution = new List<string>();
             int countValidPasswords = 0;
             foreach (var line in lines)
             {
@@ -50,9 +49,7 @@ namespace aoc2020.Puzzles.Solutions
                 var password = elements[2];
                 bool isValidPassword = (password[pos1 - 1] == letter ^ password[pos2 - 1] == letter);
                 countValidPasswords += isValidPassword ? 1 : 0;
-                solution.Add($"{line,-40}: {letter} => {isValidPassword.ToString()}");
             }
-            File.WriteAllLines(@"C:\_Daten\source\repos\FranksDevRepo\AoC\2020\aoc2020.Puzzles\Input\solution day02 part02.txt", solution);
             return countValidPasswords.ToString();
         }
     }
