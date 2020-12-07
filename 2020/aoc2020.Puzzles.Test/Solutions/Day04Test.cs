@@ -1,4 +1,6 @@
 ﻿using aoc2020.Puzzles.Solutions;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -29,7 +31,17 @@ iyr:2011 ecl:brn hgt:59in";
         [Fact]
         public async Task Part2()
         {
-            Assert.Equal("", await Solution.Part2Async(myInput));
+            Assert.Equal("2", await Solution.Part2Async(myInput));
         }
+
+        [Fact]
+        public async Task Part2WithInputFile()
+        {
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day04.txt"));
+
+            Assert.Equal("103", await Solution.Part2Async(input));
+        }
+
     }
 }

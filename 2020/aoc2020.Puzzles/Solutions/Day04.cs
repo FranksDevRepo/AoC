@@ -3,6 +3,7 @@ using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -23,7 +24,32 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var passports = GetPassports(input);
+            int countValidPassports = 0;
+            foreach (var passport in passports)
+            {
+                if (!CheckValidPassport(passport))
+                    continue;
+                if(!IsValidYear(passport["byr"], 1920, 2002))
+                    continue;
+                if(!IsValidYear(passport["iyr"], 2010, 2020))
+                    continue;
+                if(!IsValidYear(passport["eyr"], 2020, 2030))
+                    continue;
+                if(!IsValidHeight(passport["hgt"]))
+                    continue;
+                if(!IsValidFormat(passport["hcl"], "#[a-f,0-9]{6,6}"))
+                    continue;
+                if(!IsValidFormat(passport["ecl"], "^(amb|blu|brn|gry|grn|hzl|oth)$"))
+                    continue;
+                if(!IsValidFormat(passport["pid"], "^[0-9]{9,9}$"))
+                    continue;
+                
+                countValidPassports++;
+                
+            }
+
+            return countValidPassports.ToString();
         }
 
         private List<Dictionary<string, string>> GetPassports(string input)
@@ -48,5 +74,28 @@ namespace aoc2020.Puzzles.Solutions
                 && passport.ContainsKey("ecl")
                 && passport.ContainsKey("pid");
         }
+        private bool IsValidYear(string yearString, int min, int max)
+        {
+            int year = int.Parse(yearString);
+            return year >= min && year <= max;
+        }
+
+        private bool IsValidFormat(string property, string pattern)
+        => Regex.IsMatch(property, pattern, RegexOptions.Compiled);
+
+        private bool IsValidHeight(string heightString)
+        {
+            string unit = heightString.Substring(heightString.Length - 2);
+            if (unit != "cm" && unit != "in")
+                return false;
+            int height = int.Parse(heightString.Substring(0, heightString.Length - 2));
+            if (unit == "cm")
+                return height >= 150 && height <= 193;
+            else if (unit=="in")
+                return height >= 59 && height <= 76;
+            else
+                return false;
+        }
+
     }
 }

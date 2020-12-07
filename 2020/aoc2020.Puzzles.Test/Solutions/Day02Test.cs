@@ -1,5 +1,6 @@
 ﻿using aoc2020.Puzzles.Solutions;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,8 +27,9 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1WithInputFile()
         {
-            var input = File.ReadAllText(
-                @"C:\_Daten\source\repos\FranksDevRepo\AoC\2020\aoc2020.Puzzles\Input\day02.txt");
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day02.txt"));
+
             Assert.Equal("556", await Solution.Part1Async(input));
         }
     }
