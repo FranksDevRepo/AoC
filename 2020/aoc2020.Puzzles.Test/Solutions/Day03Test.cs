@@ -31,6 +31,14 @@ namespace aoc2020.Puzzles.Test.Solutions
         {
             Assert.Equal("336", await Solution.Part2Async(myInput));
         }
+        [Fact]
+        public async Task Part1WithInputFile()
+        {
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day03.txt"));
+
+            Assert.Equal("289", await Solution.Part1Async(input));
+        }
 
         [Fact]
         public async Task Part2WithInputFile()

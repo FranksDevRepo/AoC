@@ -1,4 +1,6 @@
-﻿using aoc2020.Puzzles.Solutions;
+﻿using System.IO;
+using System.Reflection;
+using aoc2020.Puzzles.Solutions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -25,6 +27,24 @@ dotted black bags contain no other bags.";
         public async Task Part2()
         {
             var input = @"";
+            Assert.Equal("", await Solution.Part2Async(input));
+        }
+
+        [Fact]
+        public async Task Part1WithInputFile()
+        {
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day07.txt"));
+
+            Assert.Equal("", await Solution.Part1Async(input));
+        }
+
+        [Fact]
+        public async Task Part2WithInputFile()
+        {
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day07.txt"));
+
             Assert.Equal("", await Solution.Part2Async(input));
         }
     }

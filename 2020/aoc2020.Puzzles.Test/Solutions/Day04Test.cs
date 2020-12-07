@@ -35,6 +35,15 @@ iyr:2011 ecl:brn hgt:59in";
         }
 
         [Fact]
+        public async Task Part1WithInputFile()
+        {
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day04.txt"));
+
+            Assert.Equal("170", await Solution.Part1Async(input));
+        }
+
+        [Fact]
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
