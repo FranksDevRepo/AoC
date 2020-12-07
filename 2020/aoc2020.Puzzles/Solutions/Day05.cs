@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -19,7 +18,13 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var boardingPasses = GetLines(input);
+            var seatNumbers = GetSeatNumbers(boardingPasses);
+            int minSeatNumber = seatNumbers.Min();
+            int maxSeatNumber = seatNumbers.Max();
+            var availableSeats = Enumerable.Range(minSeatNumber, maxSeatNumber - minSeatNumber);
+            var mySeat = availableSeats.Except(seatNumbers).First();
+            return mySeat.ToString();
         }
         private IEnumerable<int> GetSeatNumbers(List<string> boardingPasses)
         {
