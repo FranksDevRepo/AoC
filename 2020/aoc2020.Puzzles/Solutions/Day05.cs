@@ -1,8 +1,8 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -11,13 +11,49 @@ namespace aoc2020.Puzzles.Solutions
     public sealed class Day05 : SolutionBase
     {
         public override async Task<string> Part1Async(string input)
-        { 
-            throw new NotImplementedException();
+        {
+            var boardingPasses = GetLines(input);
+            var seatNumbers = GetSeatNumbers(boardingPasses);
+            return seatNumbers.Max().ToString();
         }
 
         public override async Task<string> Part2Async(string input)
         {
             throw new NotImplementedException();
+        }
+        private IEnumerable<int> GetSeatNumbers(List<string> boardingPasses)
+        {
+            foreach (var boardingPass in boardingPasses)
+            {
+                yield return GetSeatNumber(boardingPass);
+            }
+        }
+
+        private int GetSeatNumber(string boardingPass)
+        {
+            int row = 127;
+            var rowRange = (lower: 0, upper: 127);
+            int seat = 7;
+            var seatRange = (lower: 0, upper: 7);
+            foreach (char c in boardingPass)
+            {
+                rowRange = c switch
+                {
+                    'F' => (rowRange.lower, (rowRange.lower + rowRange.upper) / 2),
+                    'B' => ((rowRange.lower + rowRange.upper) / 2 + 1, rowRange.upper),
+                    _ => rowRange
+                };
+                seatRange = c switch
+                {
+                    'L' => (seatRange.lower, (seatRange.lower + seatRange.upper) / 2),
+                    'R' => ((seatRange.lower + seatRange.upper) / 2 + 1, seatRange.upper),
+                _ => seatRange
+                };
+            }
+
+            row = Math.Min(rowRange.lower, rowRange.upper);
+            seat = Math.Min(seatRange.lower, seatRange.upper);
+            return row * 8 + seat;
         }
     }
 }
