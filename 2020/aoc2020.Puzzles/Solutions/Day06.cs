@@ -1,7 +1,9 @@
 ﻿using aoc2020.Puzzles.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -19,21 +21,28 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part2Async(string input)
         {
             var customDeclarationForms = GetCustomDeclarationFormsPart2(input);
-            int commonPositiveGroupAnswers = 0; //customDeclarationForms.Sum(l => l.Sum(hs => l.Count));
+            int commonPositiveGroupAnswers = 0;
+            var solution = new List<string>();
+            int groupCounter = 0;
+            int personCounter = 0;
             foreach (var customDeclarationForm in customDeclarationForms)
             {
+                groupCounter++;
                 HashSet<char> commonPositiveGroupAnswerSet = null;
                 foreach (var personAnswer in customDeclarationForm)
                 {
+                    personCounter++;
                     if (commonPositiveGroupAnswerSet==null)
                         commonPositiveGroupAnswerSet = new HashSet<char>(personAnswer);
                     else
                         commonPositiveGroupAnswerSet.IntersectWith(personAnswer);
                 }
-
+                solution.Add($"{groupCounter.ToString(),5}: {personCounter.ToString(), 5} => {string.Join(", ", commonPositiveGroupAnswerSet.OrderBy(c => c)), -100} => {commonPositiveGroupAnswerSet.Count, 5} => {commonPositiveGroupAnswers.ToString(), 5}");
                 commonPositiveGroupAnswers += commonPositiveGroupAnswerSet.Count;
             }
 
+            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            File.WriteAllLines(Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day06 part02.txt"), solution);
             return commonPositiveGroupAnswers.ToString();
         }
 
@@ -59,7 +68,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 List<HashSet<char>> groupAnswerSet = new List<HashSet<char>>();
                 HashSet<char> personAnswerSet = new HashSet<char>();
-                foreach (char answer in groupAnswers)
+                foreach (char answer in groupAnswers.TrimEnd('\n'))
                 {
                     if (answer == '\n')
                     {

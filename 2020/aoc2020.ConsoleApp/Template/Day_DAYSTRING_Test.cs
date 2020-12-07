@@ -1,5 +1,6 @@
 ﻿using aoc2020.Puzzles.Solutions;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
