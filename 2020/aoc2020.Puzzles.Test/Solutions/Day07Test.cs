@@ -27,7 +27,14 @@ dotted black bags contain no other bags.";
         [Fact]
         public async Task Part2()
         {
-            Assert.Equal("", await Solution.Part2Async(myInput));
+            string input = @"shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags.";
+            Assert.Equal("126", await Solution.Part2Async(input));
         }
 
         [Fact]
