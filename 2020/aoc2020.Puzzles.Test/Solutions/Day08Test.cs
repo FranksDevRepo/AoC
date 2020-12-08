@@ -34,16 +34,16 @@ acc +6";
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "dayDAYSTRING.txt"));
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day08.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("2003", await Solution.Part1Async(input));
         }
 
         [Fact]
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "dayDAYSTRING.txt"));
+            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day08.txt"));
 
             Assert.Equal("", await Solution.Part2Async(input));
         }
