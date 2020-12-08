@@ -8,10 +8,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day08Test : TestBase<Day08>
     {
-        [Fact]
-        public async Task Part1()
-        {
-            var input = @"nop +0
+        private readonly string myInput = @"nop +0
 acc +1
 jmp +4
 acc +3
@@ -20,14 +17,17 @@ acc -99
 acc +1
 jmp -4
 acc +6";
-            Assert.Equal("5", await Solution.Part1Async(input));
+
+        [Fact]
+        public async Task Part1()
+        {
+            Assert.Equal("5", await Solution.Part1Async(myInput));
         }
 
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("8", await Solution.Part2Async(myInput));
         }
 
         [Fact]
