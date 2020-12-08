@@ -1,6 +1,6 @@
 ﻿using aoc2020.Puzzles.Core;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -30,7 +30,8 @@ namespace aoc2020.Puzzles.Solutions
             }
 
             var computer = new HandHeldGameConsole(program);
-            accumulator = computer.Execute();
+            bool returnCode = computer.Execute();
+            accumulator = computer.Accumulator;
 
             return accumulator.ToString();
         }
@@ -40,6 +41,7 @@ namespace aoc2020.Puzzles.Solutions
             public Dictionary<int, Command> Program { get; private set; }
             public int Accumulator { get; private set; }
             public int Line { get; private set; }
+            private HashSet<int> executedLines = new HashSet<int>();
             public HandHeldGameConsole(Dictionary<int, Command> program)
             {
                 this.Program = program;
@@ -47,21 +49,21 @@ namespace aoc2020.Puzzles.Solutions
                 this.Line = 1;
             }
 
-            public int Execute()
+            public bool Execute()
             {
                 do
                 {
                     var command = Program[Line];
                     Line = Execute(command);
-                } while (Line > 0);
+                } while (Line > 0 && Line <= Program.Count);
 
-                return Accumulator;
+                return (Line == Program.Count + 1);
             }
 
             private int Execute(Command command)
             {
                 int nextLine = Line;
-                if (command.Executed)
+                if (executedLines.Contains(Line))
                     return 0;
                 if (command.Instruction == "nop")
                     nextLine++;
@@ -73,29 +75,67 @@ namespace aoc2020.Puzzles.Solutions
                     Accumulator += command.Parameter;
                     nextLine++;
                 }
-                Program[Line].Executed = true;
+
+                executedLines.Add(Line);
                 return nextLine;
             }
         }
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            int accumulator = 0;
+
+            var instructionRegex = new Regex("^(nop|acc|jmp) ((?:\\+|-)\\d+)");
+
+            var lines = GetLines(input);
+
+            var program = new Dictionary<int, Command>();
+            int lineCount = 0;
+            foreach (var line in lines)
+            {
+                lineCount++;
+                var instructionMatch = instructionRegex.Match(line);
+                if (!instructionMatch.Success)
+                    continue;
+                var command = new Command(instructionMatch.Groups[1].Value, int.Parse(instructionMatch.Groups[2].Value));
+                program.Add(lineCount, command);
+            }
+
+            var corruptedInstructionsCandidates = 
+                program
+                    .Where(i => i.Value.Instruction == "jmp" || i.Value.Instruction == "nop")
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            foreach (var corruptedInstructionsCandidate in corruptedInstructionsCandidates)
+            {
+                program[corruptedInstructionsCandidate.Key].Instruction = corruptedInstructionsCandidate.Value.Instruction switch
+                {
+                    "nop" => "jmp",
+                    "jmp" => "nop"
+                };
+                var computer = new HandHeldGameConsole(program);
+                bool success = computer.Execute();
+                accumulator = computer.Accumulator;
+                if(success) break;
+                program[corruptedInstructionsCandidate.Key].Instruction = corruptedInstructionsCandidate.Value.Instruction switch
+                {
+                    "nop" => "jmp",
+                    "jmp" => "nop"
+                };
+            }
+
+            return accumulator.ToString();
         }
 
         public class Command
         {
             public string Instruction { get; set; }
             public int Parameter { get; set; }
-            public bool Executed { get; set; }
 
-            public Command(string instruction, int parameter) : this(instruction, parameter, false)
-            {}
-            public Command(string instruction, int parameter, bool executed)
+            public Command(string instruction, int parameter)
             {
                 this.Instruction = instruction;
                 this.Parameter = parameter;
-                this.Executed = executed;
             }
         }
     }
