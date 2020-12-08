@@ -31,6 +31,26 @@ namespace aoc2020.Puzzles.Test.Solutions
         {
             Assert.Equal("336", await Solution.Part2Async(myInput));
         }
+
+        [Fact]
+        public async Task Part2WithExtractOfInputFile()
+        {
+            var input = @".#..#.....#....##..............
+...#.#...#...#.#..........#....
+#...###...#.#.....#.##.#.#...#.
+#.....#.#...##....#...#...#....
+##.......##.#.....#........##.#
+#..#....#......#..#......#...#.
+#..#......#.......#............
+##...#.#..#...#........#....##.
+#.#.#...#...#..#........#....#.
+.......#...........##......#...
+##.##.##......#..#............#
+..#.###..#..............#......
+";
+            Assert.Equal("144", await Solution.Part2Async(input));
+        }
+
         [Fact]
         public async Task Part1WithInputFile()
         {
@@ -46,7 +66,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day03.txt"));
 
-            Assert.Equal("336", await Solution.Part2Async(input));
+            Assert.Equal("5522401584", await Solution.Part2Async(input));
         }
     }
 }

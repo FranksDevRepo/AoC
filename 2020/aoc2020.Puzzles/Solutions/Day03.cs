@@ -1,6 +1,7 @@
 ﻿using aoc2020.Puzzles.Core;
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -19,13 +20,13 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part2Async(string input)
         {
             var terrain = input.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(line => line.Select(c => c is '#').ToArray()).ToArray();
-            var countTreesSlope1 = CountTrees(terrain, 1, 1);
-            var countTreesSlope2 = CountTrees(terrain, 3, 1);
-            var countTreesSlope3 = CountTrees(terrain, 5, 1);
-            var countTreesSlope4 = CountTrees(terrain, 7, 1);
-            var countTreesSlope5 = CountTrees(terrain, 1, 2);
+            BigInteger countTreesSlope1 = CountTrees(terrain, 1, 1);
+            BigInteger countTreesSlope2 = CountTrees(terrain, 3, 1);
+            BigInteger countTreesSlope3 = CountTrees(terrain, 5, 1);
+            BigInteger countTreesSlope4 = CountTrees(terrain, 7, 1);
+            BigInteger countTreesSlope5 = CountTrees(terrain, 1, 2);
 
-            Int64 solution = countTreesSlope1 * countTreesSlope2 * countTreesSlope3 * countTreesSlope4 * countTreesSlope5;
+            BigInteger solution = countTreesSlope1 * countTreesSlope2 * countTreesSlope3 * countTreesSlope4 * countTreesSlope5;
             return solution.ToString();
         }
 
