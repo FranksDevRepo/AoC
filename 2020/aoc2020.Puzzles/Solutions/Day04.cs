@@ -55,9 +55,9 @@ namespace aoc2020.Puzzles.Solutions
         private List<Dictionary<string, string>> GetPassports(string input)
         {
             var passports = new List<Dictionary<string, string>>();
-            foreach (var passport in input.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var passport in input.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
-                passports.Add(passport.Split(new string[] { "\n", " " }, StringSplitOptions.RemoveEmptyEntries)
+                passports.Add(passport.Split(new string[] { Environment.NewLine, " " }, StringSplitOptions.RemoveEmptyEntries)
                     .ToDictionary(x => x.Split(":")[0], x => x.Split(":")[1]));
             }
             return passports;

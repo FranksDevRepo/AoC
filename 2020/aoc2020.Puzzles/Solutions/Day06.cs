@@ -47,10 +47,10 @@ namespace aoc2020.Puzzles.Solutions
         private List<HashSet<char>> GetCustomDeclarationForms(string input)
         {
             var customDeclarationForms = new List<HashSet<char>>();
-            foreach (var groupAnswers in input.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var groupAnswers in input.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 HashSet<char> groupAnswerSet = new HashSet<char>();
-                foreach (char answer in groupAnswers.Replace("\n", string.Empty))
+                foreach (char answer in groupAnswers.Replace(Environment.NewLine, string.Empty))
                 {
                     if (!groupAnswerSet.Contains(answer))
                         groupAnswerSet.Add(answer);
@@ -62,7 +62,7 @@ namespace aoc2020.Puzzles.Solutions
         private List<List<HashSet<char>>> GetCustomDeclarationFormsPart2(string input)
         {
             var customDeclarationForms = new List<List<HashSet<char>>>();
-            foreach (var groupAnswers in input.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var groupAnswers in input.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.TrimEntries))
             {
                 List<HashSet<char>> groupAnswerSet = new List<HashSet<char>>();
                 HashSet<char> personAnswerSet = new HashSet<char>();
