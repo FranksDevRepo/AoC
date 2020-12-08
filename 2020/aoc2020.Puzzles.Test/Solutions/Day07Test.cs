@@ -52,7 +52,7 @@ dark violet bags contain no other bags.";
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day07.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("9339", await Solution.Part2Async(input));
         }
     }
 }
