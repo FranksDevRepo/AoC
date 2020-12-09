@@ -8,10 +8,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day09Test : TestBase<Day09>
     {
-        [Fact]
-        public async Task Part1()
-        {
-            var input = @"35
+        private readonly string myInput = @"35
 20
 15
 25
@@ -31,15 +28,21 @@ namespace aoc2020.Puzzles.Test.Solutions
 277
 309
 576";
+
+        [Fact]
+        public async Task Part1()
+        {
             //Assert.Equal("127", await Solution.Part1Async(input));
-            Assert.Equal("127", Day09.FindInvalidNumber(input, 5).ToString());
+            Assert.Equal("127", Day09.FindInvalidNumber(myInput, 5).ToString());
         }
 
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            var invalidNumber = Day09.FindInvalidNumber(myInput, 5);
+            var contiguousNumbers = Day09.FindContiguousSetOfAtLeastTwoNumbers(myInput, invalidNumber);
+            var solution = Day09.CalculateSolutionPart2(contiguousNumbers).ToString();
+            Assert.Equal("62", solution);
         }
 
         [Fact]
@@ -57,7 +60,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day09.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("28045630", await Solution.Part2Async(input));
         }
 
     }

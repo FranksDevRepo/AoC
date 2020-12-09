@@ -18,6 +18,42 @@ namespace aoc2020.Puzzles.Solutions
             return invalidNumber.ToString();
         }
 
+        public override async Task<string> Part2Async(string input)
+        {
+            var invalidNumber = FindInvalidNumber(input);
+            var contiguousSet = FindContiguousSetOfAtLeastTwoNumbers(input, invalidNumber);
+            var solution = CalculateSolutionPart2(contiguousSet);
+            return solution.ToString();
+        }
+
+        public static BigInteger CalculateSolutionPart2(IEnumerable<BigInteger> contiguousSet)
+            => contiguousSet.Min() + contiguousSet.Max();
+
+        public static IEnumerable<BigInteger> FindContiguousSetOfAtLeastTwoNumbers(string input, in BigInteger invalidNumber)
+        {
+            var numbers = GetLines(input).Select(n => BigInteger.Parse(n)).ToList();
+
+            BigInteger sum = 0;
+            int firstNumberIndex = 0;
+            int lastNumberIndex = 0;
+            do
+            {
+                sum += numbers[lastNumberIndex];
+                while (sum > invalidNumber)
+                {
+                    sum -= numbers[firstNumberIndex];
+                    firstNumberIndex++;
+                }
+                if (sum == invalidNumber)
+                    break;
+
+                lastNumberIndex++;
+            } while (true);
+
+            return numbers.Skip(firstNumberIndex - 1).Take(lastNumberIndex - firstNumberIndex + 1);
+        }
+
+
         public static BigInteger FindInvalidNumber(string input, int preambleLength = 25)
         {
             var numbers = GetLines(input).Select(n => BigInteger.Parse(n));
@@ -55,9 +91,5 @@ namespace aoc2020.Puzzles.Solutions
             return invalidNumber;
         }
 
-        public override async Task<string> Part2Async(string input)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
