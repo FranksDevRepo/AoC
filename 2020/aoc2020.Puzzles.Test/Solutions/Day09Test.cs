@@ -31,7 +31,8 @@ namespace aoc2020.Puzzles.Test.Solutions
 277
 309
 576";
-            Assert.Equal("127", await Solution.Part1Async(input));
+            //Assert.Equal("127", await Solution.Part1Async(input));
+            Assert.Equal("127", Day09.FindInvalidNumber(input, 5).ToString());
         }
 
         [Fact]
@@ -47,7 +48,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day09.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("167829540", await Solution.Part1Async(input));
         }
 
         [Fact]
