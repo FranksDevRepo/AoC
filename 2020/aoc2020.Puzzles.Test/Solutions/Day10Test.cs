@@ -8,10 +8,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day10Test : TestBase<Day10>
     {
-        [Fact]
-        public async Task Part1()
-        {
-            var input = @"16
+        private readonly string input = @"16
 10
 15
 5
@@ -22,13 +19,8 @@ namespace aoc2020.Puzzles.Test.Solutions
 6
 12
 4";
-            Assert.Equal("35", await Solution.Part1Async(input));
-        }
 
-        [Fact]
-        public async Task Part1LargerExample()
-        {
-            var input = @"28
+        private readonly string largerInput = @"28
 33
 18
 42
@@ -59,14 +51,29 @@ namespace aoc2020.Puzzles.Test.Solutions
 34
 10
 3";
-            Assert.Equal("220", await Solution.Part1Async(input));
+
+        [Fact]
+        public async Task Part1()
+        {
+            Assert.Equal("35", await Solution.Part1Async(input));
+        }
+
+        [Fact]
+        public async Task Part1LargerExample()
+        {
+            Assert.Equal("220", await Solution.Part1Async(largerInput));
         }
 
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("8", await Solution.Part2Async(input));
+        }
+
+        [Fact]
+        public async Task Part2WithLargerExample()
+        {
+            Assert.Equal("19208", await Solution.Part2Async(largerInput));
         }
 
         [Fact]
