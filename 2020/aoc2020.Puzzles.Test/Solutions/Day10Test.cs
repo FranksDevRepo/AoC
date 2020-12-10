@@ -22,7 +22,44 @@ namespace aoc2020.Puzzles.Test.Solutions
 6
 12
 4";
-            Assert.Equal("22", await Solution.Part1Async(input));
+            Assert.Equal("35", await Solution.Part1Async(input));
+        }
+
+        [Fact]
+        public async Task Part1LargerExample()
+        {
+            var input = @"28
+33
+18
+42
+31
+14
+46
+20
+48
+47
+24
+23
+49
+45
+19
+38
+39
+11
+1
+32
+25
+35
+8
+17
+7
+9
+4
+2
+34
+10
+3";
+            Assert.Equal("220", await Solution.Part1Async(input));
         }
 
         [Fact]
@@ -38,7 +75,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day10.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("2432", await Solution.Part1Async(input));
         }
 
         [Fact]
