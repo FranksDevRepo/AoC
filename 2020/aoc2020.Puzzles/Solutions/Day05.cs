@@ -30,8 +30,8 @@ namespace aoc2020.Puzzles.Solutions
         {
             foreach (var boardingPass in boardingPasses)
             {
-                //yield return GetSeatNumber(boardingPass);
-                yield return CalculateSeatPassNumber(boardingPass);
+                yield return GetSeatNumber(boardingPass);
+                //yield return CalculateSeatPassNumber(boardingPass);
             }
         }
 
