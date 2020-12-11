@@ -22,7 +22,7 @@ LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL
 ";
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("37", await Solution.Part1Async(input));
         }
 
         [Fact]
@@ -38,7 +38,7 @@ L.LLLLL.LL
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day11.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("2204", await Solution.Part1Async(input));
         }
 
         [Fact]
