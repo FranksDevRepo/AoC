@@ -30,15 +30,14 @@ namespace aoc2020.Puzzles.Solutions
         {
             foreach (var boardingPass in boardingPasses)
             {
-                yield return GetSeatNumber(boardingPass);
+                //yield return GetSeatNumber(boardingPass);
+                yield return CalculateSeatPassNumber(boardingPass);
             }
         }
 
         private int GetSeatNumber(string boardingPass)
         {
-            int row = 127;
             var rowRange = (lower: 0, upper: 127);
-            int seat = 7;
             var seatRange = (lower: 0, upper: 7);
             foreach (char c in boardingPass)
             {
@@ -56,9 +55,17 @@ namespace aoc2020.Puzzles.Solutions
                 };
             }
 
-            row = Math.Min(rowRange.lower, rowRange.upper);
-            seat = Math.Min(seatRange.lower, seatRange.upper);
+            int row = Math.Min(rowRange.lower, rowRange.upper);
+            int seat = Math.Min(seatRange.lower, seatRange.upper);
             return row * 8 + seat;
+        }
+
+        // alternative calculation of seat number
+        private int CalculateSeatPassNumber(string line)
+        {
+            int rowNumber = Convert.ToInt32(line.Substring(0, 7).Replace('F', '0').Replace('B', '1'), 2);
+            int colNumber = Convert.ToInt32(line.Substring(7, 3).Replace('L', '0').Replace('R', '1'), 2);
+            return rowNumber * 8 + colNumber;
         }
     }
 }
