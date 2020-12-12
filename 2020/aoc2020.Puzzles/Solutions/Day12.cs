@@ -1,14 +1,10 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
 using System.Threading.Tasks;
-using MoreLinq.Extensions;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -36,17 +32,17 @@ namespace aoc2020.Puzzles.Solutions
 
         public struct Position
         {
-            public Position(int northSouth, int eastWest)
+            public Position(int eastWest, int northSouth)
             {
-                NorthSouth = northSouth;
                 EastWest = eastWest;
+                NorthSouth = northSouth;
             }
-            public int NorthSouth { get; set; }
             public int EastWest { get; set; }
+            public int NorthSouth { get; set; }
 
             public override string ToString()
             {
-                return $"North/South: {NorthSouth, 3} East/West {EastWest, 3}";
+                return $"East/West {EastWest,3} North/South: {NorthSouth, 3}";
             }
         }
 
@@ -62,7 +58,7 @@ namespace aoc2020.Puzzles.Solutions
 
         private int CalculateManhattanDistance((Move action, int value)[] instructions, Direction direction)
         {
-            var position = new Position(0,0);
+            var position = new Position(0, 0);
             var solution = new List<string>();
             solution.Add("current Position               => current Direction => instruction     => new Position                   => new Direction");
             
@@ -124,7 +120,81 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            Position wayPoint = new Position(10, 1);
+            Position shipPosition = new Position(0,0);
+            var instructions = GetLines(input)
+                .Select(line => (action: (Move)line.ElementAt(0), value: int.Parse(line.Substring(1))))
+                .ToArray();
+            int manhattanDistance = CalculateManhattanDistance(instructions, wayPoint, shipPosition);
+            return manhattanDistance.ToString();
+        }
+
+        private int CalculateManhattanDistance((Move action, int value)[] instructions, Position wayPoint, Position shipPosition)
+        {
+            foreach (var instruction in instructions)
+            {
+                if ("NSEWLR".Contains((char) instruction.action))
+                {
+                    wayPoint = CalculateWayPoint(wayPoint, instruction);
+                }
+                else
+                {
+                    shipPosition = MoveShip(shipPosition, wayPoint, instruction);
+                }
+            }
+            return Math.Abs(shipPosition.NorthSouth) + Math.Abs(shipPosition.EastWest);
+        }
+
+        private Position MoveShip(Position shipPosition, Position wayPoint, (Move action, int value) instruction)
+        {
+            switch (instruction.action)
+            {
+                case Move.Forward:
+                    shipPosition.EastWest += wayPoint.EastWest * instruction.value;
+                    shipPosition.NorthSouth += wayPoint.NorthSouth * instruction.value;
+                    break;
+                default:
+                    throw new InvalidOperationException($"{instruction.action} not expected.");
+            }
+
+            return shipPosition;
+        }
+
+        private Position CalculateWayPoint(Position wayPoint, (Move action, int value) instruction)
+        {
+            switch (instruction.action)
+            {
+                case Move.North:
+                    wayPoint.NorthSouth += instruction.value;
+                    break;
+                case Move.South:
+                    wayPoint.NorthSouth -= instruction.value;
+                    break;
+                case Move.East:
+                    wayPoint.EastWest += instruction.value;
+                    break;
+                case Move.West:
+                    wayPoint.EastWest -= instruction.value;
+                    break;
+                case Move.Left:
+                    for (var i = 0L; i < instruction.value / 90; i++)
+                    {
+                        var newWaypoint = new Position(-wayPoint.NorthSouth, wayPoint.EastWest);
+                        wayPoint.EastWest = newWaypoint.EastWest;
+                        wayPoint.NorthSouth = newWaypoint.NorthSouth;
+                    }
+                    break;
+                case Move.Right:
+                    for (var i = 0L; i < instruction.value / 90; i++)
+                    {
+                        var newWaypoint = new Position(wayPoint.NorthSouth, -wayPoint.EastWest);
+                        wayPoint.EastWest = newWaypoint.EastWest;
+                        wayPoint.NorthSouth = newWaypoint.NorthSouth;
+                    }
+                    break;
+            }
+
+            return wayPoint;
         }
     }
 }

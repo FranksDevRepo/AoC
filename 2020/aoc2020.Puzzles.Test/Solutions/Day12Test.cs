@@ -42,7 +42,7 @@ F11
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day12.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("12385", await Solution.Part2Async(input));
         }
 
     }
