@@ -11,28 +11,8 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"time   bus 7   bus 13  bus 59  bus 31  bus 19
-929      .       .       .       .       .
-930      .       .       .       D       .
-931      D       .       .       .       D
-932      .       .       .       .       .
-933      .       .       .       .       .
-934      .       .       .       .       .
-935      .       .       .       .       .
-936      .       D       .       .       .
-937      .       .       .       .       .
-938      D       .       .       .       .
-939      .       .       .       .       .
-940      .       .       .       .       .
-941      .       .       .       .       .
-942      .       .       .       .       .
-943      .       .       .       .       .
-944      .       .       D       .       .
-945      D       .       .       .       .
-946      .       .       .       .       .
-947      .       .       .       .       .
-948      .       .       .       .       .
-949      .       D       .       .       .";
+            var input = @"939
+7,13,x,x,59,x,31,19";
             Assert.Equal("295", await Solution.Part1Async(input));
         }
 
@@ -49,7 +29,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day13.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("156", await Solution.Part1Async(input));
         }
 
         [Fact]
