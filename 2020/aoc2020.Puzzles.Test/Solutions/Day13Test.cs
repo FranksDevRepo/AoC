@@ -32,6 +32,14 @@ namespace aoc2020.Puzzles.Test.Solutions
         }
 
         [Fact]
+        public async Task Part2_Example2a()
+        {
+            var input = @"
+17,x,13";
+            Assert.Equal("102", await Solution.Part2Async(input));
+        }
+
+        [Fact]
         public async Task Part2_Example3()
         {
             var input = @"
@@ -81,7 +89,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var actual = await Solution.Part2Async(input);
             long actualNumber = long.Parse(actual);
             Assert.True(actualNumber > 100000000000000);
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("404517869995362", await Solution.Part2Async(input));
         }
 
     }
