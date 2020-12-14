@@ -32,8 +32,11 @@ mem[9168] = 414370178
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            var input = @"mask = 000000000000000000000000000000X1001X
+mem[42] = 100
+mask = 00000000000000000000000000000000X0XX
+mem[26] = 1";
+            Assert.Equal("208", await Solution.Part2Async(input));
         }
 
         [Fact]
