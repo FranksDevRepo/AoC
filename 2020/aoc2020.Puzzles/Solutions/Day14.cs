@@ -160,10 +160,10 @@ namespace aoc2020.Puzzles.Solutions
                         continue;
                     long bitValue = 2 ^ i;
                     if (reversedBitmask[i] == '1')
-                        value = unchecked(value | (1uL << i));
+                        value = SetSpecificBitAtPosition(value, i);
                     else if (reversedBitmask[i] == '0')
                     {
-                        value = unchecked(value & ~(1uL << i));
+                        value = UnsetSpecificBitAtPosition(value, i);
                     }
                 }
 
@@ -208,7 +208,7 @@ namespace aoc2020.Puzzles.Solutions
                     long bitValue = 2 ^ i;
                     if (reversedBitmask[i] == '1')
                     {
-                        baseAddress = unchecked(baseAddress | (1uL << i));
+                        baseAddress = SetSpecificBitAtPosition(baseAddress, i);
                     }
                     else if (reversedBitmask[i] == '0')
                         continue;
@@ -226,8 +226,8 @@ namespace aoc2020.Puzzles.Solutions
                         var newAddressList = new List<ulong>();
                         foreach (var memoryAddress in addressList)
                         {
-                            newAddressList.Add(unchecked(memoryAddress | (1uL << i)));
-                            newAddressList.Add(unchecked(memoryAddress & ~(1uL << i)));
+                            newAddressList.Add(SetSpecificBitAtPosition(memoryAddress, i));
+                            newAddressList.Add(UnsetSpecificBitAtPosition(memoryAddress, i));
                         }
 
                         addressList = newAddressList;
@@ -258,6 +258,21 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
 
+        //https://stackoverflow.com/questions/24250582/set-a-specific-bit-in-an-int
+        //https://stackoverflow.com/questions/8557105/how-to-unset-a-specific-bit-in-an-integer
+        //https://stackoverflow.com/questions/37881537/c-sharp-not-bit-wise-operator-returns-negative-values
+        //https://www.tutorialspoint.com/csharp/csharp_bitwise_operators.htm
+        private static ulong SetSpecificBitAtPosition(ulong value, int bitPosition)
+        {
+            ulong mask = 1uL << bitPosition;
+            return unchecked(value | mask);
+        }
+        private static ulong UnsetSpecificBitAtPosition(ulong value, int bitPosition)
+        {
+            ulong mask = 1uL << bitPosition;
+            return unchecked(value & ~mask);
+        }
+
 
         internal static BitMaskInstruction currentBitMask = null;
         internal static Dictionary<ulong, ulong> memory = new Dictionary<ulong, ulong>();
@@ -280,6 +295,7 @@ namespace aoc2020.Puzzles.Solutions
 
         private Instruction ParseInstruction(string instructionString)
         {
+            //https://regexr.com/
             var instructionRegex =
                 new Regex(@"((mask) = (?'mask'[X10]{36,36}))|((mem\[(?'memory'\d+)\]) = (?'value'\d+))");
             var instructionMatch = instructionRegex.Match(instructionString);
