@@ -32,7 +32,7 @@ namespace aoc2020.Puzzles.Solutions
         {
             public string BitMask { get; private set; }
 
-            public BitMaskInstruction(string bitMask):base(Operation.BitMask)
+            public BitMaskInstruction(string bitMask) : base(Operation.BitMask)
             {
                 BitMask = bitMask;
             }
@@ -40,10 +40,10 @@ namespace aoc2020.Puzzles.Solutions
 
         internal class MemoryInstruction : Instruction
         {
-            public long Memory { get; private set; }
+            public ulong Memory { get; private set; }
             public ulong Value { get; private set; }
 
-            public MemoryInstruction(long memory, ulong value):base(Operation.Memory)
+            public MemoryInstruction(ulong memory, ulong value) : base(Operation.Memory)
             {
                 Memory = memory;
                 Value = value;
@@ -54,11 +54,11 @@ namespace aoc2020.Puzzles.Solutions
         {
             public string ErrorMessage { get; private set; }
 
-            public InvalidInstruction():base(Operation.Invalid)
+            public InvalidInstruction() : base(Operation.Invalid)
             {
             }
 
-            public InvalidInstruction(string errorMessage):base(Operation.Invalid)
+            public InvalidInstruction(string errorMessage) : base(Operation.Invalid)
             {
                 ErrorMessage = errorMessage;
             }
@@ -86,73 +86,170 @@ namespace aoc2020.Puzzles.Solutions
                 return instructionHandler;
             }
 
-            internal class InvalidInstructionHandler : InstructionHandler
+            public abstract void Process();
+        }
+
+        internal abstract class InstructionHandlerPart2 : InstructionHandler
+        {
+            public new static InstructionHandler CreateInstructionHandler(Instruction instruction)
             {
-                public InvalidInstruction Instruction { get; private set; }
-                public InvalidInstructionHandler(Instruction instruction)
+
+                InstructionHandler instructionHandler = null;
+                switch (instruction.Operation)
                 {
-                    Instruction = (InvalidInstruction)instruction;
+                    case Operation.BitMask:
+                        instructionHandler = new BitMaskInstructionHandler(instruction);
+                        break;
+                    case Operation.Memory:
+                        instructionHandler = new MemoryInstructionHandlerPart2(instruction);
+                        break;
+                    default:
+                        instructionHandler = new InvalidInstructionHandler(instruction);
+                        break;
                 }
 
-                public override void Process()
-                {
-                    throw new NotImplementedException();
-                }
+                return instructionHandler;
+            }
+        }
+
+        internal class InvalidInstructionHandler : InstructionHandler
+        {
+            public InvalidInstruction Instruction { get; private set; }
+
+            public InvalidInstructionHandler(Instruction instruction)
+            {
+                Instruction = (InvalidInstruction) instruction;
             }
 
-            internal class MemoryInstructionHandler : InstructionHandler
+            public override void Process()
             {
-                public MemoryInstruction Instruction { get; private set; }
-                public MemoryInstructionHandler(Instruction instruction)
+                throw new NotImplementedException();
+            }
+        }
+
+        internal class MemoryInstructionHandler : InstructionHandler
+        {
+            public MemoryInstruction Instruction { get; private set; }
+
+            public MemoryInstructionHandler(Instruction instruction)
+            {
+                Instruction = (MemoryInstruction) instruction;
+            }
+
+            public override void Process()
+            {
+                var bitmask = currentBitMask.BitMask;
+                var value = ApplyBitMask(bitmask, Instruction.Value);
+                if (!memory.ContainsKey(Instruction.Memory))
                 {
-                    Instruction = (MemoryInstruction)instruction;
+                    memory.Add(Instruction.Memory, value);
+                }
+                else
+                {
+                    memory[Instruction.Memory] = value;
                 }
 
+            }
 
-                public override void Process()
+            private ulong ApplyBitMask(string bitmask, ulong value)
+            {
+                var reversedBitmask = bitmask.Reverse().ToArray();
+                for (int i = 0; i < bitmask.Length; i++)
                 {
-                    var bitmask = currentBitMask.BitMask;
-                    var value = ApplyBitMask(bitmask, Instruction.Value);
-                    if (!memory.ContainsKey(Instruction.Memory))
+                    if (reversedBitmask[i] == 'X')
+                        continue;
+                    long bitValue = 2 ^ i;
+                    if (reversedBitmask[i] == '1')
+                        value = unchecked(value | (1uL << i));
+                    else if (reversedBitmask[i] == '0')
                     {
-                        memory.Add(Instruction.Memory, value);
+                        value = unchecked(value & ~(1uL << i));
+                    }
+                }
+
+                return value;
+            }
+        }
+
+
+        internal class MemoryInstructionHandlerPart2 : InstructionHandler
+        {
+            public MemoryInstruction Instruction { get; private set; }
+
+            public MemoryInstructionHandlerPart2(Instruction instruction)
+            {
+                Instruction = (MemoryInstruction) instruction;
+            }
+
+            public override void Process()
+            {
+                var bitmask = currentBitMask.BitMask;
+                var memoryAddresses = ApplyBitMask(bitmask, Instruction.Memory);
+                foreach (var memoryAddress in memoryAddresses)
+                {
+                    if (!memory.ContainsKey(memoryAddress))
+                    {
+                        memory.Add(memoryAddress, Instruction.Value);
                     }
                     else
                     {
-                        memory[Instruction.Memory] = value;
+                        memory[memoryAddress] = Instruction.Value;
                     }
-
                 }
 
-                private ulong ApplyBitMask(string bitmask, ulong value)
-                {
-                    var reversedBitmask = bitmask.Reverse().ToArray();
-                    for(int i = 0; i < bitmask.Length; i++)
-                    {
-                        if (reversedBitmask[i] == 'X')
-                            continue;
-                        long bitValue = 2 ^ i;
-                        if (reversedBitmask[i] == '1')
-                            value = unchecked (value | (1uL << i));
-                        else if (reversedBitmask[i] == '0')
-                        {
-                            value = unchecked(value & ~(1uL << i));
-                        }
-                    }
-
-                    return value;
-                }
             }
 
-            public abstract void Process();
+            private List<ulong> ApplyBitMask(string bitmask, in ulong address)
+            {
+                var reversedBitmask = bitmask.Reverse().ToArray();
+                var baseAddress = address;
+                for (int i = 0; i < bitmask.Length; i++)
+                {
+                    long bitValue = 2 ^ i;
+                    if (reversedBitmask[i] == '1')
+                    {
+                        baseAddress = unchecked(baseAddress | (1uL << i));
+                    }
+                    else if (reversedBitmask[i] == '0')
+                        continue;
+                }
+
+                var addressList = new List<ulong>() {baseAddress};
+                int count = 0;
+
+                for (int i = 0; i < bitmask.Length; i++)
+                {
+                    long bitValue = 2 ^ i;
+                    if (reversedBitmask[i] == 'X')
+                    {
+                        count++;
+                        var newAddressList = new List<ulong>();
+                        foreach (var memoryAddress in addressList)
+                        {
+                            newAddressList.Add(unchecked(memoryAddress | (1uL << i)));
+                            newAddressList.Add(unchecked(memoryAddress & ~(1uL << i)));
+                        }
+
+                        addressList = newAddressList;
+                        if (count == 0)
+                        {
+                            addressList.Remove(baseAddress);
+                        }
+                    }
+                }
+
+                return addressList;
+            }
         }
+
 
         internal class BitMaskInstructionHandler : InstructionHandler
         {
             public BitMaskInstruction Instruction { get; private set; }
+
             public BitMaskInstructionHandler(Instruction instruction)
             {
-                Instruction = (BitMaskInstruction)instruction;
+                Instruction = (BitMaskInstruction) instruction;
             }
 
             public override void Process()
@@ -163,7 +260,7 @@ namespace aoc2020.Puzzles.Solutions
 
 
         internal static BitMaskInstruction currentBitMask = null;
-        internal static Dictionary<long, ulong> memory = new Dictionary<long, ulong>();
+        internal static Dictionary<ulong, ulong> memory = new Dictionary<ulong, ulong>();
 
         public override async Task<string> Part1Async(string input)
         {
@@ -176,17 +273,15 @@ namespace aoc2020.Puzzles.Solutions
                 var instruction = ParseInstruction(instructionString);
                 var instructionHandler = InstructionHandler.CreateInstructionHandler(instruction);
                 instructionHandler.Process();
-
             }
-
-
 
             return memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();
         }
 
         private Instruction ParseInstruction(string instructionString)
         {
-            var instructionRegex = new Regex(@"((mask) = (?'mask'[X10]{36,36}))|((mem\[(?'memory'\d+)\]) = (?'value'\d+))");
+            var instructionRegex =
+                new Regex(@"((mask) = (?'mask'[X10]{36,36}))|((mem\[(?'memory'\d+)\]) = (?'value'\d+))");
             var instructionMatch = instructionRegex.Match(instructionString);
             if (!instructionMatch.Success)
                 return new InvalidInstruction();
@@ -196,7 +291,7 @@ namespace aoc2020.Puzzles.Solutions
             }
             else
             {
-                var memory = long.Parse(instructionMatch.Groups["memory"].Value);
+                var memory = ulong.Parse(instructionMatch.Groups["memory"].Value);
                 var value = ulong.Parse(instructionMatch.Groups["value"].Value);
                 return new MemoryInstruction(memory, value);
             }
@@ -207,7 +302,19 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var instructions = from line in GetLines(input)
+                where !string.IsNullOrWhiteSpace(line)
+                select line;
+
+            foreach (var instructionString in instructions)
+            {
+                var instruction = ParseInstruction(instructionString);
+                var instructionHandler = InstructionHandlerPart2.CreateInstructionHandler(instruction);
+                instructionHandler.Process();
+
+            }
+
+            return memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();
         }
     }
 }

@@ -58,7 +58,7 @@ mem[26] = 1";
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day14.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("4330547254348", await Solution.Part2Async(input));
         }
 
     }
