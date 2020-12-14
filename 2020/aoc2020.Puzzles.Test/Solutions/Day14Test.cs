@@ -1,5 +1,6 @@
 ﻿using aoc2020.Puzzles.Solutions;
 using System.IO;
+using System.Numerics;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,7 +16,17 @@ namespace aoc2020.Puzzles.Test.Solutions
 mem[8] = 11
 mem[7] = 101
 mem[8] = 0";
-            Assert.Equal("165", await Solution.Part1Async(input));
+            Assert.Equal("165" , await Solution.Part1Async(input));
+        }
+
+        [Fact]
+        public async Task Part1a()
+        {
+            var input = @"mask = 01101X001X111X010X0000X1001X010XX0X0
+mem[4841] = 3942
+mem[9168] = 414370178
+";
+            Assert.Equal((28111278914 + 28111278914).ToString(), await Solution.Part1Async(input));
         }
 
         [Fact]
@@ -31,7 +42,11 @@ mem[8] = 0";
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day14.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            var actual = await Solution.Part1Async(input);
+
+            Assert.True(BigInteger.Parse(actual) > 106385978789);
+
+            Assert.Equal("11926135976176", actual);
         }
 
         [Fact]
