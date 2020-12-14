@@ -86,7 +86,7 @@ namespace aoc2020.Puzzles.Solutions
                 return instructionHandler;
             }
 
-            public abstract void Process();
+            public abstract void Process(SessionContainer session);
         }
 
         internal abstract class InstructionHandlerPart2 : InstructionHandler
@@ -121,7 +121,7 @@ namespace aoc2020.Puzzles.Solutions
                 Instruction = (InvalidInstruction) instruction;
             }
 
-            public override void Process()
+            public override void Process(SessionContainer session)
             {
                 throw new NotImplementedException();
             }
@@ -136,17 +136,17 @@ namespace aoc2020.Puzzles.Solutions
                 Instruction = (MemoryInstruction) instruction;
             }
 
-            public override void Process()
+            public override void Process(SessionContainer session)
             {
-                var bitmask = currentBitMask.BitMask;
+                var bitmask = session.CurrentBitMask.BitMask;
                 var value = ApplyBitMask(bitmask, Instruction.Value);
-                if (!memory.ContainsKey(Instruction.Memory))
+                if (!session.Memory.ContainsKey(Instruction.Memory))
                 {
-                    memory.Add(Instruction.Memory, value);
+                    session.Memory.Add(Instruction.Memory, value);
                 }
                 else
                 {
-                    memory[Instruction.Memory] = value;
+                    session.Memory[Instruction.Memory] = value;
                 }
 
             }
@@ -181,19 +181,19 @@ namespace aoc2020.Puzzles.Solutions
                 Instruction = (MemoryInstruction) instruction;
             }
 
-            public override void Process()
+            public override void Process(SessionContainer session)
             {
-                var bitmask = currentBitMask.BitMask;
+                var bitmask = session.CurrentBitMask.BitMask;
                 var memoryAddresses = ApplyBitMask(bitmask, Instruction.Memory);
                 foreach (var memoryAddress in memoryAddresses)
                 {
-                    if (!memory.ContainsKey(memoryAddress))
+                    if (!session.Memory.ContainsKey(memoryAddress))
                     {
-                        memory.Add(memoryAddress, Instruction.Value);
+                        session.Memory.Add(memoryAddress, Instruction.Value);
                     }
                     else
                     {
-                        memory[memoryAddress] = Instruction.Value;
+                        session.Memory[memoryAddress] = Instruction.Value;
                     }
                 }
 
@@ -252,9 +252,9 @@ namespace aoc2020.Puzzles.Solutions
                 Instruction = (BitMaskInstruction) instruction;
             }
 
-            public override void Process()
+            public override void Process(SessionContainer session)
             {
-                currentBitMask = Instruction;
+                session.CurrentBitMask = Instruction;
             }
         }
 
@@ -273,9 +273,29 @@ namespace aoc2020.Puzzles.Solutions
             return unchecked(value & ~mask);
         }
 
+        //https://stackoverflow.com/questions/27421208/how-to-share-a-property-amongst-several-c-sharp-classes
+        internal class SessionContainer
+        {
+            private readonly IDictionary<ulong, ulong> _memory = new Dictionary<ulong, ulong>();
+            internal BitMaskInstruction CurrentBitMask { get; set; }
+            internal IDictionary<ulong, ulong> Memory
+            {
+                get => _memory;
+            }
+        }
+        //internal static BitMaskInstruction currentBitMask = null;
+        //internal static Dictionary<ulong, ulong> memory = new Dictionary<ulong, ulong>();
 
-        internal static BitMaskInstruction currentBitMask = null;
-        internal static Dictionary<ulong, ulong> memory = new Dictionary<ulong, ulong>();
+        // Indexer
+        //private class SessionDictionary
+        //{
+        //    private readonly IDictionary<ulong, ulong> _memory = new Dictionary<ulong, ulong>();
+        //    public ulong this[ulong key]
+        //    {
+        //        get => _memory[key];
+        //        set => _memory[key] = value;
+        //    }
+        //}
 
         public override async Task<string> Part1Async(string input)
         {
@@ -283,14 +303,16 @@ namespace aoc2020.Puzzles.Solutions
                 where !string.IsNullOrWhiteSpace(line)
                 select line;
 
+            var session = new SessionContainer();
+
             foreach (var instructionString in instructions)
             {
                 var instruction = ParseInstruction(instructionString);
                 var instructionHandler = InstructionHandler.CreateInstructionHandler(instruction);
-                instructionHandler.Process();
+                instructionHandler.Process(session);
             }
 
-            return memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();
+            return session.Memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();
         }
 
         private Instruction ParseInstruction(string instructionString)
@@ -322,15 +344,17 @@ namespace aoc2020.Puzzles.Solutions
                 where !string.IsNullOrWhiteSpace(line)
                 select line;
 
+            var session = new SessionContainer();
+
             foreach (var instructionString in instructions)
             {
                 var instruction = ParseInstruction(instructionString);
                 var instructionHandler = InstructionHandlerPart2.CreateInstructionHandler(instruction);
-                instructionHandler.Process();
+                instructionHandler.Process(session);
 
             }
 
-            return memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();
+            return session.Memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();
         }
     }
 }
