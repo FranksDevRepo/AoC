@@ -8,11 +8,17 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day15Test : TestBase<Day15>
     {
-        [Fact]
-        public async Task Part1()
+        [Theory]
+        [InlineData("0,3,6", "436")]
+        [InlineData("1,3,2", "1")]
+        [InlineData("2,1,3", "10")]
+        [InlineData("1,2,3", "27")]
+        [InlineData("2,3,1", "78")]
+        [InlineData("3,2,1", "438")]
+        [InlineData("3,1,2", "1836")]
+        public async Task Part1(string input, string expected)
         {
-            var input = @"0,3,6";
-            Assert.Equal("436", await Solution.Part1Async(input));
+            Assert.Equal(expected, await Solution.Part1Async(input));
         }
 
         [Fact]
