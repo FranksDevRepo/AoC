@@ -49,7 +49,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day15.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("37385", await Solution.Part2Async(input));
         }
 
     }

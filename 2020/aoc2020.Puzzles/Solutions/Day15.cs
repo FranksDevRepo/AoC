@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using MoreLinq.Extensions;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -54,7 +55,39 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var startingNumbers = (from line in GetLines(input)
+                    where !string.IsNullOrWhiteSpace(line)
+                    let numbers = line.Split(',')
+                    from number in numbers
+                    select long.Parse(number))
+                .ToList();
+
+            var round = 1L;
+            var nextNumber = 0L;
+            var spokenNumbersDict = new Dictionary<long, long>();
+
+                while (startingNumbers.Count > 0)
+                {
+                    nextNumber = AnnounceNumber(ref round, startingNumbers[0], spokenNumbersDict);
+                    startingNumbers.RemoveAt(0);
+                }
+
+                while (round < 30000000)
+                {
+                    nextNumber = AnnounceNumber(ref round, nextNumber, spokenNumbersDict);
+                }
+
+                return nextNumber.ToString();
+        }
+
+        private long AnnounceNumber(ref long round, long number, Dictionary<long, long> spokenNumbersDict)
+        {
+            spokenNumbersDict.TryGetValue(number, out var result);
+            if (result != 0)
+                result = round - result;
+
+            spokenNumbersDict[number] = round++;
+            return result;
         }
     }
 }
