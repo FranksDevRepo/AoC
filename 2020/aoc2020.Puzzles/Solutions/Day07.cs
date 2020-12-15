@@ -20,8 +20,8 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part1Async(string input)
         {
             var lines = GetLines(input);
-            var outerBagRegex = new Regex("^(.*?) bags contain (.*).$", RegexOptions.Compiled);
-            var innerBagRegex = new Regex("\\d* (.*) bag", RegexOptions.Compiled);
+            var outerBagRegex = new Regex("^(?'outerColor'.*?) bags contain (?'innerBags'.*).$", RegexOptions.Compiled);
+            var innerBagRegex = new Regex("\\d* (?'colors'.*) bag", RegexOptions.Compiled);
 
             var coloredBagDict = new Dictionary<string, HashSet<string>>();
 
@@ -31,8 +31,8 @@ namespace aoc2020.Puzzles.Solutions
 
                 if (!outerBagMatch.Success)
                     continue;
-                var outerBagColor = outerBagMatch.Groups[1].Value;
-                var innerBags = outerBagMatch.Groups[2].Value;
+                var outerBagColor = outerBagMatch.Groups["outerColor"].Value;
+                var innerBags = outerBagMatch.Groups["innerBags"].Value;
                 if (innerBags == "no other bags")
                     continue;
 
@@ -42,7 +42,7 @@ namespace aoc2020.Puzzles.Solutions
                     if(!innerBagMatch.Success)
                         continue;
 
-                    var innerBagColor = innerBagMatch.Groups[1].Value;
+                    var innerBagColor = innerBagMatch.Groups["colors"].Value;
                     if (!coloredBagDict.ContainsKey(innerBagColor))
                         coloredBagDict.Add(innerBagColor, new HashSet<string>());
                     coloredBagDict[innerBagColor].Add(outerBagColor);
@@ -58,8 +58,8 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part2Async(string input)
         {
             var lines = GetLines(input);
-            var outerBagRegex = new Regex("^(.*?) bags contain (.*).$", RegexOptions.Compiled);
-            var innerBagRegex = new Regex("(\\d*) (.*) bag", RegexOptions.Compiled);
+            var outerBagRegex = new Regex("^(?'outerColor'.*?) bags contain (?'innerBags'.*).$", RegexOptions.Compiled);
+            var innerBagRegex = new Regex("(?'number'\\d*) (?'colors'.*) bag", RegexOptions.Compiled);
 
             var coloredBagDict = new Dictionary<string, Dictionary<string, int>>();
 
@@ -69,8 +69,8 @@ namespace aoc2020.Puzzles.Solutions
 
                 if (!outerBagMatch.Success)
                     continue;
-                var outerBagColor = outerBagMatch.Groups[1].Value;
-                var innerBags = outerBagMatch.Groups[2].Value;
+                var outerBagColor = outerBagMatch.Groups["outerColor"].Value;
+                var innerBags = outerBagMatch.Groups["innerBags"].Value;
                 if (innerBags == "no other bags")
                     continue;
 
@@ -80,9 +80,8 @@ namespace aoc2020.Puzzles.Solutions
                     if (!innerBagMatch.Success)
                         continue;
 
-                    var innerBagCount = int.Parse(innerBagMatch.Groups[1].Value);
-                    var innerBagColor = innerBagMatch.Groups[2].Value;
-                    //var bag = (color: innerBagColor, count: innerBagCount);
+                    var innerBagCount = int.Parse(innerBagMatch.Groups["number"].Value);
+                    var innerBagColor = innerBagMatch.Groups["colors"].Value;
                     if (!coloredBagDict.ContainsKey(outerBagColor))
                         coloredBagDict.Add(outerBagColor, new Dictionary<string, int>());
                     coloredBagDict[outerBagColor].Add(innerBagColor, innerBagCount);
