@@ -21,11 +21,17 @@ namespace aoc2020.Puzzles.Test.Solutions
             Assert.Equal(expected, await Solution.Part1Async(input));
         }
 
-        [Fact]
-        public async Task Part2()
+        [Theory]
+        [InlineData("0,3,6", "175594")]
+        [InlineData("1,3,2", "2578")]
+        [InlineData("2,1,3", "3544142")]
+        [InlineData("1,2,3", "261214")]
+        [InlineData("2,3,1", "6895259")]
+        [InlineData("3,2,1", "18")]
+        [InlineData("3,1,2", "362")]
+        public async Task Part2(string input, string expected)
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal(expected, await Solution.Part2Async(input));
         }
 
         [Fact]
