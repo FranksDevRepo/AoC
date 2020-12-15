@@ -96,8 +96,8 @@ namespace aoc2020.Puzzles.Solutions
         private int GetNumberOfRequiredBags(string color, Dictionary<string, Dictionary<string, int>> coloredBagDict)
         {
             if (!coloredBagDict.ContainsKey(color))
-                return 1;
-            int count = 1;
+                return 0;
+            int count = 0;
             foreach (var kvp in coloredBagDict[color])
             {
                 count += kvp.Value + (kvp.Value * GetNumberOfRequiredBags(kvp.Key, coloredBagDict));
