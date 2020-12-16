@@ -40,7 +40,7 @@ nearby tickets:
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day16.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("26941", await Solution.Part1Async(input));
         }
 
         [Fact]
