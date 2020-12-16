@@ -27,7 +27,7 @@ nearby tickets:
             Assert.Equal("71", await Solution.Part1Async(input));
         }
 
-        [Fact]
+        [Fact(Skip = "No test case provided")]
         public async Task Part2()
         {
             var input = @"";
@@ -49,7 +49,7 @@ nearby tickets:
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day16.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("634796407951", await Solution.Part2Async(input));
         }
 
     }
