@@ -141,13 +141,10 @@ namespace aoc2020.Puzzles.Solutions
 
             RemoveTicketsWithErrors(nearbyTickets, ruleSet);
 
-            var departureRules = ruleSet
+            Dictionary<string, int> fieldPositions = GetFieldPositions(nearbyTickets, ruleSet);
+
+            var departureFieldPositions = fieldPositions
                 .Where(kvp => kvp.Key.StartsWith("departure"))
-                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-            Dictionary<string, int> fieldPositions = GetFieldPosition(nearbyTickets, ruleSet);
-
-            var departureFieldPositions = fieldPositions.Where(kvp => kvp.Key.StartsWith("departure"))
                 .Select(kvp => kvp.Value).ToList();
 
             if(departureFieldPositions.Count > 6)
@@ -168,36 +165,37 @@ namespace aoc2020.Puzzles.Solutions
             nearbyTickets.RemoveAll(t => CheckTicket(t, ruleSet.Values.ToList()) > 0);
         }
 
-        private Dictionary<string, int> GetFieldPosition(List<int[]> tickets, Dictionary<string, Func<int, bool>> ruleSet)
+        private Dictionary<string, int> GetFieldPositions(List<int[]> tickets, Dictionary<string, Func<int, bool>> ruleSet)
         {
-            int countFields = tickets[0].Length;
             var rulesWithInvalidColumns = new Dictionary<string, List<int>>();
+            int countFields = tickets[0].Length;
             for (int i = 0; i < countFields; i++)
             {
                 foreach (var ticket in tickets)
                 {
-                    foreach (var rule in ruleSet)
+                    foreach (var ruleFunc in ruleSet)
                     {
-                        if (!rule.Value(ticket[i]))
+                        if (!ruleFunc.Value(ticket[i]))
                         {
-                            if (!rulesWithInvalidColumns.ContainsKey(rule.Key))
-                                rulesWithInvalidColumns.Add(rule.Key, new List<int>());
-                            rulesWithInvalidColumns[rule.Key].Add(i);
+                            if (!rulesWithInvalidColumns.ContainsKey(ruleFunc.Key))
+                                rulesWithInvalidColumns.Add(ruleFunc.Key, new List<int>());
+                            rulesWithInvalidColumns[ruleFunc.Key].Add(i);
                         }
                     }
                 }
             }
 
-            var columns = Enumerable.Range(0, 20);
+            var allColumnIndexes = Enumerable.Range(0, 20);
             var fieldPositionOfRules = new Dictionary<string, int>();
 
             while (rulesWithInvalidColumns.Count > 0)
             {
-                var validColumns = rulesWithInvalidColumns.Where(kvp => kvp.Value.Count == countFields - 1);
+                var rulesWhereAllColumnsExceptOneAreInvalid = rulesWithInvalidColumns
+                    .Where(kvp => kvp.Value.Count == countFields - 1);
 
-                foreach (var validColumn in validColumns)
+                foreach (var validColumn in rulesWhereAllColumnsExceptOneAreInvalid)
                 {
-                    int column = columns.Where(c => !validColumn.Value.Any(e => e == c)).First();
+                    int column = allColumnIndexes.Where(c => !validColumn.Value.Any(e => e == c)).First();
                     fieldPositionOfRules.Add(validColumn.Key, column);
                     rulesWithInvalidColumns.Remove(validColumn.Key);
                     foreach (var inValidRuleColumn in rulesWithInvalidColumns)
