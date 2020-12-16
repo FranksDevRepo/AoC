@@ -12,15 +12,14 @@ namespace aoc2020.Puzzles.Solutions
     {
         public override async Task<string> Part1Async(string input)
         {
-            int ticketScanningErrorRate = 0;
-
             var lines = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)
                 select line).ToArray();
 
             List<Func<int, bool>> ruleSet = new List<Func<int, bool>>();
             List<int[]> tickets = new List<int[]>();
-            List<(int[], int)> errorResults = new List<(int[], int)>();
+
+            int ticketScanningErrorRate = 0;
 
             bool isMyTicketLine = false;
             bool isNearbyTicketLine = false;
@@ -40,7 +39,7 @@ namespace aoc2020.Puzzles.Solutions
 
                 if(!isMyTicketLine && !isNearbyTicketLine)
                 {
-                    var rule = ParseRule(line);
+                    var rule = ParseRules(line);
                     ruleSet.Add(rule.Item2);
                     continue;
                 }
@@ -56,7 +55,6 @@ namespace aoc2020.Puzzles.Solutions
             foreach (var ticket in tickets)
             {
                 int errorRate = CheckTicket(ticket, ruleSet);
-                errorResults.Add((ticket, errorRate));
                 ticketScanningErrorRate += errorRate;
             }
             return ticketScanningErrorRate.ToString();
@@ -80,11 +78,10 @@ namespace aoc2020.Puzzles.Solutions
                 if (!isValid)
                     errorRate += field;
             }
-
             return errorRate;
         }
 
-        private (string, Func<int, bool>) ParseRule(string input)
+        private (string, Func<int, bool>) ParseRules(string input)
         {
             var regexRules =
                 new Regex(@"(?'type'[\w\s]+): ((?'min1'\d+)-(?'max1'\d+)) or ((?'min2'\d+)-(?'max2'\d+))");
@@ -101,15 +98,12 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            int ticketScanningErrorRate = 0;
-
             var lines = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)
                 select line).ToArray();
 
             Dictionary<string, Func<int, bool>> ruleSet = new Dictionary<string, Func<int, bool>>();
-            List<int[]> tickets = new List<int[]>();
-            List<(int[], int)> errorResults = new List<(int[], int)>();
+            List<int[]> nearbyTickets = new List<int[]>();
             int[] myTicket = new int[]{};
 
             bool isMyTicketLine = false;
@@ -130,7 +124,7 @@ namespace aoc2020.Puzzles.Solutions
 
                 if (!isMyTicketLine && !isNearbyTicketLine)
                 {
-                    var rule = ParseRule(line);
+                    var rule = ParseRules(line);
                     ruleSet.Add(rule.Item1, rule.Item2);
                     continue;
                 }
@@ -140,18 +134,18 @@ namespace aoc2020.Puzzles.Solutions
                 else if (isNearbyTicketLine)
                 {
                     var ticket = line.Split(',').Select(n => int.Parse(n)).ToArray();
-                    tickets.Add(ticket);
+                    nearbyTickets.Add(ticket);
                 }
 
             }
 
-            tickets.RemoveAll(t => CheckTicket(t, ruleSet.Values.ToList()) > 0);
+            RemoveTicketsWithErrors(nearbyTickets, ruleSet);
 
             var departureRules = ruleSet
                 .Where(kvp => kvp.Key.StartsWith("departure"))
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-            Dictionary<string, int> fieldPositions = GetFieldPosition(tickets, ruleSet, departureRules);
+            Dictionary<string, int> fieldPositions = GetFieldPosition(nearbyTickets, ruleSet);
 
             var departureFieldPositions = fieldPositions.Where(kvp => kvp.Key.StartsWith("departure"))
                 .Select(kvp => kvp.Value).ToList();
@@ -169,11 +163,15 @@ namespace aoc2020.Puzzles.Solutions
             return puzzle.ToString();
         }
 
-        private Dictionary<string, int> GetFieldPosition(List<int[]> tickets, Dictionary<string, Func<int, bool>> ruleSet, Dictionary<string, Func<int, bool>> departureRules)
+        private void RemoveTicketsWithErrors(List<int[]> nearbyTickets, Dictionary<string, Func<int, bool>> ruleSet)
+        {
+            nearbyTickets.RemoveAll(t => CheckTicket(t, ruleSet.Values.ToList()) > 0);
+        }
+
+        private Dictionary<string, int> GetFieldPosition(List<int[]> tickets, Dictionary<string, Func<int, bool>> ruleSet)
         {
             int countFields = tickets[0].Length;
-            var inValidRuleColumns = new Dictionary<string, List<int>>();
-            var validRuleColumns = new Dictionary<string, int>();
+            var rulesWithInvalidColumns = new Dictionary<string, List<int>>();
             for (int i = 0; i < countFields; i++)
             {
                 foreach (var ticket in tickets)
@@ -182,33 +180,33 @@ namespace aoc2020.Puzzles.Solutions
                     {
                         if (!rule.Value(ticket[i]))
                         {
-                            if (!inValidRuleColumns.ContainsKey(rule.Key))
-                                inValidRuleColumns.Add(rule.Key, new List<int>());
-                            inValidRuleColumns[rule.Key].Add(i);
+                            if (!rulesWithInvalidColumns.ContainsKey(rule.Key))
+                                rulesWithInvalidColumns.Add(rule.Key, new List<int>());
+                            rulesWithInvalidColumns[rule.Key].Add(i);
                         }
                     }
                 }
             }
 
-
             var columns = Enumerable.Range(0, 20);
-            while (inValidRuleColumns.Count > 0)
+            var fieldPositionOfRules = new Dictionary<string, int>();
+
+            while (rulesWithInvalidColumns.Count > 0)
             {
-                var validColumns = inValidRuleColumns.Where(kvp => kvp.Value.Count == countFields - 1);
+                var validColumns = rulesWithInvalidColumns.Where(kvp => kvp.Value.Count == countFields - 1);
 
                 foreach (var validColumn in validColumns)
                 {
                     int column = columns.Where(c => !validColumn.Value.Any(e => e == c)).First();
-                    validRuleColumns.Add(validColumn.Key, column);
-                    inValidRuleColumns.Remove(validColumn.Key);
-                    foreach (var inValidRuleColumn in inValidRuleColumns)
+                    fieldPositionOfRules.Add(validColumn.Key, column);
+                    rulesWithInvalidColumns.Remove(validColumn.Key);
+                    foreach (var inValidRuleColumn in rulesWithInvalidColumns)
                     {
                         inValidRuleColumn.Value.Add(column);
                     }
                 }
             }
-
-            return validRuleColumns;
+            return fieldPositionOfRules;
         }
     }
 }
