@@ -135,24 +135,6 @@ namespace aoc2020.Puzzles.Solutions
                 ++max.z;
             }
 
-            public long CountActiveNeighbors(Coordinate coordinate)
-            {
-                long count = 0;
-                StringBuilder output = new StringBuilder();
-                var neighbors = GetNeighbors(coordinate);
-                foreach (var neighbor in neighbors)
-                {
-                    var result = State.Inactive;
-                    if (data.TryGetValue(neighbor, out result))
-                        if (result == State.Active)
-                        {
-                            count++;
-                        }
-                }
-                output.AppendLine($"{coordinate,20} : {count,3}");
-                return count;
-            }
-
 
             private long CountNeighbors(Coordinate coordinate)
             {
@@ -171,23 +153,6 @@ namespace aoc2020.Puzzles.Solutions
                     }
                 }
                 return count;
-            }
-            private HashSet<Coordinate> GetNeighbors(Coordinate coordinate)
-            {
-                HashSet<Coordinate> neighbors = new HashSet<Coordinate>();
-                for (int x = coordinate.x - 1; x < coordinate.x + 2; x++)
-                {
-                    for (int y = coordinate.y - 1; y < coordinate.y + 2; y++)
-                    {
-                        for (int z = coordinate.z - 1; z < coordinate.z + 2; z++)
-                        {
-                            var neighbor = new Coordinate { x = x, y = y, z = z };
-                            if (neighbor != coordinate)
-                                neighbors.Add(neighbor);
-                        }
-                    }
-                }
-                return neighbors;
             }
 
             public void DebugOutput()
