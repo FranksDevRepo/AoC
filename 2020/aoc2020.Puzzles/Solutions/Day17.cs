@@ -13,7 +13,7 @@ namespace aoc2020.Puzzles.Solutions
     {
         private class Cube3Dim
         {
-            private Dictionary<Coordinate, State> data = new Dictionary<Coordinate, State>();
+            private HashSet<Coordinate> data = new HashSet<Coordinate>();
             private Coordinate min = new Coordinate {x = 0, y = 0, z = 0};
             private Coordinate max;
             private StringBuilder output = new StringBuilder();
@@ -37,11 +37,6 @@ namespace aoc2020.Puzzles.Solutions
                 public override string ToString() => $"x={x},y={y},z={z}";
             }
 
-            private enum State
-            {
-                Inactive,
-                Active
-            }
             public string Output
             {
                 get => output.ToString();
@@ -49,16 +44,14 @@ namespace aoc2020.Puzzles.Solutions
 
             public long CountActiveState
             {
-                get => data.Count(kvp => kvp.Value == State.Active);
+                get => data.Count();
 
             }
 
             public void Setup(string input)
             {
                 var slice = (from line in GetLines(input)
-                    //from cube in cubes
                     where !string.IsNullOrWhiteSpace(line)
-                    //let state = (State) Enum.Parse(typeof(State), cube.ToString())
                     select line).ToArray();
 
                 max = new Coordinate {x = slice.Length, y = slice.Length, z = 1};
@@ -69,16 +62,12 @@ namespace aoc2020.Puzzles.Solutions
                     int x = 0;
                     foreach (var @char in line)
                     {
-                        //var state = (State)Enum.Parse(typeof(State), @char.ToString());
-                        var state = @char switch
-                        {
-                            '#' => State.Active,
-                            _ => State.Inactive
-                        };
-                        data.Add(new Coordinate { x = x, y = y, z = 0 }, state);
+                        if (@char == '#')
+                            data.Add(new Coordinate {x = x, y = y, z = 0});
                         x++;
 
                     }
+
                     y++;
                 }
 
@@ -88,7 +77,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public void ChangeState()
             {
-                Dictionary<Coordinate, State> currentCube = new Dictionary<Coordinate, State>();
+                HashSet<Coordinate> currentCube = new HashSet<Coordinate>();
                 for (var z = min.z - 1; z <= max.z + 1; z++)
                 {
                     for (var y = min.y - 1; y <= max.y; y++)
@@ -96,24 +85,24 @@ namespace aoc2020.Puzzles.Solutions
                         for (var x = min.x - 1; x <= max.x; x++)
                         {
                             var currentPos = new Coordinate {x = x, y = y, z = z};
-                            var currentState = State.Inactive;
-                            if (!data.TryGetValue(currentPos, out currentState))
-                            {
-                                //currentCube.Add(currentPos, currentState);
-                            }
+                            var isActiveState = data.Contains(currentPos) ? true : false;
 
                             var countActiveNeighbors = CountNeighbors(currentPos);
-                            if (currentState == State.Active)
-                            {
-                                if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
+                            if(isActiveState && countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
+                                currentCube.Add(currentPos);
+                            else if(isActiveState && countActiveNeighbors == 3)
+                                currentCube.Add(currentPos);
+                            //if (isActiveState)
+                            //{
+                            //    if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
 
-                                    currentCube.Add(currentPos, State.Active);
-                            }
-                            else
-                            {
-                                if (countActiveNeighbors == 3)
-                                    currentCube.Add(currentPos, State.Active);
-                            }
+                            //        currentCube.Add(currentPos);
+                            //}
+                            //else
+                            //{
+                            //    if (countActiveNeighbors == 3)
+                            //        currentCube.Add(currentPos);
+                            //}
                         }
                     }
                 }
@@ -147,7 +136,7 @@ namespace aoc2020.Puzzles.Solutions
                         {
                             var neighbor = new Coordinate { x = x, y = y, z = z };
                             if (neighbor != coordinate)
-                                if (data.ContainsKey(neighbor) && data[neighbor] == State.Active)
+                                if (data.Contains(neighbor))
                                     count++;
                         }
                     }
@@ -165,9 +154,8 @@ namespace aoc2020.Puzzles.Solutions
                         for (var x = min.x; x < max.x; x++)
                         {
                             var coord = new Coordinate {x = x, y = y, z = z};
-                            var state = State.Inactive;
-                            if (data.TryGetValue(coord, out state))
-                                output.Append(state == State.Active ? '#' : '.');
+                            if (data.Contains(coord))
+                                output.Append('#');
                             else output.Append('.');
                         }
 
