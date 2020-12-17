@@ -1,5 +1,4 @@
 ﻿using aoc2020.Puzzles.Core;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -104,9 +103,9 @@ namespace aoc2020.Puzzles.Solutions
                 }
 
                 data = currentCube;
+                Resize();
                 if (Debugger.IsAttached)
                     DebugOutput();
-                Resize();
             }
 
 
@@ -150,9 +149,7 @@ namespace aoc2020.Puzzles.Solutions
                         for (var x = min.x; x < max.x; x++)
                         {
                             var coord = new Coordinate {x = x, y = y, z = z};
-                            if (data.Contains(coord))
-                                output.Append('#');
-                            else output.Append('.');
+                            output.Append(data.Contains(coord) ? '#' : '.');
                         }
 
                         output.AppendLine();
@@ -175,7 +172,7 @@ namespace aoc2020.Puzzles.Solutions
                 cycle++;
                 cube.ChangeState();
             } while (cycle < 6);
-            var cubesInActiveState = cube.CountActiveState; // ChangeState(cube);
+            var cubesInActiveState = cube.CountActiveState;
             return cubesInActiveState.ToString();
         }
 
@@ -195,7 +192,7 @@ namespace aoc2020.Puzzles.Solutions
         private class Cube4Dim
         {
             private HashSet<Coordinate> data = new HashSet<Coordinate>();
-            private Coordinate min = new Coordinate { x = 0, y = 0, z = 0 };
+            private Coordinate min = new Coordinate();
             private Coordinate max;
             private StringBuilder output = new StringBuilder();
 
@@ -289,9 +286,9 @@ namespace aoc2020.Puzzles.Solutions
                 }
 
                 data = currentCube;
+                Resize();
                 if (Debugger.IsAttached)
                     DebugOutput();
-                Resize();
             }
 
 
@@ -350,18 +347,15 @@ namespace aoc2020.Puzzles.Solutions
             {
                 for (var w = min.w; w < max.w; w++)
                 {
-                    output.AppendLine($"w={w}");
                     for (var z = min.z; z < max.z; z++)
                     {
-                        output.AppendLine($"z={z}");
+                        output.AppendLine($"z={z}, w={w}");
                         for (var y = min.y; y < max.y; y++)
                         {
                             for (var x = min.x; x < max.x; x++)
                             {
-                                var coord = new Coordinate {x = x, y = y, z = z};
-                                if (data.Contains(coord))
-                                    output.Append('#');
-                                else output.Append('.');
+                                var coord = new Coordinate {x = x, y = y, z = z, w = w};
+                                output.Append(data.Contains(coord) ? '#' : '.');
                             }
 
                             output.AppendLine();
