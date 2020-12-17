@@ -190,6 +190,31 @@ namespace aoc2020.Puzzles.Solutions
                 return neighbors;
             }
 
+            public void Test()
+            {
+                long count = 0;
+                Dictionary<Coordinate, (long, long)> results = new Dictionary<Coordinate, (long, long)>();
+                for (int x = min.x - 1; x < max.x + 2; x++)
+                {
+                    for (int y = min.y - 1; y < max.y + 2; y++)
+                    {
+                        for (int z = min.z - 1; z < max.z + 2; z++)
+                        {
+                            var neighbor = new Coordinate {x = x, y = y, z = z};
+
+                            var result = (actual: CountActiveNeighbors(neighbor), expected: CountNeighbors(neighbor));
+                            results.Add(neighbor, result);
+                        }
+                    }
+                }
+
+                var differences = results
+                    .Where(kvp => kvp.Value.Item1 != kvp.Value.Item2)
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                count = differences.Count;
+            }
+
+
             public void DebugOutput()
             {
                 for (var z = min.z; z < max.z; z++)
@@ -224,6 +249,7 @@ namespace aoc2020.Puzzles.Solutions
             do
             {
                 cycle++;
+                cube.Test();
                 cube.ChangeState();
             } while (cycle < 6);
             var cubesInActiveState = cube.CountActiveState; // ChangeState(cube);
