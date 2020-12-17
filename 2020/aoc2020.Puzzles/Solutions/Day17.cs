@@ -36,7 +36,7 @@ namespace aoc2020.Puzzles.Solutions
             public override string ToString() => $"x={x},y={y},z={z}";
         }
 
-        private class Cube
+        private class Cube3Dim
         {
             private Dictionary<Coordinate, State> data = new Dictionary<Coordinate, State>();
             private Coordinate min = new Coordinate {x = 0, y = 0, z = 0};
@@ -219,7 +219,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         { 
-            var cube = new Cube();
+            var cube = new Cube3Dim();
             cube.Setup(input);
             int cycle = 0;
             do
