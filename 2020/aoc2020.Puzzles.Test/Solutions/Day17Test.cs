@@ -35,7 +35,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 
             Assert.True(long.Parse(actual) > 340, $"{actual} is too low.");
 
-            Assert.Equal("", actual);
+            Assert.Equal("375", actual);
         }
 
         [Fact]

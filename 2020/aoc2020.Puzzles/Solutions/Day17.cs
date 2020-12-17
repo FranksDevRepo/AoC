@@ -1,6 +1,7 @@
 ﻿using aoc2020.Puzzles.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,38 +82,46 @@ namespace aoc2020.Puzzles.Solutions
                     }
                     y++;
                 }
+
+                if (Debugger.IsAttached)
+                    DebugOutput();
             }
 
             public void ChangeState()
             {
                 Dictionary<Coordinate, State> currentCube = new Dictionary<Coordinate, State>();
-                for (var x = min.x; x <= max.x; x++)
+                for (var z = min.z - 1; z <= max.z + 1; z++)
                 {
-                    for (var y = min.y; y <= max.y; y++)
+                    for (var y = min.y - 1; y <= max.y; y++)
                     {
-                        for (var z = min.z - 1; z <= max.z + 1; z++)
+                        for (var x = min.x - 1; x <= max.x; x++)
                         {
-                            var currentPos = new Coordinate { x = x, y = y, z = z };
+                            var currentPos = new Coordinate {x = x, y = y, z = z};
                             var currentState = State.Inactive;
                             if (!data.TryGetValue(currentPos, out currentState))
                             {
                                 //currentCube.Add(currentPos, currentState);
                             }
-                            var countActiveNeighbors = CountActiveNeighbors(currentPos);
-                            if (currentState == State.Active &&
-                                countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
+
+                            var countActiveNeighbors = CountNeighbors(currentPos);
+                            if (currentState == State.Active)
                             {
-                                currentCube.Add(currentPos, currentState);
+                                if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
+
+                                    currentCube.Add(currentPos, State.Active);
                             }
-                            else if (currentState == State.Inactive && countActiveNeighbors == 3)
+                            else
                             {
-                                currentCube.Add(currentPos, State.Active);
+                                if (countActiveNeighbors == 3)
+                                    currentCube.Add(currentPos, State.Active);
                             }
                         }
                     }
                 }
 
                 data = currentCube;
+                if (Debugger.IsAttached)
+                    DebugOutput();
                 Resize();
             }
 
@@ -127,20 +136,43 @@ namespace aoc2020.Puzzles.Solutions
                 ++max.z;
             }
 
-            private long CountActiveNeighbors(Coordinate coordinate)
+            public long CountActiveNeighbors(Coordinate coordinate)
             {
                 long count = 0;
+                StringBuilder output = new StringBuilder();
                 var neighbors = GetNeighbors(coordinate);
                 foreach (var neighbor in neighbors)
                 {
                     var result = State.Inactive;
                     if (data.TryGetValue(neighbor, out result))
                         if (result == State.Active)
+                        {
                             count++;
+                        }
                 }
+                output.AppendLine($"{coordinate,20} : {count,3}");
                 return count;
             }
 
+
+            private long CountNeighbors(Coordinate coordinate)
+            {
+                long count = 0;
+                for (int x = coordinate.x - 1; x < coordinate.x + 2; x++)
+                {
+                    for (int y = coordinate.y - 1; y < coordinate.y + 2; y++)
+                    {
+                        for (int z = coordinate.z - 1; z < coordinate.z + 2; z++)
+                        {
+                            var neighbor = new Coordinate { x = x, y = y, z = z };
+                            if (neighbor != coordinate)
+                                if (data.ContainsKey(neighbor) && data[neighbor] == State.Active)
+                                    count++;
+                        }
+                    }
+                }
+                return count;
+            }
             private HashSet<Coordinate> GetNeighbors(Coordinate coordinate)
             {
                 HashSet<Coordinate> neighbors = new HashSet<Coordinate>();
@@ -161,7 +193,6 @@ namespace aoc2020.Puzzles.Solutions
 
             public void DebugOutput()
             {
-                output.Clear();
                 for (var z = min.z; z < max.z; z++)
                 {
                     output.AppendLine($"z={z}");
@@ -173,11 +204,16 @@ namespace aoc2020.Puzzles.Solutions
                             var state = State.Inactive;
                             if (data.TryGetValue(coord, out state))
                                 output.Append(state == State.Active ? '#' : '.');
+                            else output.Append('.');
                         }
 
                         output.AppendLine();
                     }
+
+                    output.AppendLine();
                 }
+
+                output.AppendLine(new string('-', 10));
             }
         }
 
