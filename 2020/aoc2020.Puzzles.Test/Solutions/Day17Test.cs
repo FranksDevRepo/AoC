@@ -8,21 +8,21 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day17Test : TestBase<Day17>
     {
-        [Fact]
-        public async Task Part1()
-        {
-            var input = @".#.
+        private readonly string input = @".#.
 ..#
 ###
 ";
+
+        [Fact]
+        public async Task Part1()
+        {
             Assert.Equal("112", await Solution.Part1Async(input));
         }
 
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("848", await Solution.Part2Async(input));
         }
 
         [Fact]
@@ -46,9 +46,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 
             var actual = await Solution.Part2Async(input);
 
-            Assert.True(long.Parse(actual) > 340, $"{actual} is too low.");
-
-            Assert.Equal("", actual);
+            Assert.Equal("2192", actual);
         }
 
     }
