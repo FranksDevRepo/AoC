@@ -88,21 +88,17 @@ namespace aoc2020.Puzzles.Solutions
                             var isActiveState = data.Contains(currentPos) ? true : false;
 
                             var countActiveNeighbors = CountNeighbors(currentPos);
-                            if(isActiveState && countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
-                                currentCube.Add(currentPos);
-                            else if(countActiveNeighbors == 3)
-                                currentCube.Add(currentPos);
-                            //if (isActiveState)
-                            //{
-                            //    if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
+                            if (isActiveState)
+                            {
+                                if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
 
-                            //        currentCube.Add(currentPos);
-                            //}
-                            //else
-                            //{
-                            //    if (countActiveNeighbors == 3)
-                            //        currentCube.Add(currentPos);
-                            //}
+                                    currentCube.Add(currentPos);
+                            }
+                            else
+                            {
+                                if (countActiveNeighbors == 3)
+                                    currentCube.Add(currentPos);
+                            }
                         }
                     }
                 }
