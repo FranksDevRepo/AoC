@@ -31,7 +31,11 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day17.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            var actual = await Solution.Part1Async(input);
+
+            Assert.True(long.Parse(actual) > 340, $"{actual} is too low.");
+
+            Assert.Equal("", actual);
         }
 
         [Fact]
@@ -40,7 +44,11 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day17.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            var actual = await Solution.Part2Async(input);
+
+            Assert.True(long.Parse(actual) > 340, $"{actual} is too low.");
+
+            Assert.Equal("", actual);
         }
 
     }

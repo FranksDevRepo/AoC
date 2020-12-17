@@ -1,8 +1,8 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -10,9 +10,189 @@ namespace aoc2020.Puzzles.Solutions
     [Puzzle("Conway Cubes")]
     public sealed class Day17 : SolutionBase
     {
+        private enum State
+        {
+            Inactive,
+            Active
+        }
+
+        struct Coordinate
+        {
+            public int x;
+            public int y;
+            public int z;
+
+            public static bool operator ==(Coordinate c1, Coordinate c2)
+            {
+                return c1.Equals(c2);
+            }
+
+            public static bool operator !=(Coordinate c1, Coordinate c2)
+            {
+                return !c1.Equals(c2);
+            }
+
+            public override string ToString() => $"x={x},y={y},z={z}";
+        }
+
+        private class Cube
+        {
+            private Dictionary<Coordinate, State> data = new Dictionary<Coordinate, State>();
+            private Coordinate min = new Coordinate {x = 0, y = 0, z = 0};
+            private Coordinate max;
+            private StringBuilder output = new StringBuilder();
+
+            public string Output
+            {
+                get => output.ToString();
+            }
+
+            public long CountActiveState
+            {
+                get => data.Count(kvp => kvp.Value == State.Active);
+
+            }
+
+            public void Setup(string input)
+            {
+                var slice = (from line in GetLines(input)
+                    //from cube in cubes
+                    where !string.IsNullOrWhiteSpace(line)
+                    //let state = (State) Enum.Parse(typeof(State), cube.ToString())
+                    select line).ToArray();
+
+                max = new Coordinate {x = slice.Length, y = slice.Length, z = 1};
+
+                int y = 0;
+                foreach (var line in slice)
+                {
+                    int x = 0;
+                    foreach (var @char in line)
+                    {
+                        //var state = (State)Enum.Parse(typeof(State), @char.ToString());
+                        var state = @char switch
+                        {
+                            '#' => State.Active,
+                            _ => State.Inactive
+                        };
+                        data.Add(new Coordinate { x = x, y = y, z = 0 }, state);
+                        x++;
+
+                    }
+                    y++;
+                }
+            }
+
+            public void ChangeState()
+            {
+                Dictionary<Coordinate, State> currentCube = new Dictionary<Coordinate, State>();
+                for (var x = min.x; x <= max.x; x++)
+                {
+                    for (var y = min.y; y <= max.y; y++)
+                    {
+                        for (var z = min.z - 1; z <= max.z + 1; z++)
+                        {
+                            var currentPos = new Coordinate { x = x, y = y, z = z };
+                            var currentState = State.Inactive;
+                            if (!data.TryGetValue(currentPos, out currentState))
+                            {
+                                //currentCube.Add(currentPos, currentState);
+                            }
+                            var countActiveNeighbors = CountActiveNeighbors(currentPos);
+                            if (currentState == State.Active &&
+                                countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
+                            {
+                                currentCube.Add(currentPos, currentState);
+                            }
+                            else if (currentState == State.Inactive && countActiveNeighbors == 3)
+                            {
+                                currentCube.Add(currentPos, State.Active);
+                            }
+                        }
+                    }
+                }
+
+                data = currentCube;
+                Resize();
+            }
+
+
+            private void Resize()
+            {
+                --min.x;
+                --min.y;
+                --min.z;
+                ++max.x;
+                ++max.y;
+                ++max.z;
+            }
+
+            private long CountActiveNeighbors(Coordinate coordinate)
+            {
+                long count = 0;
+                var neighbors = GetNeighbors(coordinate);
+                foreach (var neighbor in neighbors)
+                {
+                    var result = State.Inactive;
+                    if (data.TryGetValue(neighbor, out result))
+                        if (result == State.Active)
+                            count++;
+                }
+                return count;
+            }
+
+            private HashSet<Coordinate> GetNeighbors(Coordinate coordinate)
+            {
+                HashSet<Coordinate> neighbors = new HashSet<Coordinate>();
+                for (int x = coordinate.x - 1; x < coordinate.x + 2; x++)
+                {
+                    for (int y = coordinate.y - 1; y < coordinate.y + 2; y++)
+                    {
+                        for (int z = coordinate.z - 1; z < coordinate.z + 2; z++)
+                        {
+                            var neighbor = new Coordinate { x = x, y = y, z = z };
+                            if (neighbor != coordinate)
+                                neighbors.Add(neighbor);
+                        }
+                    }
+                }
+                return neighbors;
+            }
+
+            public void DebugOutput()
+            {
+                output.Clear();
+                for (var z = min.z; z < max.z; z++)
+                {
+                    output.AppendLine($"z={z}");
+                    for (var y = min.y; y < max.y; y++)
+                    {
+                        for (var x = min.x; x < max.x; x++)
+                        {
+                            var coord = new Coordinate {x = x, y = y, z = z};
+                            var state = State.Inactive;
+                            if (data.TryGetValue(coord, out state))
+                                output.Append(state == State.Active ? '#' : '.');
+                        }
+
+                        output.AppendLine();
+                    }
+                }
+            }
+        }
+
         public override async Task<string> Part1Async(string input)
         { 
-            throw new NotImplementedException();
+            var cube = new Cube();
+            cube.Setup(input);
+            int cycle = 0;
+            do
+            {
+                cycle++;
+                cube.ChangeState();
+            } while (cycle < 6);
+            var cubesInActiveState = cube.CountActiveState; // ChangeState(cube);
+            return cubesInActiveState.ToString();
         }
 
         public override async Task<string> Part2Async(string input)
