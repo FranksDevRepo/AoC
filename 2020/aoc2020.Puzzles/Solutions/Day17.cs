@@ -90,7 +90,7 @@ namespace aoc2020.Puzzles.Solutions
                             var countActiveNeighbors = CountNeighbors(currentPos);
                             if(isActiveState && countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
                                 currentCube.Add(currentPos);
-                            else if(!isActiveState && countActiveNeighbors == 3)
+                            else if(countActiveNeighbors == 3)
                                 currentCube.Add(currentPos);
                             //if (isActiveState)
                             //{
