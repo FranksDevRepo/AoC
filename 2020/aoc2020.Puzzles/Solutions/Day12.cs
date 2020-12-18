@@ -1,6 +1,7 @@
 ﻿using aoc2020.Puzzles.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -59,18 +60,26 @@ namespace aoc2020.Puzzles.Solutions
         private int CalculateManhattanDistance((Move action, int value)[] instructions, Direction direction)
         {
             var position = new Position(0, 0);
+
             var solution = new List<string>();
-            solution.Add("current Position               => current Direction => instruction     => new Position                   => new Direction");
-            
+            if (Debugger.IsAttached)
+                solution.Add(
+                    "current Position               => current Direction => instruction     => new Position                   => new Direction");
+
             foreach (var instruction in instructions)
             {
                 string currentPosition = position.ToString();
                 string currentDirection = direction.ToString();
                 (position, direction) = MoveShip(instruction, position, direction);
-                solution.Add($"{currentPosition} => {currentDirection,-17} => {instruction.ToString(),-15} => {position.ToString(),5} => {direction.ToString(), -5}");
+                if (Debugger.IsAttached)
+                    solution.Add(
+                        $"{currentPosition} => {currentDirection,-17} => {instruction.ToString(),-15} => {position.ToString(),5} => {direction.ToString(),-5}");
             }
+
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            File.WriteAllLines(Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day12.txt"), solution);
+            if (Debugger.IsAttached)
+                File.WriteAllLines(
+                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day12.txt"), solution);
             return Math.Abs(position.NorthSouth) + Math.Abs(position.EastWest);
         }
 
