@@ -25,8 +25,6 @@ namespace aoc2020.Puzzles.Solutions
                 var max = Int32.Parse(minMax[1]);
                 var letter = elements[1].ToCharArray().First();
                 var password = elements[2];
-                //var pattern = $"({letter}){{{min},{max}}}";
-                //var isValidPassword = Regex.IsMatch(password, pattern, RegexOptions.Compiled);
                 var countNumOfLetters = password.Count(s => s == letter);
                 bool isValidPassword = (min <= countNumOfLetters && countNumOfLetters <= max);
                 countValidPasswords += isValidPassword ? 1 : 0;

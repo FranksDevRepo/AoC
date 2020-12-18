@@ -16,16 +16,17 @@ namespace aoc2020.Puzzles.Solutions
             var instructionRegex = new Regex("^(nop|acc|jmp) ((?:\\+|-)\\d+)");
 
             var lines = GetLines(input);
-            
-            var program = new Dictionary<int,Command>();
+
+            var program = new Dictionary<int, Command>();
             int lineCount = 0;
             foreach (var line in lines)
             {
                 lineCount++;
                 var instructionMatch = instructionRegex.Match(line);
-                if(!instructionMatch.Success)
+                if (!instructionMatch.Success)
                     continue;
-                var command = new Command(instructionMatch.Groups[1].Value, int.Parse(instructionMatch.Groups[2].Value));
+                var command = new Command(instructionMatch.Groups[1].Value,
+                    int.Parse(instructionMatch.Groups[2].Value));
                 program.Add(lineCount, command);
             }
 
@@ -42,6 +43,7 @@ namespace aoc2020.Puzzles.Solutions
             public int Accumulator { get; private set; }
             public int Line { get; private set; }
             private readonly HashSet<int> executedLines = new HashSet<int>();
+
             public HandHeldGameConsole(Dictionary<int, Command> program)
             {
                 this.Program = program;
@@ -97,31 +99,34 @@ namespace aoc2020.Puzzles.Solutions
                 var instructionMatch = instructionRegex.Match(line);
                 if (!instructionMatch.Success)
                     continue;
-                var command = new Command(instructionMatch.Groups[1].Value, int.Parse(instructionMatch.Groups[2].Value));
+                var command = new Command(instructionMatch.Groups[1].Value,
+                    int.Parse(instructionMatch.Groups[2].Value));
                 program.Add(lineCount, command);
             }
 
-            var corruptedInstructionsCandidates = 
+            var corruptedInstructionsCandidates =
                 program
                     .Where(i => i.Value.Instruction == "jmp" || i.Value.Instruction == "nop")
                     .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
             foreach (var corruptedInstructionsCandidate in corruptedInstructionsCandidates)
             {
-                program[corruptedInstructionsCandidate.Key].Instruction = corruptedInstructionsCandidate.Value.Instruction switch
-                {
-                    "nop" => "jmp",
-                    "jmp" => "nop"
-                };
+                program[corruptedInstructionsCandidate.Key].Instruction =
+                    corruptedInstructionsCandidate.Value.Instruction switch
+                    {
+                        "nop" => "jmp",
+                        "jmp" => "nop"
+                    };
                 var computer = new HandHeldGameConsole(program);
                 bool success = computer.Execute();
                 accumulator = computer.Accumulator;
-                if(success) break;
-                program[corruptedInstructionsCandidate.Key].Instruction = corruptedInstructionsCandidate.Value.Instruction switch
-                {
-                    "nop" => "jmp",
-                    "jmp" => "nop"
-                };
+                if (success) break;
+                program[corruptedInstructionsCandidate.Key].Instruction =
+                    corruptedInstructionsCandidate.Value.Instruction switch
+                    {
+                        "nop" => "jmp",
+                        "jmp" => "nop"
+                    };
             }
 
             return accumulator.ToString();
@@ -139,12 +144,5 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
     }
-
-    //public record Command
-    //{
-    //    public string Instruction { get; }
-    //    public int Parameter { get; }
-
-    //    public Command(string instruction, int parameter) => (Instruction, Parameter) = (instruction, parameter);
-    //}
 }
+

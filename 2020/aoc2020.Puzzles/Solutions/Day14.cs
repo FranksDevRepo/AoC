@@ -278,19 +278,6 @@ namespace aoc2020.Puzzles.Solutions
                 get => _memory;
             }
         }
-        //internal static BitMaskInstruction currentBitMask = null;
-        //internal static Dictionary<ulong, ulong> memory = new Dictionary<ulong, ulong>();
-
-        // Indexer
-        //private class SessionDictionary
-        //{
-        //    private readonly IDictionary<ulong, ulong> _memory = new Dictionary<ulong, ulong>();
-        //    public ulong this[ulong key]
-        //    {
-        //        get => _memory[key];
-        //        set => _memory[key] = value;
-        //    }
-        //}
 
         public override async Task<string> Part1Async(string input)
         {

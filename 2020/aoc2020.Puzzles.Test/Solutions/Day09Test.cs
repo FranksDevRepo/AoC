@@ -32,7 +32,6 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            //Assert.Equal("127", await Solution.Part1Async(input));
             Assert.Equal("127", Day09.FindInvalidNumber(myInput, 5).ToString());
         }
 
