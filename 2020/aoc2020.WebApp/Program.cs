@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace aoc2020.WebApp
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {

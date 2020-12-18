@@ -7,7 +7,7 @@ namespace aoc2020.Puzzles.Test
     {
         protected TSolution Solution { get; private set; }
 
-        public TestBase()
+        protected TestBase()
         {
             Solution = Activator.CreateInstance<TSolution>();
         }
