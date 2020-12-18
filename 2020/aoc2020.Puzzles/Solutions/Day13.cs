@@ -37,7 +37,7 @@ namespace aoc2020.Puzzles.Solutions
 
         private long GetNextDepartureTime(in long busId, in long departureTime)
         {
-            https://stackoverflow.com/questions/2403631/how-do-i-find-the-next-multiple-of-10-of-any-integer
+            // https://stackoverflow.com/questions/2403631/how-do-i-find-the-next-multiple-of-10-of-any-integer
             return departureTime + (busId - departureTime % busId);
         }
 
@@ -45,8 +45,8 @@ namespace aoc2020.Puzzles.Solutions
         {
             var data =
                 (from line in GetLines(input).Skip(1)
-                 where !string.IsNullOrWhiteSpace(line)
-                 select line).ToArray();
+                    where !string.IsNullOrWhiteSpace(line)
+                    select line).ToArray();
 
             var busIDs = data[0].Split(',')
                 .Select(id => id switch
@@ -54,49 +54,58 @@ namespace aoc2020.Puzzles.Solutions
                     "x" => 0,
                     _ => long.Parse(id)
                 })
-                .Select((bus, index) => new { bus, index })
+                .Select((bus, index) => new {bus, index})
                 .Where(x => x.bus != 0)
+                .OrderByDescending(tuple => tuple.bus)
                 .ToDictionary(x => x.bus, x => x.index);
 
-            long time = 0;
+            var departureInterval = busIDs.First().Key;
+            var timestamp = busIDs.First().Key - (long) busIDs.First().Value;
 
-            Dictionary<long, long> validDepartureTimes = new Dictionary<long, long>();
-            long firstBus = busIDs.FirstOrDefault(x => x.Value == 0).Key;
-            do
+            for (int n = 1; n <= busIDs.Count; n++)
             {
-                time += firstBus;
-                Dictionary<long, long> timeTable = new Dictionary<long, long>();
-                foreach (var busID in busIDs.Keys)
+                while (busIDs.Take(n).Any(kvp => (timestamp + kvp.Value) % kvp.Key != 0))
                 {
-                    long departureTime = GetNextDepartureTime(busID, time - 1);
-                    timeTable.Add(busID, departureTime);
+                    timestamp += departureInterval;
                 }
 
-                long departureTimeFirstBus = timeTable[firstBus];
-                validDepartureTimes.Clear();
+                departureInterval = busIDs.Take(n).Select(kvp => kvp.Key).Aggregate(LCM);
+            }
 
-                foreach (var kvp in timeTable)
-                {
-                    if (kvp.Key == firstBus) continue;
-                    long bus = kvp.Key;
-                    long departureTime = kvp.Value;
-                    long minutesSinceFirstBusDepartureTime = busIDs[bus];
+            return timestamp.ToString();
+        }
 
-                    if (departureTime == departureTimeFirstBus + minutesSinceFirstBusDepartureTime)
-                    {
-                        validDepartureTimes.Add(bus, departureTime);
-                    }
-                }
-                if (validDepartureTimes.Count == busIDs.Count - 1)
-                {
-                    validDepartureTimes.Add(firstBus, departureTimeFirstBus);
-                    break;
-                };
+        // taken from https://rosettacode.org/wiki/Least_common_multiple#C.23
+        // not efficient enough for big primes
+        //static long gcd(long m, long n)
+        //{
+        //    return n == 0 ? Math.Abs(m) : gcd(n, n % m);
+        //}
+        //static long lcm(long m, long n)
+        //{
+        //    return Math.Abs(m * n) / gcd(m, n);
+        //}
 
 
-            } while (true);
+        // see https://github.com/mathnet/mathnet-numerics/blob/master/src/Numerics/Euclid.cs
+        // public static long LeastCommonMultiple(long a, long b)
+        // public static long GreatestCommonDivisor(long a, long b)
+        public static long GCD(long a, long b)
+        {
+            while (b != 0)
+            {
+                long temp = b;
+                b = a % b;
+                a = temp;
+            }
 
-            return validDepartureTimes[firstBus].ToString();
+            return a;
+        }
+
+        public static long LCM(long a, long b)
+        {
+            return (a / GCD(a, b)) * b;
         }
     }
 }
+
