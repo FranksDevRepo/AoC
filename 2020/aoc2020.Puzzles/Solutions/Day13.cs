@@ -75,18 +75,6 @@ namespace aoc2020.Puzzles.Solutions
             return timestamp.ToString();
         }
 
-        // taken from https://rosettacode.org/wiki/Least_common_multiple#C.23
-        // not efficient enough for big primes
-        //static long gcd(long m, long n)
-        //{
-        //    return n == 0 ? Math.Abs(m) : gcd(n, n % m);
-        //}
-        //static long lcm(long m, long n)
-        //{
-        //    return Math.Abs(m * n) / gcd(m, n);
-        //}
-
-
         // see https://github.com/mathnet/mathnet-numerics/blob/master/src/Numerics/Euclid.cs
         // public static long LeastCommonMultiple(long a, long b)
         // public static long GreatestCommonDivisor(long a, long b)
