@@ -76,10 +76,13 @@ namespace aoc2020.Puzzles.Solutions
                         $"{currentPosition} => {currentDirection,-17} => {instruction.ToString(),-15} => {position.ToString(),5} => {direction.ToString(),-5}");
             }
 
-            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (Debugger.IsAttached)
+            {
+                var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 File.WriteAllLines(
                     Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day12.txt"), solution);
+            }
+
             return Math.Abs(position.NorthSouth) + Math.Abs(position.EastWest);
         }
 

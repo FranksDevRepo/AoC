@@ -2,8 +2,10 @@
 using MoreLinq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
@@ -29,9 +31,16 @@ namespace aoc2020.Puzzles.Solutions
                 var countNumOfLetters = password.Count(s => s == letter);
                 bool isValidPassword = (min <= countNumOfLetters && countNumOfLetters <= max);
                 countValidPasswords += isValidPassword ? 1 : 0;
-                solution.Add($"{line,-40}: {letter} : {countNumOfLetters,2} => {isValidPassword.ToString()}");
+                if (Debugger.IsAttached)
+                    solution.Add($"{line,-40}: {letter} : {countNumOfLetters,2} => {isValidPassword.ToString()}");
             }
-            File.WriteAllLines(@"C:\_Daten\source\repos\FranksDevRepo\AoC\2020\aoc2020.Puzzles\Input\solution day02.txt", solution);
+
+            if (Debugger.IsAttached)
+            {
+                var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                File.WriteAllLines(
+                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day02.txt"), solution);
+            }
             return countValidPasswords.ToString();
         }
 
