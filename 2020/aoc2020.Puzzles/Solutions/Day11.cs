@@ -35,33 +35,39 @@ namespace aoc2020.Puzzles.Solutions
             return occupiedSeats.ToString();
         }
 
-        private int ApplyRules(Tile[][] seatPlan, Func<Tile[][],int,int,int> countOccupiedSeatsFunc, int maxOccupiedSeats)
+        private int ApplyRules(Tile[][] seatPlan, Func<Tile[][], int, int, int> countOccupiedSeatsFunc,
+            int maxOccupiedSeats)
         {
             var currentSeatPlan = seatPlan.Select(s => s.ToArray()).ToArray();
             int countOccupiedSeats = 0;
             do
             {
-                for (int rowIndex = 0; rowIndex < seatPlan.Length;rowIndex++)
+                for (int rowIndex = 0; rowIndex < seatPlan.Length; rowIndex++)
                 {
                     for (int colIndex = 0; colIndex < seatPlan[rowIndex].Length; colIndex++)
                     {
                         int occupiedAdjacentSeats = countOccupiedSeatsFunc(currentSeatPlan, rowIndex, colIndex);
                         if (currentSeatPlan[rowIndex][colIndex] == Tile.EmptySeat && occupiedAdjacentSeats == 0)
                             seatPlan[rowIndex][colIndex] = Tile.OccupiedSeat;
-                        else if (currentSeatPlan[rowIndex][colIndex] == Tile.OccupiedSeat && occupiedAdjacentSeats >= maxOccupiedSeats)
+                        else if (currentSeatPlan[rowIndex][colIndex] == Tile.OccupiedSeat &&
+                                 occupiedAdjacentSeats >= maxOccupiedSeats)
                             seatPlan[rowIndex][colIndex] = Tile.EmptySeat;
                     }
                 }
 
                 bool isEqual = Compare(currentSeatPlan, seatPlan);
-                if(isEqual)
+                if (isEqual)
                     break;
                 else
                     currentSeatPlan = seatPlan.Select(s => s.ToArray()).ToArray();
             } while (true);
+
             for (int row = 0; row < seatPlan.Length; row++)
-            for (int col = 0; col < seatPlan[row].Length; col++)
-                countOccupiedSeats += seatPlan[row][col] == Tile.OccupiedSeat ? 1 : 0;
+            {
+                for (int col = 0; col < seatPlan[row].Length; col++)
+                    countOccupiedSeats += seatPlan[row][col] == Tile.OccupiedSeat ? 1 : 0;
+            }
+
             return countOccupiedSeats;
         }
 
@@ -109,9 +115,9 @@ namespace aoc2020.Puzzles.Solutions
                 .Select(row => row
                     .Select(c => c switch
                     {
-                        '.' => Tile.Floor,
                         'L' => Tile.EmptySeat,
-                        '#' => Tile.OccupiedSeat
+                        '#' => Tile.OccupiedSeat,
+                        _ => Tile.Floor,
 
                     }).ToArray()).ToArray();
             return seatPlan;

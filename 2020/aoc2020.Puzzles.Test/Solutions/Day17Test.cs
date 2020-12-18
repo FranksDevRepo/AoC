@@ -8,7 +8,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day17Test : TestBase<Day17>
     {
-        private readonly string input = @".#.
+        private readonly string myInput = @".#.
 ..#
 ###
 ";
@@ -16,13 +16,13 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            Assert.Equal("112", await Solution.Part1Async(input));
+            Assert.Equal("112", await Solution.Part1Async(myInput));
         }
 
         [Fact]
         public async Task Part2()
         {
-            Assert.Equal("848", await Solution.Part2Async(input));
+            Assert.Equal("848", await Solution.Part2Async(myInput));
         }
 
         [Fact]

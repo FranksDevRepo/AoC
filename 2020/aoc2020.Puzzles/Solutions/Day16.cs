@@ -126,7 +126,6 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     var rule = ParseRules(line);
                     ruleSet.Add(rule.Item1, rule.Item2);
-                    continue;
                 }
                 else if (isMyTicketLine && !isNearbyTicketLine)
                     myTicket = line.Split(',').Select(n => int.Parse(n)).ToArray();
@@ -148,7 +147,7 @@ namespace aoc2020.Puzzles.Solutions
                 .Select(kvp => kvp.Value).ToList();
 
             if(departureFieldPositions.Count > 6)
-                throw new ApplicationException();
+                throw new InvalidOperationException();
 
             long puzzle = 1;
 

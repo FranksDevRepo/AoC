@@ -12,7 +12,7 @@ namespace aoc2020.WebApp
     {
         public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().RunAsync();
+            await CreateHostBuilder(args).Build().RunAsync();
         }
 
         public static WebAssemblyHostBuilder CreateHostBuilder(string[] args)

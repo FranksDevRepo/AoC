@@ -1,5 +1,4 @@
 ﻿using aoc2020.Puzzles.Core;
-using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;

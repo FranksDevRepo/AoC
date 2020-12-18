@@ -15,7 +15,7 @@ namespace aoc2020.Puzzles.Solutions
             private HashSet<Coordinate> data = new HashSet<Coordinate>();
             private Coordinate min = new Coordinate {x = 0, y = 0, z = 0};
             private Coordinate max;
-            private StringBuilder output = new StringBuilder();
+            private readonly StringBuilder output = new StringBuilder();
 
             public struct Coordinate
             {
@@ -41,11 +41,7 @@ namespace aoc2020.Puzzles.Solutions
                 get => output.ToString();
             }
 
-            public long CountActiveState
-            {
-                get => data.Count();
-
-            }
+            public long CountActiveState => data.Count;
 
             public void Setup(string input)
             {
@@ -84,7 +80,7 @@ namespace aoc2020.Puzzles.Solutions
                         for (var x = min.x - 1; x <= max.x; x++)
                         {
                             var currentPos = new Coordinate {x = x, y = y, z = z};
-                            var isActiveState = data.Contains(currentPos) ? true : false;
+                            var isActiveState = data.Contains(currentPos);
 
                             var countActiveNeighbors = CountNeighbors(currentPos);
                             if (isActiveState)
@@ -130,9 +126,7 @@ namespace aoc2020.Puzzles.Solutions
                         for (int z = coordinate.z - 1; z < coordinate.z + 2; z++)
                         {
                             var neighbor = new Coordinate { x = x, y = y, z = z };
-                            if (neighbor != coordinate)
-                                if (data.Contains(neighbor))
-                                    count++;
+                            if (neighbor != coordinate && data.Contains(neighbor)) count++;
                         }
                     }
                 }
@@ -194,7 +188,7 @@ namespace aoc2020.Puzzles.Solutions
             private HashSet<Coordinate> data = new HashSet<Coordinate>();
             private Coordinate min = new Coordinate();
             private Coordinate max;
-            private StringBuilder output = new StringBuilder();
+            private readonly StringBuilder output = new StringBuilder();
 
             public struct Coordinate
             {
@@ -226,7 +220,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public long CountActiveState
             {
-                get => data.Count();
+                get => data.Count;
 
             }
 
@@ -316,9 +310,7 @@ namespace aoc2020.Puzzles.Solutions
                             for (int w = coordinate.w - 1; w < coordinate.w + 2; w++)
                             {
                                 var neighbor = new Coordinate {x = x, y = y, z = z, w = w};
-                                if (neighbor != coordinate)
-                                    if (data.Contains(neighbor))
-                                        count++;
+                                if (neighbor != coordinate && data.Contains(neighbor)) count++;
                             }
                         }
                     }

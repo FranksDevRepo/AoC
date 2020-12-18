@@ -1,11 +1,7 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading.Tasks;
-using MoreLinq.Extensions;
 
 namespace aoc2020.Puzzles.Solutions
 {

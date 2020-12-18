@@ -43,7 +43,7 @@ namespace aoc2020.Puzzles.Solutions
                         var subResult = CalcResult(subExpression, evaluationAdditionsFirst);
                         expression.Replace(subExpression, subResult.ToString());
                     }
-                } while (expression.ToString().Count(c => c == '(' || c == ')') > 0);
+                } while (expression.ToString().Any(c => c == '(' || c == ')'));
 
                 result += CalcResult(expression.ToString(), evaluationAdditionsFirst);
                 lines.RemoveAt(0);

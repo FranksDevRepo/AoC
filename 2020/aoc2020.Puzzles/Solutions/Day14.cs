@@ -22,7 +22,7 @@ namespace aoc2020.Puzzles.Solutions
         {
             public Operation Operation { get; private set; }
 
-            public Instruction(Operation operation)
+            protected Instruction(Operation operation)
             {
                 Operation = operation;
             }
@@ -158,7 +158,6 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     if (reversedBitmask[i] == 'X')
                         continue;
-                    long bitValue = 2 ^ i;
                     if (reversedBitmask[i] == '1')
                         value = SetSpecificBitAtPosition(value, i);
                     else if (reversedBitmask[i] == '0')
@@ -205,13 +204,10 @@ namespace aoc2020.Puzzles.Solutions
                 var baseAddress = address;
                 for (int i = 0; i < bitmask.Length; i++)
                 {
-                    long bitValue = 2 ^ i;
                     if (reversedBitmask[i] == '1')
                     {
                         baseAddress = SetSpecificBitAtPosition(baseAddress, i);
                     }
-                    else if (reversedBitmask[i] == '0')
-                        continue;
                 }
 
                 var addressList = new List<ulong>() {baseAddress};
@@ -219,7 +215,6 @@ namespace aoc2020.Puzzles.Solutions
 
                 for (int i = 0; i < bitmask.Length; i++)
                 {
-                    long bitValue = 2 ^ i;
                     if (reversedBitmask[i] == 'X')
                     {
                         count++;

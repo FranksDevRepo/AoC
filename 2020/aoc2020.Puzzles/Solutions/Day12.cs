@@ -56,6 +56,17 @@ namespace aoc2020.Puzzles.Solutions
             return manhattanDistance.ToString();
         }
 
+        public override async Task<string> Part2Async(string input)
+        {
+            Position wayPoint = new Position(10, 1);
+            Position shipPosition = new Position(0, 0);
+            var instructions = GetLines(input)
+                .Select(line => (action: (Move)line.ElementAt(0), value: int.Parse(line.Substring(1))))
+                .ToArray();
+            int manhattanDistance = CalculateManhattanDistance(instructions, wayPoint, shipPosition);
+            return manhattanDistance.ToString();
+        }
+
         private int CalculateManhattanDistance((Move action, int value)[] instructions, Direction direction)
         {
             var position = new Position(0, 0);
@@ -85,6 +96,22 @@ namespace aoc2020.Puzzles.Solutions
             return Math.Abs(position.NorthSouth) + Math.Abs(position.EastWest);
         }
 
+        private int CalculateManhattanDistance((Move action, int value)[] instructions, Position wayPoint, Position shipPosition)
+        {
+            foreach (var instruction in instructions)
+            {
+                if ("NSEWLR".Contains((char)instruction.action))
+                {
+                    wayPoint = CalculateWayPoint(wayPoint, instruction);
+                }
+                else
+                {
+                    shipPosition = MoveShip(shipPosition, wayPoint, instruction);
+                }
+            }
+            return Math.Abs(shipPosition.NorthSouth) + Math.Abs(shipPosition.EastWest);
+        }
+        
         private (Position, Direction) MoveShip((Move action, int value) instruction, Position position, Direction direction)
         {
             if (instruction.action == Move.Right)
@@ -99,63 +126,37 @@ namespace aoc2020.Puzzles.Solutions
             {
                 position.EastWest = direction switch
                 {
-                    Direction.East => position.EastWest += instruction.value,
-                    Direction.West => position.EastWest -= instruction.value,
-                    _ => position.EastWest += 0
+                    Direction.East => position.EastWest + instruction.value,
+                    Direction.West => position.EastWest - instruction.value,
+                    _ => position.EastWest + 0
                 };
                 position.NorthSouth = direction switch
                 {
-                    Direction.North => position.NorthSouth += instruction.value,
-                    Direction.South => position.NorthSouth -= instruction.value,
-                    _ => position.NorthSouth += 0
+                    Direction.North => position.NorthSouth + instruction.value,
+                    Direction.South => position.NorthSouth - instruction.value,
+                    _ => position.NorthSouth + 0
                 };
             }
             else
             {
                 position.EastWest = instruction.action switch
                 {
-                    Move.East => position.EastWest += instruction.value,
-                    Move.West => position.EastWest -= instruction.value,
-                _ => position.EastWest += 0
+                    Move.East => position.EastWest + instruction.value,
+                    Move.West => position.EastWest - instruction.value,
+                _ => position.EastWest + 0
                 };
                 position.NorthSouth = instruction.action switch
                 {
-                    Move.North => position.NorthSouth += instruction.value,
-                    Move.South => position.NorthSouth -= instruction.value,
-                    _ => position.NorthSouth += 0
+                    Move.North => position.NorthSouth + instruction.value,
+                    Move.South => position.NorthSouth - instruction.value,
+                    _ => position.NorthSouth + 0
                 };
             }
 
             return (position, direction);
         }
 
-        public override async Task<string> Part2Async(string input)
-        {
-            Position wayPoint = new Position(10, 1);
-            Position shipPosition = new Position(0,0);
-            var instructions = GetLines(input)
-                .Select(line => (action: (Move)line.ElementAt(0), value: int.Parse(line.Substring(1))))
-                .ToArray();
-            int manhattanDistance = CalculateManhattanDistance(instructions, wayPoint, shipPosition);
-            return manhattanDistance.ToString();
-        }
-
-        private int CalculateManhattanDistance((Move action, int value)[] instructions, Position wayPoint, Position shipPosition)
-        {
-            foreach (var instruction in instructions)
-            {
-                if ("NSEWLR".Contains((char) instruction.action))
-                {
-                    wayPoint = CalculateWayPoint(wayPoint, instruction);
-                }
-                else
-                {
-                    shipPosition = MoveShip(shipPosition, wayPoint, instruction);
-                }
-            }
-            return Math.Abs(shipPosition.NorthSouth) + Math.Abs(shipPosition.EastWest);
-        }
-
+        
         private Position MoveShip(Position shipPosition, Position wayPoint, (Move action, int value) instruction)
         {
             switch (instruction.action)
