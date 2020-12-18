@@ -49,7 +49,6 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         {
-            Direction startDirection = Direction.East;
             var instructions = GetLines(input)
                 .Select(line => (action: (Move)line.ElementAt(0), value: int.Parse(line.Substring(1))))
                 .ToArray();

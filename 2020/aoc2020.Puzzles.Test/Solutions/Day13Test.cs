@@ -8,67 +8,32 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day13Test : TestBase<Day13>
     {
-        private readonly string input = @"939
-7,13,x,x,59,x,31,19";
-
-        [Fact]
-        public async Task Part1()
+        [Theory]
+        [InlineData(@"939
+7,13,x,x,59,x,31,19", "295")]
+        public async Task Part1(string input, string expected)
         {
-            Assert.Equal("295", await Solution.Part1Async(input));
+            Assert.Equal(expected, await Solution.Part1Async(input));
         }
 
-        [Fact]
-        public async Task Part2()
+        [Theory]
+        [InlineData(@"939
+7,13,x,x,59,x,31,19", "1068781")]
+        [InlineData(@"
+17,x,13,19", "3417")]
+        [InlineData(@"
+17,x,13", "102")]
+        [InlineData(@"
+67,7,59,61", "754018")]
+        [InlineData(@"
+67,x,7,59,61", "779210")]
+        [InlineData(@"
+67,7,x,59,61", "1261476")]
+        [InlineData(@"
+1789,37,47,1889", "1202161486")]
+        public async Task Part2(string input, string expected)
         {
-            Assert.Equal("1068781", await Solution.Part2Async(input));
-        }
-
-        [Fact]
-        public async Task Part2_Example2()
-        {
-            var input = @"
-17,x,13,19";
-            Assert.Equal("3417", await Solution.Part2Async(input));
-        }
-
-        [Fact]
-        public async Task Part2_Example2a()
-        {
-            var input = @"
-17,x,13";
-            Assert.Equal("102", await Solution.Part2Async(input));
-        }
-
-        [Fact]
-        public async Task Part2_Example3()
-        {
-            var input = @"
-67,7,59,61";
-            Assert.Equal("754018", await Solution.Part2Async(input));
-        }
-
-        [Fact]
-        public async Task Part2_Example4()
-        {
-            var input = @"
-67,x,7,59,61";
-            Assert.Equal("779210", await Solution.Part2Async(input));
-        }
-
-        [Fact]
-        public async Task Part2_Example5()
-        {
-            var input = @"
-67,7,x,59,61";
-            Assert.Equal("1261476", await Solution.Part2Async(input));
-        }
-
-        [Fact]
-        public async Task Part2_Example6()
-        {
-            var input = @"
-1789,37,47,1889";
-            Assert.Equal("1202161486", await Solution.Part2Async(input));
+            Assert.Equal(expected, await Solution.Part2Async(input));
         }
 
         [Fact]

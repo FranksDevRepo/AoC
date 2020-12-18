@@ -141,7 +141,6 @@ namespace aoc2020.Puzzles.Solutions
 
         private int CountOccupiedVisibleSeats(Tile[][] seatPlan, int rowIndex, int colIndex, Direction direction)
         {
-            int count = 0;
             var move = direction switch
             {
                 Direction.Up => (row: -1, col: 0),
