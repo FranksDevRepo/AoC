@@ -44,12 +44,55 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var lines = (from line in GetLines(input)
+                where !string.IsNullOrWhiteSpace(line)
+                select line).ToList();
+
+            long result = 0;
+            while (lines.Count > 0)
+            {
+                var expression = new StringBuilder(lines[0]);
+                var parenthesisExp = new Regex(@"(\(\d+ [+*-] \d+(?: [+*-] \d+)*\))");
+
+                do
+                {
+                    var matches = parenthesisExp.Matches(expression.ToString());
+
+                    foreach (Match match in matches)
+                    {
+                        var subExpression = match.Groups[1].Value;
+                        var subResult = CalcResult(subExpression, true);
+                        expression.Replace(subExpression, subResult.ToString());
+                    }
+                } while (expression.ToString().Count(c => c == '(' || c == ')') > 0);
+
+                result += CalcResult(expression.ToString(), true);
+                lines.RemoveAt(0);
+            }
+
+            return result.ToString();
         }
 
-        long CalcResult(string expression)
+        long CalcResult(string mathExpression, bool evaluateAdditionsFirst = false)
         {
-            var tokens = expression.Split(' ', StringSplitOptions.TrimEntries);
+            var expression = new StringBuilder(mathExpression);
+            if (evaluateAdditionsFirst)
+            {
+                var additionRegex = new Regex(@"(\d+ \+ \d+)");
+                do
+                {
+                    var additionMatch = additionRegex.Matches(expression.ToString());
+                    foreach (Match match in additionMatch)
+                    {
+                        var subExpression = match.Groups[1].Value;
+                        var subResult = CalcResult(subExpression, false);
+                        expression.Replace(subExpression, subResult.ToString());
+                    }
+
+                } while (additionRegex.IsMatch(expression.ToString()));
+            }
+
+            var tokens = expression.ToString().Split(' ', StringSplitOptions.TrimEntries);
 
             var stack = new Stack<long>();
             var operationStack = new Stack<string>();
