@@ -13,36 +13,15 @@ namespace aoc2020.Puzzles.Solutions
     {
         public override async Task<string> Part1Async(string input)
         {
-            var lines = (from line in GetLines(input)
-                where !string.IsNullOrWhiteSpace(line)
-                select line).ToList();
-
-            long result = 0;
-            while (lines.Count > 0)
-            {
-                var expression = new StringBuilder(lines[0]);
-                var parenthesisExp = new Regex(@"(\(\d+ [+*-] \d+(?: [+*-] \d+)*\))");
-
-                do
-                {
-                    var matches = parenthesisExp.Matches(expression.ToString());
-
-                    foreach (Match match in matches)
-                    {
-                        var subExpression = match.Groups[1].Value;
-                        var subResult = CalcResult(subExpression);
-                        expression.Replace(subExpression, subResult.ToString());
-                    }
-                } while (expression.ToString().Count(c => c == '(' || c == ')') > 0);
-
-                result += CalcResult(expression.ToString());
-                lines.RemoveAt(0);
-            }
-
-            return result.ToString();
+            return ParseInputAndCalcResult(input);
         }
 
         public override async Task<string> Part2Async(string input)
+        {
+            return ParseInputAndCalcResult(input, true);
+        }
+
+        private string ParseInputAndCalcResult(string input, bool evaluationAdditionsFirst = false)
         {
             var lines = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)
@@ -61,12 +40,12 @@ namespace aoc2020.Puzzles.Solutions
                     foreach (Match match in matches)
                     {
                         var subExpression = match.Groups[1].Value;
-                        var subResult = CalcResult(subExpression, true);
+                        var subResult = CalcResult(subExpression, evaluationAdditionsFirst);
                         expression.Replace(subExpression, subResult.ToString());
                     }
                 } while (expression.ToString().Count(c => c == '(' || c == ')') > 0);
 
-                result += CalcResult(expression.ToString(), true);
+                result += CalcResult(expression.ToString(), evaluationAdditionsFirst);
                 lines.RemoveAt(0);
             }
 
@@ -109,7 +88,7 @@ namespace aoc2020.Puzzles.Solutions
                     stack.Push(long.Parse(trimmedToken));
                 }
 
-                if(stack.Count > 1)
+                if (stack.Count > 1)
                 {
                     var operation = operationStack.Pop();
 
@@ -126,11 +105,6 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     operationStack.Push(trimmedToken);
                 }
-
-
-
-                
-
             }
 
             return stack.Pop();
