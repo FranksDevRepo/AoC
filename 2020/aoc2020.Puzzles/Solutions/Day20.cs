@@ -41,7 +41,6 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part1Async(string input)
         {
             var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
-                //where !string.IsNullOrWhiteSpace(line)
                 select line).ToArray();
 
             var nameRegex = new Regex(@"^Tile (?'TileNumber'\d+):$");
@@ -49,7 +48,6 @@ namespace aoc2020.Puzzles.Solutions
             var tileChecksums = new Dictionary<int, Checksum>();
             var tileSides = new Dictionary<int, List<ushort>>();
             
-
             for (var idx = 0; idx < lines.Length &&!string.IsNullOrWhiteSpace(lines[idx]); ++idx)
             {
                 var match = nameRegex.Match(lines[idx]);
@@ -61,9 +59,7 @@ namespace aoc2020.Puzzles.Solutions
                 var checksum = new Checksum();
 
                 for (++idx; idx < lines.Length && !string.IsNullOrWhiteSpace(lines[idx]); ++idx)
-                {
                     tile.Add(lines[idx]);
-                }
 
                 var tileNumber = int.Parse(match.Groups["TileNumber"].Value);
                 tiles.Add(tileNumber, tile);
@@ -77,6 +73,7 @@ namespace aoc2020.Puzzles.Solutions
                 checksum.flippedLeft = Convert.ToUInt16(string.Concat(tile.Select(c => c[0] == '#' ? '1' : '0').Reverse()), 2);
                 checksum.flippedRight = Convert.ToUInt16(string.Concat(tile.Select(c => c[9] == '#' ? '1' : '0').Reverse()), 2);
                 tileChecksums.Add(tileNumber, checksum);
+
                 var sides = new List<ushort>();
                 sides.Add(Convert.ToUInt16(string.Concat(tile[0].Select((c) => c == '#' ? '1' : '0')), 2));
                 sides.Add(Convert.ToUInt16(string.Concat(tile[9].Select((c) => c == '#' ? '1' : '0')), 2));
@@ -88,8 +85,6 @@ namespace aoc2020.Puzzles.Solutions
                 sides.Add(Convert.ToUInt16(string.Concat(tile.Select(c => c[9] == '#' ? '1' : '0').Reverse()), 2));
                 tileSides.Add(tileNumber, sides);
             }
-
-            long result = 0;
 
             var debugOutput = new List<string>();
             if (Debugger.IsAttached)
@@ -133,7 +128,7 @@ namespace aoc2020.Puzzles.Solutions
                     matchingTiles.Add(tileSides.ElementAt(idx1).Key, tileMatches);
             }
 
-            result = matchingTiles.Where(kvp => kvp.Value.Count == 2).Select(kvp => (long)kvp.Key).Aggregate((a, b) => a * b);
+            long result = matchingTiles.Where(kvp => kvp.Value.Count == 2).Select(kvp => (long)kvp.Key).Aggregate((a, b) => a * b);
 
             return result.ToString();
         }
