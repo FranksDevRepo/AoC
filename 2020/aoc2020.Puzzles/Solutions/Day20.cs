@@ -13,7 +13,7 @@ namespace aoc2020.Puzzles.Solutions
     [Puzzle("Jurassic Jigsaw")]
     public sealed class Day20 : SolutionBase
     {
-        struct Checksum
+        class Checksum
         {
             public ushort top;
             public ushort left;
@@ -40,14 +40,15 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         {
-            var (tiles, tileChecksums, tileSides) = ParseInput(input);
+            var puzzleSolver = new PuzzleSolver();
+            puzzleSolver.ParseInput(input);
 
             if (Debugger.IsAttached)
-                WriteDebugOutput(tileChecksums);
+                puzzleSolver.WriteDebugOutput();
 
-            var matchingTiles = FindMatchingTiles(tileSides);
+            puzzleSolver.FindMatchingTiles();
 
-            return CalculateProductOfCornerTileIDs(matchingTiles).ToString();
+            return puzzleSolver.CalculateProductOfCornerTileIDs().ToString();
         }
 
         public override async Task<string> Part2Async(string input)
@@ -55,115 +56,137 @@ namespace aoc2020.Puzzles.Solutions
             throw new NotImplementedException();
         }
 
-        private static (Dictionary<int, List<string>> tiles, Dictionary<int, Checksum> tileChecksums, Dictionary<int, List<ushort>> tileSides) ParseInput(string input)
+        private class PuzzleSolver
         {
-            var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
-                select line).ToArray();
+            public Dictionary<int, Tile> Tiles { get; private set; }
 
-            var tileNumberRegex = new Regex(@"^Tile (?'TileNumber'\d+):$");
-            var tiles = new Dictionary<int, List<string>>();
-            var tileChecksums = new Dictionary<int, Checksum>();
-            var tileSides = new Dictionary<int, List<ushort>>();
-
-            for (var idx = 0; idx < lines.Length && !string.IsNullOrWhiteSpace(lines[idx]); ++idx)
+            public PuzzleSolver()
             {
-                var match = tileNumberRegex.Match(lines[idx]);
-
-                if (!match.Success)
-                    throw new InvalidOperationException($"Couldn't find tile number in '{lines[idx]}'");
-
-                var tile = new List<string>();
-                var checksum = new Checksum();
-
-                for (++idx; idx < lines.Length && !string.IsNullOrWhiteSpace(lines[idx]); ++idx)
-                    tile.Add(lines[idx]);
-
-                var tileNumber = int.Parse(match.Groups["TileNumber"].Value);
-                tiles.Add(tileNumber, tile);
-
-                checksum.top = Convert.ToUInt16(string.Concat(tile[0].Select((c) => c == '#' ? '1' : '0')), 2);
-                checksum.bottom = Convert.ToUInt16(string.Concat(tile[9].Select((c) => c == '#' ? '1' : '0')), 2);
-                checksum.left = Convert.ToUInt16(string.Concat(tile.Select(c => c[0] == '#' ? '1' : '0')), 2);
-                checksum.right = Convert.ToUInt16(string.Concat(tile.Select(c => c[9] == '#' ? '1' : '0')), 2);
-                checksum.flippedTop =
-                    Convert.ToUInt16(string.Concat(tile[0].Select((c) => c == '#' ? '1' : '0').Reverse()), 2);
-                checksum.flippedBottom =
-                    Convert.ToUInt16(string.Concat(tile[9].Select((c) => c == '#' ? '1' : '0').Reverse()), 2);
-                checksum.flippedLeft =
-                    Convert.ToUInt16(string.Concat(tile.Select(c => c[0] == '#' ? '1' : '0').Reverse()), 2);
-                checksum.flippedRight =
-                    Convert.ToUInt16(string.Concat(tile.Select(c => c[9] == '#' ? '1' : '0').Reverse()), 2);
-                tileChecksums.Add(tileNumber, checksum);
-
-                var sides = new List<ushort>();
-                sides.Add(Convert.ToUInt16(string.Concat(tile[0].Select((c) => c == '#' ? '1' : '0')), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile[9].Select((c) => c == '#' ? '1' : '0')), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile.Select(c => c[0] == '#' ? '1' : '0')), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile.Select(c => c[9] == '#' ? '1' : '0')), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile[0].Select((c) => c == '#' ? '1' : '0').Reverse()), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile[9].Select((c) => c == '#' ? '1' : '0').Reverse()), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile.Select(c => c[0] == '#' ? '1' : '0').Reverse()), 2));
-                sides.Add(Convert.ToUInt16(string.Concat(tile.Select(c => c[9] == '#' ? '1' : '0').Reverse()), 2));
-                tileSides.Add(tileNumber, sides);
+                Tiles = new Dictionary<int, Tile>();
             }
 
-            return (tiles, tileChecksums, tileSides);
-        }
-
-        private static Dictionary<int, List<int>> FindMatchingTiles(Dictionary<int, List<ushort>> tileSides)
-        {
-            Dictionary<int, List<int>> matchingTiles = new Dictionary<int, List<int>>();
-            for (int idx1 = 0; idx1 < tileSides.Count; idx1++)
+            public void ParseInput(string input)
             {
-                var tileMatches = new List<int>();
+                var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
+                    select line).ToArray();
 
-                for (int idx2 = 0; idx2 < tileSides.Count; idx2++)
+                var tileNumberRegex = new Regex(@"^Tile (?'TileNumber'\d+):$");
+
+                for (var idx = 0; idx < lines.Length && !string.IsNullOrWhiteSpace(lines[idx]); ++idx)
                 {
-                    if (idx1 == idx2) continue;
-                    bool foundMatchingSides =
-                        tileSides.ElementAt(idx1).Value.Intersect(tileSides.ElementAt(idx2).Value).Any();
-                    if (foundMatchingSides)
-                        tileMatches.Add(tileSides.ElementAt(idx2).Key);
+                    var match = tileNumberRegex.Match(lines[idx]);
+
+                    if (!match.Success)
+                        throw new InvalidOperationException($"Couldn't find tile number in '{lines[idx]}'");
+
+                    var tileNumber = int.Parse(match.Groups["TileNumber"].Value);
+
+                    var tile = new Tile(tileNumber);
+
+                    for (++idx; idx < lines.Length && !string.IsNullOrWhiteSpace(lines[idx]); ++idx)
+                        tile.Image.Add(lines[idx]);
+
+                    tile.CalculateChecksums();
+
+                    tile.CalculateSides();
+
+                    Tiles.Add(tileNumber, tile);
+                }
+            }
+
+            public void FindMatchingTiles()
+            {
+                foreach (var tile1 in Tiles.Values)
+                {
+                    foreach (var tile2 in Tiles.Values)
+                    {
+                        if (tile1.ID == tile2.ID) continue;
+                        bool foundMatchingSides =
+                            tile1.Sides.Intersect(tile2.Sides).Any();
+                        if (foundMatchingSides)
+                            tile1.MatchingTiles.Add(tile2.ID);
+                    }
+                }
+            }
+
+            public long CalculateProductOfCornerTileIDs() =>
+                Tiles.Values
+                    .Where(t => t.IsCorner)
+                    .Select(t => (long) t.ID)
+                    .Aggregate((a, b) => a * b);
+
+            public void WriteDebugOutput()
+            {
+                var debugOutput = new List<string>();
+                foreach (var tile in Tiles.Values)
+                {
+                    debugOutput.Add($"Tile  : {tile.ID}");
+                    debugOutput.Add($"Top   : {tile.Checksum.top,12}");
+                    debugOutput.Add($"Left  : {tile.Checksum.left,12}");
+                    debugOutput.Add($"Right : {tile.Checksum.right,12}");
+                    debugOutput.Add($"Bottom: {tile.Checksum.bottom,12}");
+                    debugOutput.Add(string.Empty);
+                    debugOutput.Add($"Flipped Top   : {tile.Checksum.flippedTop,4}");
+                    debugOutput.Add($"Flipped Left  : {tile.Checksum.flippedLeft,4}");
+                    debugOutput.Add($"Flipped Right : {tile.Checksum.flippedRight,4}");
+                    debugOutput.Add($"Flipped Bottom: {tile.Checksum.flippedBottom,4}");
+                    debugOutput.Add("\n");
                 }
 
-                if (tileMatches.Any())
-                    matchingTiles.Add(tileSides.ElementAt(idx1).Key, tileMatches);
+                var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                File.WriteAllLines(
+                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day20.txt"),
+                    debugOutput);
             }
-
-            return matchingTiles;
         }
 
-        private static long CalculateProductOfCornerTileIDs(Dictionary<int, List<int>> matchingTiles)
+        private class Tile
         {
-            return matchingTiles
-                .Where(kvp => kvp.Value.Count == 2)
-                .Select(kvp => (long)kvp.Key)
-                .Aggregate((a, b) => a * b);
-        }
+            public int ID { get; private set; }
+            public List<string> Image { get; private set; }
+            public List<ushort> Sides { get; private set; }
+            public Checksum Checksum { get; private set; }
+            public List<int> MatchingTiles { get; private set; }
+            public bool IsCorner => MatchingTiles.Count == 2;
+            public bool IsEdge => MatchingTiles.Count == 3;
+            public bool IsCenter => MatchingTiles.Count == 4;
 
-        private static void WriteDebugOutput(Dictionary<int, Checksum> tileChecksums)
-        {
-            var debugOutput = new List<string>();
-            foreach (var tileChecksum in tileChecksums)
+            public Tile(int id)
             {
-                debugOutput.Add($"Tile  : {tileChecksum.Key}");
-                debugOutput.Add($"Top   : {tileChecksum.Value.top,12}");
-                debugOutput.Add($"Left  : {tileChecksum.Value.left,12}");
-                debugOutput.Add($"Right : {tileChecksum.Value.right,12}");
-                debugOutput.Add($"Bottom: {tileChecksum.Value.bottom,12}");
-                debugOutput.Add(string.Empty);
-                debugOutput.Add($"Flipped Top   : {tileChecksum.Value.flippedTop,4}");
-                debugOutput.Add($"Flipped Left  : {tileChecksum.Value.flippedLeft,4}");
-                debugOutput.Add($"Flipped Right : {tileChecksum.Value.flippedRight,4}");
-                debugOutput.Add($"Flipped Bottom: {tileChecksum.Value.flippedBottom,4}");
-                debugOutput.Add("\n");
+                ID = id;
+                Image = new List<string>();
+                Sides = new List<ushort>();
+                Checksum = new Checksum();
+                MatchingTiles = new List<int>();
             }
 
-            var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            File.WriteAllLines(
-                Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day20.txt"),
-                debugOutput);
-        }
+            public void CalculateSides()
+            {
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image[0].Select((c) => c == '#' ? '1' : '0')), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image[9].Select((c) => c == '#' ? '1' : '0')), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image.Select(c => c[0] == '#' ? '1' : '0')), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image.Select(c => c[9] == '#' ? '1' : '0')), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image[0].Select((c) => c == '#' ? '1' : '0').Reverse()), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image[9].Select((c) => c == '#' ? '1' : '0').Reverse()), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image.Select(c => c[0] == '#' ? '1' : '0').Reverse()), 2));
+                this.Sides.Add(Convert.ToUInt16(string.Concat(this.Image.Select(c => c[9] == '#' ? '1' : '0').Reverse()), 2));
+            }
 
+            public void CalculateChecksums()
+            {
+                this.Checksum.top = Convert.ToUInt16(string.Concat(this.Image[0].Select((c) => c == '#' ? '1' : '0')), 2);
+                this.Checksum.bottom = Convert.ToUInt16(string.Concat(this.Image[9].Select((c) => c == '#' ? '1' : '0')), 2);
+                this.Checksum.left = Convert.ToUInt16(string.Concat(this.Image.Select(c => c[0] == '#' ? '1' : '0')), 2);
+                this.Checksum.right = Convert.ToUInt16(string.Concat(this.Image.Select(c => c[9] == '#' ? '1' : '0')), 2);
+                this.Checksum.flippedTop =
+                    Convert.ToUInt16(string.Concat(this.Image[0].Select((c) => c == '#' ? '1' : '0').Reverse()), 2);
+                this.Checksum.flippedBottom =
+                    Convert.ToUInt16(string.Concat(this.Image[9].Select((c) => c == '#' ? '1' : '0').Reverse()), 2);
+                this.Checksum.flippedLeft =
+                    Convert.ToUInt16(string.Concat(this.Image.Select(c => c[0] == '#' ? '1' : '0').Reverse()), 2);
+                this.Checksum.flippedRight =
+                    Convert.ToUInt16(string.Concat(this.Image.Select(c => c[9] == '#' ? '1' : '0').Reverse()), 2);
+            }
+        }
     }
 }
