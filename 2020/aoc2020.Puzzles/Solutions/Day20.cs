@@ -47,12 +47,12 @@ namespace aoc2020.Puzzles.Solutions
 
             var matchingTiles = FindMatchingTiles(tileSides);
 
-            long result = matchingTiles
-                .Where(kvp => kvp.Value.Count == 2)
-                .Select(kvp => (long) kvp.Key)
-                .Aggregate((a, b) => a * b);
+            return CalculateProductOfCornerTileIDs(matchingTiles).ToString();
+        }
 
-            return result.ToString();
+        public override async Task<string> Part2Async(string input)
+        {
+            throw new NotImplementedException();
         }
 
         private static (Dictionary<int, List<string>> tiles, Dictionary<int, Checksum> tileChecksums, Dictionary<int, List<ushort>> tileSides) ParseInput(string input)
@@ -133,6 +133,14 @@ namespace aoc2020.Puzzles.Solutions
             return matchingTiles;
         }
 
+        private static long CalculateProductOfCornerTileIDs(Dictionary<int, List<int>> matchingTiles)
+        {
+            return matchingTiles
+                .Where(kvp => kvp.Value.Count == 2)
+                .Select(kvp => (long)kvp.Key)
+                .Aggregate((a, b) => a * b);
+        }
+
         private static void WriteDebugOutput(Dictionary<int, Checksum> tileChecksums)
         {
             var debugOutput = new List<string>();
@@ -157,9 +165,5 @@ namespace aoc2020.Puzzles.Solutions
                 debugOutput);
         }
 
-        public override async Task<string> Part2Async(string input)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
