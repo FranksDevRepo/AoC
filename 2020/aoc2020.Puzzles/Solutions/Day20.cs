@@ -40,6 +40,23 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         {
+            var (tiles, tileChecksums, tileSides) = ParseInput(input);
+
+            if (Debugger.IsAttached)
+                WriteDebugOutput(tileChecksums);
+
+            var matchingTiles = FindMatchingTiles(tileSides);
+
+            long result = matchingTiles
+                .Where(kvp => kvp.Value.Count == 2)
+                .Select(kvp => (long) kvp.Key)
+                .Aggregate((a, b) => a * b);
+
+            return result.ToString();
+        }
+
+        private static (Dictionary<int, List<string>> tiles, Dictionary<int, Checksum> tileChecksums, Dictionary<int, List<ushort>> tileSides) ParseInput(string input)
+        {
             var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
                 select line).ToArray();
 
@@ -90,17 +107,7 @@ namespace aoc2020.Puzzles.Solutions
                 tileSides.Add(tileNumber, sides);
             }
 
-            if (Debugger.IsAttached)
-                WriteDebugOutput(tileChecksums);
-
-            var matchingTiles = FindMatchingTiles(tileSides);
-
-            long result = matchingTiles
-                .Where(kvp => kvp.Value.Count == 2)
-                .Select(kvp => (long) kvp.Key)
-                .Aggregate((a, b) => a * b);
-
-            return result.ToString();
+            return (tiles, tileChecksums, tileSides);
         }
 
         private static Dictionary<int, List<int>> FindMatchingTiles(Dictionary<int, List<ushort>> tileSides)
