@@ -8,10 +8,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day20Test : TestBase<Day20>
     {
-        [Fact]
-        public async Task Part1()
-        {
-            var input = @"Tile 2311:
+        private readonly string myInput = @"Tile 2311:
 ..##.#..#.
 ##..#.....
 #...##..#.
@@ -119,15 +116,18 @@ Tile 3079:
 ..#.......
 ..#.###...
 ";
+
+        [Fact]
+        public async Task Part1()
+        {
             var expected = 1951L * 3079L * 2971L * 1171L;
-            Assert.Equal(expected.ToString(), await Solution.Part1Async(input));
+            Assert.Equal(expected.ToString(), await Solution.Part1Async(myInput));
         }
 
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("273", await Solution.Part2Async(myInput));
         }
 
         [Fact]
