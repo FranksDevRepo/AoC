@@ -136,7 +136,7 @@ Tile 3079:
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day20.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("29293767579581", await Solution.Part1Async(input));
         }
 
         [Fact]

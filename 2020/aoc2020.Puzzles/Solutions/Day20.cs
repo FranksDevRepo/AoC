@@ -40,7 +40,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         {
-            var lines = (from line in input.Split("\r\n").ToList()
+            var lines = (from line in input.Split("\n").ToList()
                 //where !string.IsNullOrWhiteSpace(line)
                 select line).ToArray();
 
@@ -50,7 +50,7 @@ namespace aoc2020.Puzzles.Solutions
             var tileSides = new Dictionary<int, List<ushort>>();
             
 
-            for (var idx = 0; idx < lines.Length; ++idx)
+            for (var idx = 0; idx < lines.Length &&!string.IsNullOrWhiteSpace(lines[idx]); ++idx)
             {
                 var match = nameRegex.Match(lines[idx]);
 
