@@ -40,7 +40,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         {
-            var lines = (from line in input.Split("\n").ToList()
+            var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
                 //where !string.IsNullOrWhiteSpace(line)
                 select line).ToArray();
 
