@@ -20,9 +20,10 @@ namespace aoc2020.Puzzles.Solutions
 
             foreach (var allergen in allergens)
             {
-                var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList()).Distinct().ToList();
-                var y = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet<string>();
-                allergenicIngredients.Add(allergen, y);
+                var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList())
+                    .Distinct().ToList();
+                var ingredients = Enumerable.ToHashSet<string>(match.Aggregate((x, y) => x.Intersect(y).ToList()));
+                allergenicIngredients.Add(allergen, ingredients);
             }
 
             var countFoodsWithoutAllergens = foods
@@ -57,6 +58,41 @@ namespace aoc2020.Puzzles.Solutions
             //return foods.Count.ToString();
         }
 
+        public override async Task<string> Part2Async(string input)
+        {
+            var foods = ParseInput(input);
+
+            var allergens = foods.SelectMany(f => f.Allergens).Distinct();
+
+            var allergenicIngredients = new Dictionary<string, HashSet<string>>();
+
+            foreach (var allergen in allergens)
+            {
+                var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList())
+                    .Distinct().ToList();
+                var ingredients = Enumerable.ToHashSet<string>(match.Aggregate((x, y) => x.Intersect(y).ToList()));
+                allergenicIngredients.Add(allergen, ingredients);
+            }
+
+            while (allergenicIngredients.Values.Any(i => i.Count() != 1))
+            {
+                var ingredientsWithOnlyOneAllergen = allergenicIngredients
+                    .Where(kvp => kvp.Value.Count == 1)
+                    .SelectMany(kvp => kvp.Value).ToList();
+                var ingredientsWithMoreThanOneAllergen = allergenicIngredients
+                    .Where(kvp => kvp.Value.Count > 1)
+                    .Select(kvp => kvp.Key).ToList();
+                ingredientsWithMoreThanOneAllergen.ForEach(x =>
+                    allergenicIngredients[x] = Enumerable.ToHashSet<string>(allergenicIngredients[x]
+                        .Where(i => !ingredientsWithOnlyOneAllergen.Contains(i)).ToList()));
+            }
+
+            var i = string.Join(',', allergenicIngredients.OrderBy(x => x.Key).SelectMany(kvp => kvp.Value));
+
+            return i;
+
+        }
+
         private List<Food> ParseInput(string input)
         {
             var lines = from line in GetLines(input)
@@ -69,7 +105,7 @@ namespace aoc2020.Puzzles.Solutions
             foreach (var line in lines)
             {
                 var match = foodRegex.Match(line);
-                if(!match.Success)
+                if (!match.Success)
                     throw new InvalidOperationException($"Could not parse line: {line}");
 
                 var ingredients = match.Groups["Ingredients"].Value.Split(' ', StringSplitOptions.TrimEntries);
@@ -79,16 +115,11 @@ namespace aoc2020.Puzzles.Solutions
 
                 food.Ingredients.UnionWith(ingredients);
                 food.Allergens.UnionWith(allergens);
-                
+
                 foods.Add(food);
             }
 
             return foods;
-        }
-
-        public override async Task<string> Part2Async(string input)
-        {
-            throw new NotImplementedException();
         }
 
         class Ingredient

@@ -40,7 +40,7 @@ sqjhc mxmxvkd sbzzf (contains fish)";
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day21.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("rhvbn,mmcpg,kjf,fvk,lbmt,jgtb,hcbdb,zrb", await Solution.Part2Async(input));
         }
 
     }
