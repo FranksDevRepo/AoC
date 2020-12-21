@@ -1,0 +1,51 @@
+Tile  : 1171
+Match : 1489
+Match : 2473
+
+
+Tile  : 1951
+Match : 2311
+Match : 2729
+
+
+Tile  : 2971
+Match : 1489
+Match : 2729
+
+
+Tile  : 3079
+Match : 2311
+Match : 2473
+
+
+Tile  : 1489
+Match : 1171
+Match : 1427
+Match : 2971
+
+
+Tile  : 2311
+Match : 1427
+Match : 1951
+Match : 3079
+
+
+Tile  : 2473
+Match : 1171
+Match : 1427
+Match : 3079
+
+
+Tile  : 2729
+Match : 1427
+Match : 1951
+Match : 2971
+
+
+Tile  : 1427
+Match : 1489
+Match : 2311
+Match : 2473
+Match : 2729
+
+

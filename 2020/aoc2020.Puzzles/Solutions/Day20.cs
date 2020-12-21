@@ -44,7 +44,7 @@ namespace aoc2020.Puzzles.Solutions
             puzzleSolver.ParseInput(input);
 
             if (Debugger.IsAttached)
-                puzzleSolver.WriteDebugOutput();
+                puzzleSolver.WriteDebugChecksums();
 
             puzzleSolver.FindMatchingTiles();
 
@@ -53,13 +53,29 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var puzzleSolver = new PuzzleSolver();
+            puzzleSolver.ParseInput(input);
+
+            if (Debugger.IsAttached)
+                puzzleSolver.WriteDebugChecksums();
+
+            puzzleSolver.FindMatchingTiles();
+
+            if (Debugger.IsAttached)
+                puzzleSolver.WriteDebugMatches();
+
+            puzzleSolver.StartPuzzling();
+
+            return "0";
         }
 
         private class PuzzleSolver
         {
-            public Dictionary<int, Tile> Tiles { get; private set; }
+            private Lazy<Tile[,]> _puzzle;
+            private Dictionary<int, Tile> Tiles { get; set; }
 
+            public Tile[,] Puzzle => _puzzle.Value;
+            
             public PuzzleSolver()
             {
                 Tiles = new Dictionary<int, Tile>();
@@ -115,7 +131,16 @@ namespace aoc2020.Puzzles.Solutions
                     .Select(t => (long) t.ID)
                     .Aggregate((a, b) => a * b);
 
-            public void WriteDebugOutput()
+            public void StartPuzzling()
+            {
+                var size = (int)Math.Sqrt(Tiles.Count);
+                _puzzle = new Lazy<Tile[,]>(() => new Tile[size, size]);
+
+                Puzzle[0, 0] = Tiles.Values.First(t => t.IsCorner);
+                Puzzle[size - 1, size - 1] = Tiles.Values.Last(t => t.IsCorner);
+            }
+
+            public void WriteDebugChecksums()
             {
                 var debugOutput = new List<string>();
                 foreach (var tile in Tiles.Values)
@@ -136,6 +161,26 @@ namespace aoc2020.Puzzles.Solutions
                 var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 File.WriteAllLines(
                     Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day20.txt"),
+                    debugOutput);
+            }
+
+            public void WriteDebugMatches()
+            {
+                var debugOutput = new List<string>();
+                foreach (var tile in Tiles.Values.OrderBy(t => t.MatchingTiles.Count * 10000 + t.ID))
+                {
+                    debugOutput.Add($"Tile  : {tile.ID}");
+                    foreach (var matchingTile in tile.MatchingTiles.OrderBy(t => t))
+                    {
+                        debugOutput.Add($"Match : {matchingTile}");
+                    }
+
+                    debugOutput.Add("\n");
+                }
+
+                var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                File.WriteAllLines(
+                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day20 part 2.txt"),
                     debugOutput);
             }
         }
