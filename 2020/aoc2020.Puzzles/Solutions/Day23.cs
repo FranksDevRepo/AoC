@@ -30,6 +30,8 @@ namespace aoc2020.Puzzles.Solutions
         class CrapCupsGame
         {
             private readonly LinkedList<int> _cups;
+            // create an index to have a "fast" node search
+            private Dictionary<int, LinkedListNode<int>> _cupsIndex;
             private LinkedListNode<int> _currentNode;
             private LinkedListNode<int> _destination;
             private int[] _pickup = new int[3];
@@ -49,10 +51,11 @@ namespace aoc2020.Puzzles.Solutions
                     {
                         dest--;
                         if (dest < 1)
-                            dest = 9;
+                            dest = _cupsIndex.Count;
                     } while (_pickup.Contains(dest));
 
-                    _destination = _cups.Find(dest);
+                    //_destination = _cups.Find(dest);
+                    _destination = _cupsIndex[dest];
             }
 
             public string Result()
@@ -78,10 +81,19 @@ namespace aoc2020.Puzzles.Solutions
 
                 CurrentNode = _cups.First;
                 CurrentCup = CurrentNode.Value;
+
+                _cupsIndex = new Dictionary<int, LinkedListNode<int>>();
             }
 
             public void Play(int rounds)
             {
+                var node = _cups.First;
+                while (node != null)
+                {
+                    _cupsIndex.Add(node.Value, node);
+                    node = node.Next;
+                }
+
                 for (int i = 0; i < rounds; i++)
                 {
                     Move();
@@ -98,10 +110,13 @@ namespace aoc2020.Puzzles.Solutions
                 _cups.Remove(CurrentNode.NextOrFirst());
 
                 SetDestinationNode();
-
-                _cups.AddAfter(_destination, _pickup[0]);
-                _cups.AddAfter(_destination.NextOrFirst(), _pickup[1]);
-                _cups.AddAfter(_destination.NextOrFirst().NextOrFirst(), _pickup[2]);
+                
+                var destNode = _cups.AddAfter(_destination, _pickup[0]);
+                _cupsIndex[destNode.Value] = destNode;
+                destNode = _cups.AddAfter(_destination.NextOrFirst(), _pickup[1]);
+                _cupsIndex[destNode.Value] = destNode;
+                destNode = _cups.AddAfter(_destination.NextOrFirst().NextOrFirst(), _pickup[2]);
+                _cupsIndex[destNode.Value] = destNode;
 
                 CurrentNode = CurrentNode.NextOrFirst();
                 CurrentCup = CurrentNode.Value;
