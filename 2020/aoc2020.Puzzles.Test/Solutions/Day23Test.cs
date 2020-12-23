@@ -14,7 +14,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var input = @"389125467";
             // after 10 moves 92658374
             // after 100 moves 67384529
-            Assert.Equal("92658374", await Solution.Part1Async(input));
+            Assert.Equal("67384529", await Solution.Part1Async(input));
         }
 
         [Fact]

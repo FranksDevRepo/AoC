@@ -15,7 +15,7 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part1Async(string input)
         {
             var game = new CrapCupsGame(input);
-            game.Play(10);
+            game.Play(100);
             return game.Result();
         }
 
