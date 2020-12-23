@@ -21,7 +21,10 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var game = new CrapCupsGame(input);
+            game.SetupPart2();
+            game.Play(10_000_000);
+            return game.ResultPart2();
         }
 
         class CrapCupsGame
@@ -88,11 +91,10 @@ namespace aoc2020.Puzzles.Solutions
             private void Move()
             {
                 _pickup[0] = CurrentNode.NextOrFirst<int>().Value;
-                _pickup[1] = CurrentNode.NextOrFirst().NextOrFirst().Value;
-                _pickup[2] = CurrentNode.NextOrFirst().NextOrFirst().NextOrFirst().Value;
-
                 _cups.Remove(CurrentNode.NextOrFirst());
+                _pickup[1] = CurrentNode.NextOrFirst().Value;
                 _cups.Remove(CurrentNode.NextOrFirst());
+                _pickup[2] = CurrentNode.NextOrFirst().Value;
                 _cups.Remove(CurrentNode.NextOrFirst());
 
                 SetDestinationNode();
@@ -103,6 +105,25 @@ namespace aoc2020.Puzzles.Solutions
 
                 CurrentNode = CurrentNode.NextOrFirst();
                 CurrentCup = CurrentNode.Value;
+            }
+
+            public void SetupPart2()
+            {
+                var number = _cups.Max() + 1;
+                for (int i = _cups.Count; i < 1_000_000; i++)
+                {
+                    _cups.AddLast(number);
+                    number++;
+                }
+            }
+
+            public string ResultPart2()
+            {
+                var node = _cups.Find(1);
+                long factor1 = node.Next.Value;
+                long factor2 = node.Next.Next.Value;
+                var result = factor1 * factor2;
+                return result.ToString();
             }
         }
     }
