@@ -20,8 +20,8 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            var input = @"389125467";
+            Assert.Equal("149245887792", await Solution.Part2Async(input));
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day23.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("97342568", await Solution.Part1Async(input));
         }
 
         [Fact]

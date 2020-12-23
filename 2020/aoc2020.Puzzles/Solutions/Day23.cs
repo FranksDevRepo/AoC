@@ -67,7 +67,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public CrapCupsGame(string input)
             {
-                var cups = (from @char in input
+                var cups = (from @char in input.Replace("\n", string.Empty)
                         select int.Parse(@char.ToString()))
                     .ToList();
 
