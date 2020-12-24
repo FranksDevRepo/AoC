@@ -48,7 +48,10 @@ wseweeenwnesenwwwswnew
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day24.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            var actual = await Solution.Part1Async(input);
+            Assert.True(int.Parse(actual) > 343, $"result {actual} is too low");
+
+            Assert.Equal("", actual);
         }
 
         [Fact]
