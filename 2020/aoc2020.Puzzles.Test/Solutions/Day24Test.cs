@@ -51,7 +51,7 @@ wseweeenwnesenwwwswnew
             var actual = await Solution.Part1Async(input);
             Assert.True(int.Parse(actual) > 343, $"result {actual} is too low");
 
-            Assert.Equal("", actual);
+            Assert.Equal("485", actual);
         }
 
         [Fact]

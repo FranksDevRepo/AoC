@@ -88,12 +88,12 @@ namespace aoc2020.Puzzles.Solutions
             {
                 tile += direction switch
                 {
-                    "ne" => new Coordinate {x = 0, y = -1},
-                    "e" => new Coordinate {x = -1, y = 0},
-                    "se" => new Coordinate {x = 0, y = 1},
-                    "sw" => new Coordinate {x = 1, y = 1},
-                    "w" => new Coordinate { x = 1, y = 0 },
-                    "nw" => new Coordinate {x = 1, y = -1},
+                    "ne" => new Coordinate {x = 1, y = -1},
+                    "e" => new Coordinate {x = 2, y = 0},
+                    "se" => new Coordinate {x = 1, y = 1},
+                    "sw" => new Coordinate {x = -1, y = 1},
+                    "w" => new Coordinate {x = -2, y = 0},
+                    "nw" => new Coordinate {x = -1, y = -1},
                     _ => throw new InvalidOperationException($"Could not follow direction: {direction}")
                 };
             }
