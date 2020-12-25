@@ -38,7 +38,13 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var tiles = ParseTiles(input);
+
+            var tileDict = CreateTileDict(tiles);
+
+            tileDict = FlipColors(tileDict, 1);
+
+            return CountBlackTiles(tileDict).ToString();
         }
 
         private Dictionary<int, List<string>> ParseTiles(string input)
@@ -98,6 +104,64 @@ namespace aoc2020.Puzzles.Solutions
 
         private int CountBlackTiles(Dictionary<Coordinate, Color> tileDict) =>
             tileDict.Count(kvp => kvp.Value == Color.Black);
+
+        private Dictionary<Coordinate, Color> FlipColors(Dictionary<Coordinate, Color> tileDict, int count)
+        {
+
+            for (int i = 0; i < count; i++)
+            {
+                var currentTilePlan = tileDict
+                    .Select(s => s)
+                    .ToDictionary(item => item.Key, item => item.Value);
+
+                foreach (var kvp in tileDict)
+                {
+                    if (kvp.Value == Color.Black)
+                    {
+                        if (CountAdjacentBlackTiles(kvp.Key, tileDict) == 0 ||
+                            CountAdjacentBlackTiles(kvp.Key, tileDict) > 2)
+                            currentTilePlan[kvp.Key] = Color.White;
+                        else 
+                            currentTilePlan[kvp.Key] = Color.Black;
+                    }
+                    else
+                    {
+                        if (CountAdjacentBlackTiles(kvp.Key, tileDict) == 2)
+                            currentTilePlan[kvp.Key] = Color.Black;
+                        else
+                            currentTilePlan[kvp.Key] = Color.White;
+                    }
+                }
+
+                tileDict = currentTilePlan;
+            }
+
+            return tileDict;
+        }
+
+        private int CountAdjacentBlackTiles(Coordinate coord, Dictionary<Coordinate, Color> tileDict)
+        {
+            int result = 0;
+            var directions = new[]
+            {
+                new Coordinate {x = 1, y = -1}, 
+                new Coordinate {x = 2, y = 0},
+                new Coordinate {x = 1, y = 1}, 
+                new Coordinate {x = -1, y = 1}, 
+                new Coordinate {x = -2, y = 0},
+                new Coordinate {x = -1, y = -1}
+            };
+
+            foreach (var direction in directions)
+            {
+                var adjacentTile = coord + direction;
+                if(tileDict.ContainsKey(adjacentTile))
+                    if (tileDict[adjacentTile] == Color.Black)
+                        result++;
+            }
+
+            return result;
+        }
 
         // see https://www.redblobgames.com/grids/hexagons/#coordinates-doubled
         // see https://stackoverflow.com/questions/1838656/how-do-i-represent-a-hextile-hex-grid-in-memory
