@@ -1,7 +1,5 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +8,9 @@ namespace aoc2020.Puzzles.Solutions
     [Puzzle("Combo Breaker")]
     public sealed class Day25 : SolutionBase
     {
+        private const long DIVISOR = 20201227;
+        private const int SUBJECT_NUMBER = 7;
+
         public override async Task<string> Part1Async(string input)
         {
             var keys = (from line in GetLines(input)
@@ -19,10 +20,10 @@ namespace aoc2020.Puzzles.Solutions
             var cardsPublicKey = long.Parse(keys.First());
             var doorsPublicKey = long.Parse(keys.Last());
 
-            var secrectLoopSizeCard = DetermineLoopSize(cardsPublicKey);
+            //var secrectLoopSizeCard = DetermineLoopSize(cardsPublicKey);
             var secrectLoopSizeDoor = DetermineLoopSize(doorsPublicKey);
 
-            var encryptionKeyCard = TransformSubjectNumber(doorsPublicKey, secrectLoopSizeCard);
+            //var encryptionKeyCard = TransformSubjectNumber(doorsPublicKey, secrectLoopSizeCard);
             var encryptionKeyDoor = TransformSubjectNumber(cardsPublicKey, secrectLoopSizeDoor);
 
             return encryptionKeyDoor.ToString();
@@ -30,12 +31,12 @@ namespace aoc2020.Puzzles.Solutions
 
         private long DetermineLoopSize(in long cardsPublicKey)
         {
-            long result = 0;
-            long loopSize = 0;
+            var result = 1L;
+            var loopSize = 0L;
             do
             {
                 loopSize++;
-                result = TransformSubjectNumber(7, loopSize);
+                result = result * SUBJECT_NUMBER % DIVISOR;
             } while (result != cardsPublicKey);
 
             return loopSize;
@@ -43,11 +44,10 @@ namespace aoc2020.Puzzles.Solutions
 
         private long TransformSubjectNumber(long subjectNumber, long loopSize)
         {
-            long result = 1;
+            var result = 1L;
             for (int i = 0; i < loopSize; i++)
             {
-                result *= subjectNumber;
-                result %= 20201227;
+                result = result * subjectNumber % DIVISOR;
             }
 
             return result;
