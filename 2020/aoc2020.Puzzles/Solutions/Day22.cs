@@ -1,9 +1,6 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -113,24 +110,53 @@ namespace aoc2020.Puzzles.Solutions
             return totalScore;
         }
 
-        public void PlayRecursiveCombat()
+        public Player PlayRecursiveCombat()
         {
-            throw new NotImplementedException();
+            if(players.Any(p => p.HadSameCards))
+                return players[0];
+
+            Round++;
+            Dictionary<Player, (int, bool)> results = new Dictionary<Player, (int, bool)>();
+            Player winner = null;
+
+            foreach (var player in players)
+            {
+                int card = player.Draw();
+                bool hasEnoughRemainingCards = card >= player.RemainingCards;
+                var result = (card: card, hasEnoughRemainingCards: hasEnoughRemainingCards);
+                results.Add(player, result);
+            }
+
+            if (!results.Any(r => r.Value.Item2))
+                winner = PlayRecursiveCombat();
+            else
+            {
+                winner = results
+                    .Where(p => p.Value.Item1 == results.Max(r => r.Value.Item1))
+                    .Select(r => r.Key)
+                    .First();
+            }
+            winner.Win(results.Values.Select(element => element.Item1).ToList());
+            return winner;
+
         }
     }
 
     class Player
     {
-        private HashSet<BigInteger> _hadSameCards;
+        private readonly Dictionary<string, int> _hadSameCards;
         public List<int> Deck { get; private set; }
 
         public bool HasCards => Deck.Any();
+        public bool HadSameCards => _hadSameCards.Any(kvp => kvp.Value > 1);
+        public int RemainingCards => Deck.Count;
+        private string GetCardsKey => string.Join(',', Deck);
 
         public Player(List<int> cards)
         {
             Deck = new List<int>(cards);
-            _hadSameCards = new HashSet<BigInteger>();
-            _hadSameCards.Add(CalcDeckHash());
+            _hadSameCards = new Dictionary<string, int>();
+            _hadSameCards.Add(GetCardsKey, 1);
         }
 
         public int Draw()
@@ -143,12 +169,13 @@ namespace aoc2020.Puzzles.Solutions
         public void Win(List<int> cards)
         {
             Deck.AddRange(cards.OrderByDescending(c => c));
-        }
-        private BigInteger CalcDeckHash()
-        {
-            BigInteger hash = 0;
-            hash = Deck.Select((c, index) => (BigInteger)c * (BigInteger)Math.Pow(2, index)).Aggregate((a, b) => a + b);
-            return hash;
+            string cardsKey = GetCardsKey;
+            int count = 0;
+            bool hadSameCards = _hadSameCards.TryGetValue(cardsKey, out count);
+            if (hadSameCards)
+                _hadSameCards[cardsKey] = ++count;
+            else
+                _hadSameCards.Add(cardsKey, 1);
         }
     }
 }
