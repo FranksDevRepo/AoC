@@ -29,6 +29,20 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part1Async(string input)
         {
+            var tiles = ParseTiles(input);
+
+            var tileDict = CreateTileDict(tiles);
+
+            return CountBlackTiles(tileDict).ToString();
+        }
+
+        public override async Task<string> Part2Async(string input)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Dictionary<int, List<string>> ParseTiles(string input)
+        {
             var lines = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)
                 select line).ToList();
@@ -45,13 +59,19 @@ namespace aoc2020.Puzzles.Solutions
 
                 foreach (Match match in matches)
                 {
-                    if(!match.Success)
+                    if (!match.Success)
                         throw new InvalidOperationException($"Could not find match in line number {count} : {line}");
                     directions.Add(match.Value);
                 }
+
                 tiles.Add(count, directions);
             }
 
+            return tiles;
+        }
+
+        private Dictionary<Coordinate, Color> CreateTileDict(Dictionary<int, List<string>> tiles)
+        {
             var tileDict = new Dictionary<Coordinate, Color>();
 
             foreach (var tileDirections in tiles.Values)
@@ -73,12 +93,13 @@ namespace aoc2020.Puzzles.Solutions
                     tileDict.Add(coord, currentColor);
             }
 
-            var countBlackTiles = tileDict.Count(kvp => kvp.Value == Color.Black);
-
-            return countBlackTiles.ToString();
+            return tileDict;
         }
 
-        // see https://www.redblobgames.com/grids/hexagons/
+        private int CountBlackTiles(Dictionary<Coordinate, Color> tileDict) =>
+            tileDict.Count(kvp => kvp.Value == Color.Black);
+
+        // see https://www.redblobgames.com/grids/hexagons/#coordinates-doubled
         // see https://stackoverflow.com/questions/1838656/how-do-i-represent-a-hextile-hex-grid-in-memory
         // grid type = odd-r
         private Coordinate FollowDirections(List<string> tileDirections)
@@ -99,11 +120,6 @@ namespace aoc2020.Puzzles.Solutions
             }
 
             return tile;
-        }
-
-        public override async Task<string> Part2Async(string input)
-        {
-            throw new NotImplementedException();
         }
     }
 }
