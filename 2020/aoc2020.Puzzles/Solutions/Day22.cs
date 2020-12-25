@@ -169,7 +169,7 @@ namespace aoc2020.Puzzles.Solutions
                     .SkipWhile(r => r.Key.Number != winner)
                     .Concat(results.TakeWhile(r => r.Key.Number != winner))
                     .Select(r => r.Value.Item1)
-                    .ToList()
+                    .ToList(), false
                 );
 
                 //var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -208,10 +208,12 @@ namespace aoc2020.Puzzles.Solutions
             return card;
         }
 
-        public void Win(List<int> cards)
+        public void Win(List<int> cards, bool part1 = true)
         {
-            //Deck.AddRange(cards.OrderByDescending(c => c));
-            Deck.AddRange(cards);
+            if (part1)
+                Deck.AddRange(cards.OrderByDescending(c => c));
+            else
+                Deck.AddRange(cards);
             string cardsKey = GetCardsKey;
             int count = 0;
             bool hadSameCards = _hadSameCards.TryGetValue(cardsKey, out count);
