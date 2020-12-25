@@ -1,6 +1,8 @@
 ﻿using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -30,7 +32,7 @@ namespace aoc2020.Puzzles.Solutions
 
             var game = new Game();
             game.Start(lines);
-            game.PlayRecursiveCombat();
+            game.PlayRecursiveCombat(game.Players);
             var score = game.CalculateScore();
             return score.ToString();
         }
@@ -38,9 +40,11 @@ namespace aoc2020.Puzzles.Solutions
 
     class Game
     {
-        private readonly List<Player> players = new List<Player>();
-
+        private readonly List<Player> _players = new List<Player>();
+        private readonly List<string> debugOutput = new List<string>();
+        public int GameNbr { get; private set; }
         public int Round { get; private set; }
+        public List<Player> Players => _players;
 
         public void Start(IEnumerable<string> lines)
         {
@@ -66,18 +70,18 @@ namespace aoc2020.Puzzles.Solutions
 
             foreach (var index in playersCards.Keys)
             {
-                var player = new Player(playersCards[index]);
-                players.Add(player);
+                var player = new Player(index, playersCards[index]);
+                _players.Add(player);
             }
         }
 
         public void Play()
         {
-            while (players.Select(p => p.HasCards).All(c => c == true))
+            while (_players.Select(p => p.HasCards).All(c => c == true))
             {
                 Round++;
                 Dictionary<Player, int> results = new Dictionary<Player, int>();
-                foreach (var player in players)
+                foreach (var player in _players)
                 {
                     int card = player.Draw();
                     results.Add(player, card);
@@ -94,7 +98,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public int CalculateScore()
         {
-            var winner = players.Where(p => p.HasCards).First();
+            var winner = _players.Where(p => p.HasCards).First();
 
             var cards = winner.Deck;
 
@@ -110,35 +114,71 @@ namespace aoc2020.Puzzles.Solutions
             return totalScore;
         }
 
-        public Player PlayRecursiveCombat()
+        public int PlayRecursiveCombat(List<Player> players)
         {
-            if(players.Any(p => p.HadSameCards))
-                return players[0];
-
-            Round++;
-            Dictionary<Player, (int, bool)> results = new Dictionary<Player, (int, bool)>();
-            Player winner = null;
-
-            foreach (var player in players)
+            GameNbr++;
+            debugOutput.Add($"=== Game {GameNbr} ===\n");
+            int winner = 0;
+            Round = 0;
+            while (players.Select(p => p.HasCards).All(c => c == true))
             {
-                int card = player.Draw();
-                bool hasEnoughRemainingCards = card >= player.RemainingCards;
-                var result = (card: card, hasEnoughRemainingCards: hasEnoughRemainingCards);
-                results.Add(player, result);
+                Round++;
+                debugOutput.Add($"-- Round {Round} (Game {GameNbr}) --");
+                debugOutput.Add($"Player 1's deck: {players[0].GetCardsKey}");
+                debugOutput.Add($"Player 2's deck: {players[1].GetCardsKey}");
+
+                if (players.Any(p => p.HadSameCards))
+                {
+                    debugOutput.Add($"...anyway, back to game {--GameNbr}.");
+                    return 1;
+                }
+
+                Dictionary<Player, (int, bool)> results = new Dictionary<Player, (int, bool)>();
+
+                foreach (var player in players)
+                {
+                    int card = player.Draw();
+                    debugOutput.Add($"Player {player.Number} plays: {card}");
+                    bool hasEnoughRemainingCards = card <= player.RemainingCards;
+                    var result = (card: card, hasEnoughRemainingCards: hasEnoughRemainingCards);
+                    results.Add(player, result);
+                }
+
+                if (results.All(r => r.Value.Item2))
+                {
+                    debugOutput.Add($"Playing a sub-game to determine the winner...\n");
+                    List<Player> recursivePlayers = new List<Player>();
+                    int card = results[players[0]].Item1;
+                    Player p1 = new Player(players[0].Number, players[0].Deck.Take(card).ToList());
+                    recursivePlayers.Add(p1);
+                    card = results[players[1]].Item1;
+                    Player p2 = new Player(players[1].Number, players[1].Deck.Take(card).ToList());
+                    recursivePlayers.Add(p2);
+                    winner = PlayRecursiveCombat(recursivePlayers);
+                }
+                else
+                {
+                    winner = results
+                        .Where(p => p.Value.Item1 == results.Max(r => r.Value.Item1))
+                        .Select(r => r.Key.Number)
+                        .First();
+                    debugOutput.Add($"Player {winner} wins round {Round} of game {GameNbr}\n");
+                }
+
+                players[winner-1].Win(results
+                    .SkipWhile(r => r.Key.Number != winner)
+                    .Concat(results.TakeWhile(r => r.Key.Number != winner))
+                    .Select(r => r.Value.Item1)
+                    .ToList()
+                );
+
+                var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                File.WriteAllLines(
+                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day22 part 2.txt"),
+                    debugOutput);
             }
 
-            if (!results.Any(r => r.Value.Item2))
-                winner = PlayRecursiveCombat();
-            else
-            {
-                winner = results
-                    .Where(p => p.Value.Item1 == results.Max(r => r.Value.Item1))
-                    .Select(r => r.Key)
-                    .First();
-            }
-            winner.Win(results.Values.Select(element => element.Item1).ToList());
             return winner;
-
         }
     }
 
@@ -147,13 +187,15 @@ namespace aoc2020.Puzzles.Solutions
         private readonly Dictionary<string, int> _hadSameCards;
         public List<int> Deck { get; private set; }
 
+        public int Number { get; private set; }
         public bool HasCards => Deck.Any();
         public bool HadSameCards => _hadSameCards.Any(kvp => kvp.Value > 1);
         public int RemainingCards => Deck.Count;
-        private string GetCardsKey => string.Join(',', Deck);
+        public string GetCardsKey => string.Join(',', Deck);
 
-        public Player(List<int> cards)
+        public Player(int number, List<int> cards)
         {
+            Number = number;
             Deck = new List<int>(cards);
             _hadSameCards = new Dictionary<string, int>();
             _hadSameCards.Add(GetCardsKey, 1);
@@ -168,7 +210,8 @@ namespace aoc2020.Puzzles.Solutions
 
         public void Win(List<int> cards)
         {
-            Deck.AddRange(cards.OrderByDescending(c => c));
+            //Deck.AddRange(cards.OrderByDescending(c => c));
+            Deck.AddRange(cards);
             string cardsKey = GetCardsKey;
             int count = 0;
             bool hadSameCards = _hadSameCards.TryGetValue(cardsKey, out count);
