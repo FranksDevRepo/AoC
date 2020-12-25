@@ -42,7 +42,7 @@ namespace aoc2020.Puzzles.Solutions
 
             var tileDict = CreateTileDict(tiles);
 
-            tileDict = FlipColors(tileDict, 1);
+            tileDict = FlipColors(tileDict, 100);
 
             return CountBlackTiles(tileDict).ToString();
         }
@@ -110,26 +110,40 @@ namespace aoc2020.Puzzles.Solutions
 
             for (int i = 0; i < count; i++)
             {
+                var minX = tileDict.Min(kvp => kvp.Key.x);
+                var maxX = tileDict.Max(kvp => kvp.Key.x);
+                var minY = tileDict.Min(kvp => kvp.Key.y);
+                var maxY = tileDict.Max(kvp => kvp.Key.y);
+                var evenMinX = minX % 2 == 0 ? minX : minX + 1;
+                var oddMinX = minX % 2 == 0 ? minX + 1 : minX;
+
                 var currentTilePlan = tileDict
                     .Select(s => s)
                     .ToDictionary(item => item.Key, item => item.Value);
 
-                foreach (var kvp in tileDict)
+                for (int y = minY - 1; y <= maxY + 1; y++)
                 {
-                    if (kvp.Value == Color.Black)
+                    for (int x = y % 2 == 0 ? evenMinX - 2 : oddMinX - 2; x <= maxX + 2; x += 2)
                     {
-                        if (CountAdjacentBlackTiles(kvp.Key, tileDict) == 0 ||
-                            CountAdjacentBlackTiles(kvp.Key, tileDict) > 2)
-                            currentTilePlan[kvp.Key] = Color.White;
-                        else 
-                            currentTilePlan[kvp.Key] = Color.Black;
-                    }
-                    else
-                    {
-                        if (CountAdjacentBlackTiles(kvp.Key, tileDict) == 2)
-                            currentTilePlan[kvp.Key] = Color.Black;
+                        var currentCoord = new Coordinate {x = x, y = y};
+                        Color currentColor;
+                        tileDict.TryGetValue(currentCoord, out currentColor);
+
+                        if (currentColor == Color.Black)
+                        {
+                            if (CountAdjacentBlackTiles(currentCoord, tileDict) == 0 ||
+                                CountAdjacentBlackTiles(currentCoord, tileDict) > 2)
+                                currentTilePlan[currentCoord] = Color.White;
+                            else
+                                currentTilePlan[currentCoord] = Color.Black;
+                        }
                         else
-                            currentTilePlan[kvp.Key] = Color.White;
+                        {
+                            if (CountAdjacentBlackTiles(currentCoord, tileDict) == 2)
+                                currentTilePlan[currentCoord] = Color.Black;
+                            else
+                                currentTilePlan[currentCoord] = Color.White;
+                        }
                     }
                 }
 
