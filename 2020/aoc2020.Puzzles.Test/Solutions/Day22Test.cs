@@ -50,7 +50,7 @@ Player 2:
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day22.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("31835", await Solution.Part2Async(input));
         }
 
     }
