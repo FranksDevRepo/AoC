@@ -60,7 +60,7 @@ wseweeenwnesenwwwswnew
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day24.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("3933", await Solution.Part2Async(input));
         }
 
     }
