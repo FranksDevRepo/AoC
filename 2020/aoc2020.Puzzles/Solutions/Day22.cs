@@ -3,6 +3,7 @@ using aoc2020.Puzzles.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -26,7 +27,15 @@ namespace aoc2020.Puzzles.Solutions
 
         public override async Task<string> Part2Async(string input)
         {
-            throw new NotImplementedException();
+            var lines = from line in GetLines(input)
+                where !string.IsNullOrEmpty(line)
+                select line;
+
+            var game = new Game();
+            game.Start(lines);
+            game.PlayRecursiveCombat();
+            var score = game.CalculateScore();
+            return score.ToString();
         }
     }
 
@@ -103,10 +112,16 @@ namespace aoc2020.Puzzles.Solutions
 
             return totalScore;
         }
+
+        public void PlayRecursiveCombat()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class Player
     {
+        private HashSet<BigInteger> _hadSameCards;
         public List<int> Deck { get; private set; }
 
         public bool HasCards => Deck.Any();
@@ -114,6 +129,8 @@ namespace aoc2020.Puzzles.Solutions
         public Player(List<int> cards)
         {
             Deck = new List<int>(cards);
+            _hadSameCards = new HashSet<BigInteger>();
+            _hadSameCards.Add(CalcDeckHash());
         }
 
         public int Draw()
@@ -126,6 +143,12 @@ namespace aoc2020.Puzzles.Solutions
         public void Win(List<int> cards)
         {
             Deck.AddRange(cards.OrderByDescending(c => c));
+        }
+        private BigInteger CalcDeckHash()
+        {
+            BigInteger hash = 0;
+            hash = Deck.Select((c, index) => (BigInteger)c * (BigInteger)Math.Pow(2, index)).Aggregate((a, b) => a + b);
+            return hash;
         }
     }
 }
