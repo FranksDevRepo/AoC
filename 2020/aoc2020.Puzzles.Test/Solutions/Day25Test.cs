@@ -16,7 +16,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             Assert.Equal("14897079", await Solution.Part1Async(input));
         }
 
-        [Fact]
+        [Fact(Skip = "need to solve all remaining puzzles to get second star")]
         public async Task Part2()
         {
             var input = @"";
@@ -32,7 +32,7 @@ namespace aoc2020.Puzzles.Test.Solutions
             Assert.Equal("6408263", await Solution.Part1Async(input));
         }
 
-        [Fact]
+        [Fact(Skip = "need to solve all remaining puzzles to get second star")]
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
