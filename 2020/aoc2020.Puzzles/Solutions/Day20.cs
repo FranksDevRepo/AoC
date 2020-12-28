@@ -120,7 +120,7 @@ namespace aoc2020.Puzzles.Solutions
                         bool foundMatchingSides =
                             tile1.Sides.Intersect(tile2.Sides).Any();
                         if (foundMatchingSides)
-                            tile1.MatchingTiles.Add(tile2.ID);
+                            tile1.MatchingTiles.Add(tile2);
                     }
                 }
             }
@@ -169,10 +169,10 @@ namespace aoc2020.Puzzles.Solutions
                 var debugOutput = new List<string>();
                 foreach (var tile in Tiles.Values.OrderBy(t => t.MatchingTiles.Count * 10000 + t.ID))
                 {
-                    debugOutput.Add($"Tile  : {tile.ID}");
-                    foreach (var matchingTile in tile.MatchingTiles.OrderBy(t => t))
+                    debugOutput.Add($"Tile  : {tile.ID} {tile.Position}");
+                    foreach (var matchingTile in tile.MatchingTiles.OrderBy(t => t.ID))
                     {
-                        debugOutput.Add($"Match : {matchingTile}");
+                        debugOutput.Add($"Match : {matchingTile.ID} {matchingTile.Position}");
                     }
 
                     debugOutput.Add("\n");
@@ -191,10 +191,11 @@ namespace aoc2020.Puzzles.Solutions
             public List<string> Image { get; private set; }
             public List<ushort> Sides { get; private set; }
             public Checksum Checksum { get; private set; }
-            public List<int> MatchingTiles { get; private set; }
+            public List<Tile> MatchingTiles { get; private set; }
             public bool IsCorner => MatchingTiles.Count == 2;
             public bool IsEdge => MatchingTiles.Count == 3;
             public bool IsCenter => MatchingTiles.Count == 4;
+            public string Position => IsCorner ? "Ecke" : IsEdge ? "Kante" : "Mitte";
 
             public Tile(int id)
             {
@@ -202,7 +203,7 @@ namespace aoc2020.Puzzles.Solutions
                 Image = new List<string>();
                 Sides = new List<ushort>();
                 Checksum = new Checksum();
-                MatchingTiles = new List<int>();
+                MatchingTiles = new List<Tile>();
             }
 
             public void CalculateSides()
