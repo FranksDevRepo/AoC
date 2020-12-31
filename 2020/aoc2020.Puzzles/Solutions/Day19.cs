@@ -36,10 +36,11 @@ namespace aoc2020.Puzzles.Solutions
 
     internal class RuleEngine
     {
-        private readonly Dictionary<int, string> rules = new Dictionary<int, string>();
+        private readonly Dictionary<int, string> rules;
 
         public RuleEngine(Dictionary<int, string> rules)
         {
+            this.rules = new Dictionary<int, string>();
             this.rules = rules;
         }
 

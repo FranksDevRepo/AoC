@@ -30,17 +30,12 @@ namespace aoc2020.Puzzles.Solutions
             private readonly LinkedList<int> _cups;
             // create an index to have a "fast" node search
             private readonly Dictionary<int, LinkedListNode<int>> _cupsIndex;
-            private LinkedListNode<int> _currentNode;
             private LinkedListNode<int> _destination;
             private readonly int[] _pickup = new int[3];
 
             public int CurrentCup { get; private set; }
 
-            public LinkedListNode<int> CurrentNode
-            {
-                get => _currentNode;
-                set => _currentNode = value;
-            }
+            public LinkedListNode<int> CurrentNode { get; set; }
 
             public void SetDestinationNode()
             {

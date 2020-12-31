@@ -75,7 +75,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public void Play()
         {
-            while (_players.Select(p => p.HasCards).All(c => c == true))
+            while (_players.Select(p => p.HasCards).All(c => c))
             {
                 Round++;
                 Dictionary<Player, int> results = new Dictionary<Player, int>();
@@ -118,7 +118,7 @@ namespace aoc2020.Puzzles.Solutions
             //debugOutput.Add($"=== Game {GameNbr} ===\n");
             int winner = 0;
             Round = 0;
-            while (players.Select(p => p.HasCards).All(c => c == true))
+            while (players.Select(p => p.HasCards).All(c => c))
             {
                 Round++;
                 //debugOutput.Add($"-- Round {Round} (Game {GameNbr}) --");
