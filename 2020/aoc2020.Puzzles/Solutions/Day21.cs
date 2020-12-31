@@ -28,10 +28,9 @@ namespace aoc2020.Puzzles.Solutions
 
             var countFoodsWithoutAllergens = foods
                 .SelectMany(f => f.Ingredients)
-                .Where(i => !allergenicIngredients
+                .Count(i => !allergenicIngredients
                     .SelectMany(ai => ai.Value)
-                    .Contains(i))
-                .Count();
+                    .Contains(i));
 
             return countFoodsWithoutAllergens.ToString();
 
@@ -74,7 +73,7 @@ namespace aoc2020.Puzzles.Solutions
                 allergenicIngredients.Add(allergen, ingredients);
             }
 
-            while (allergenicIngredients.Values.Any(i => i.Count() != 1))
+            while (allergenicIngredients.Values.Any(i => i.Count != 1))
             {
                 var ingredientsWithOnlyOneAllergen = allergenicIngredients
                     .Where(kvp => kvp.Value.Count == 1)

@@ -1,9 +1,7 @@
 ﻿using aoc2020.Puzzles.Core;
-using aoc2020.Puzzles.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,10 +29,10 @@ namespace aoc2020.Puzzles.Solutions
         {
             private readonly LinkedList<int> _cups;
             // create an index to have a "fast" node search
-            private Dictionary<int, LinkedListNode<int>> _cupsIndex;
+            private readonly Dictionary<int, LinkedListNode<int>> _cupsIndex;
             private LinkedListNode<int> _currentNode;
             private LinkedListNode<int> _destination;
-            private int[] _pickup = new int[3];
+            private readonly int[] _pickup = new int[3];
 
             public int CurrentCup { get; private set; }
 

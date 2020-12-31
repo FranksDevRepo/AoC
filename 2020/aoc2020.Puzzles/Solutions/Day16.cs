@@ -194,7 +194,7 @@ namespace aoc2020.Puzzles.Solutions
 
                 foreach (var validColumn in rulesWhereAllColumnsExceptOneAreInvalid)
                 {
-                    int column = allColumnIndexes.Where(c => !validColumn.Value.Any(e => e == c)).First();
+                    int column = allColumnIndexes.First(c => !validColumn.Value.Any(e => e == c));
                     fieldPositionOfRules.Add(validColumn.Key, column);
                     rulesWithInvalidColumns.Remove(validColumn.Key);
                     foreach (var inValidRuleColumn in rulesWithInvalidColumns)

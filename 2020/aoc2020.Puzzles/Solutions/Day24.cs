@@ -84,7 +84,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var coord = FollowDirections(tileDirections);
 
-                var currentColor = Color.White;
+                Color currentColor;
                 var foundTile = tileDict.TryGetValue(coord, out currentColor);
 
                 currentColor = currentColor switch

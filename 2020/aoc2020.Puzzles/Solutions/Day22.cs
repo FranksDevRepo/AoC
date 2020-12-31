@@ -1,8 +1,6 @@
 ﻿using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -98,7 +96,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public int CalculateScore()
         {
-            var winner = _players.Where(p => p.HasCards).First();
+            var winner = _players.First(p => p.HasCards);
 
             var cards = winner.Deck;
 
