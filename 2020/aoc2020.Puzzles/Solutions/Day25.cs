@@ -17,7 +17,7 @@ namespace aoc2020.Puzzles.Solutions
                 where !string.IsNullOrWhiteSpace(line)
                 select line).ToList();
 
-            var cardsPublicKey = long.Parse(keys.First());
+            var cardsPublicKey = long.Parse(keys[0]);
             var doorsPublicKey = long.Parse(keys.Last());
 
             //var secrectLoopSizeCard = DetermineLoopSize(cardsPublicKey);

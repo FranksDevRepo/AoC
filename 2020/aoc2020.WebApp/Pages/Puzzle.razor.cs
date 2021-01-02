@@ -87,7 +87,7 @@ namespace aoc2020.WebApp.Pages
         private async Task LoadInputAsync(bool forceReload = false)
         {
             Input = forceReload ? null : Input;
-            Input = Input ?? await InputHandler.GetInputAsync(SolutionMetadata.Day);
+            Input ??= await InputHandler.GetInputAsync(SolutionMetadata.Day);
             HasInputChanged = false;
             StateHasChanged();
         }

@@ -84,8 +84,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var coord = FollowDirections(tileDirections);
 
-                Color currentColor;
-                var foundTile = tileDict.TryGetValue(coord, out currentColor);
+                var foundTile = tileDict.TryGetValue(coord, out var currentColor);
 
                 currentColor = currentColor switch
                 {
@@ -125,16 +124,19 @@ namespace aoc2020.Puzzles.Solutions
                     for (int x = y % 2 == 0 ? evenMinX - 2 : oddMinX - 2; x <= maxX + 2; x += 2)
                     {
                         var currentCoord = new Coordinate {X = x, Y = y};
-                        Color currentColor;
-                        tileDict.TryGetValue(currentCoord, out currentColor);
+                        tileDict.TryGetValue(currentCoord, out var currentColor);
 
                         if (currentColor == Color.Black)
                         {
                             if (CountAdjacentBlackTiles(currentCoord, tileDict) == 0 ||
                                 CountAdjacentBlackTiles(currentCoord, tileDict) > 2)
+                            {
                                 currentTilePlan[currentCoord] = Color.White;
+                            }
                             else
+                            {
                                 currentTilePlan[currentCoord] = Color.Black;
+                            }
                         }
                         else
                         {

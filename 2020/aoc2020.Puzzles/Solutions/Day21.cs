@@ -22,7 +22,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList())
                     .Distinct().ToList();
-                var ingredients = Enumerable.ToHashSet<string>(match.Aggregate((x, y) => x.Intersect(y).ToList()));
+                var ingredients = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet<string>();
                 allergenicIngredients.Add(allergen, ingredients);
             }
 
@@ -68,7 +68,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList())
                     .Distinct().ToList();
-                var ingredients = Enumerable.ToHashSet<string>(match.Aggregate((x, y) => x.Intersect(y).ToList()));
+                var ingredients = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet<string>();
                 allergenicIngredients.Add(allergen, ingredients);
             }
 

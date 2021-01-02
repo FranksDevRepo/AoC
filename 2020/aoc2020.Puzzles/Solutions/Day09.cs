@@ -30,12 +30,12 @@ namespace aoc2020.Puzzles.Solutions
 
         public static IEnumerable<BigInteger> FindContiguousSetOfAtLeastTwoNumbers(string input, in BigInteger invalidNumber)
         {
-            var numbers = GetLines(input).Select(n => BigInteger.Parse(n)).ToList();
+            var numbers = GetLines(input).ConvertAll(n => BigInteger.Parse(n));
 
             BigInteger sum = 0;
             int firstNumberIndex = 0;
             int lastNumberIndex = 0;
-            do
+            while (true)
             {
                 sum += numbers[lastNumberIndex];
                 while (sum > invalidNumber)
@@ -47,7 +47,7 @@ namespace aoc2020.Puzzles.Solutions
                     break;
 
                 lastNumberIndex++;
-            } while (true);
+            }
 
             return numbers.Skip(firstNumberIndex - 1).Take(lastNumberIndex - firstNumberIndex + 1);
         }

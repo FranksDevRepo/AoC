@@ -199,7 +199,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public int Draw()
         {
-            int card = Deck.First();
+            int card = Deck[0];
             Deck.RemoveAt(0);
             return card;
         }
@@ -211,8 +211,7 @@ namespace aoc2020.Puzzles.Solutions
             else
                 Deck.AddRange(cards);
             string cardsKey = GetCardsKey;
-            int count = 0;
-            bool hadSameCards = _hadSameCards.TryGetValue(cardsKey, out count);
+            bool hadSameCards = _hadSameCards.TryGetValue(cardsKey, out var count);
             if (hadSameCards)
                 _hadSameCards[cardsKey] = ++count;
             else

@@ -95,8 +95,9 @@ namespace aoc2020.Puzzles.Solutions
                     var result = operation switch
                     {
                         "*" => stack.Pop() * stack.Pop(),
-                        "-" => ((stack.Pop() - stack.Pop()) * -1),
+                        "-" => (stack.Pop() - stack.Pop()) * -1,
                         "+" => stack.Pop() + stack.Pop(),
+                        _ => throw new InvalidOperationException($"Found unknown operation: {operation}")
                     };
                     stack.Push(result);
                 }

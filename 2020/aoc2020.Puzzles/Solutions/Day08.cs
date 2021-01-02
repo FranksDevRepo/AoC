@@ -1,4 +1,5 @@
 ﻿using aoc2020.Puzzles.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -68,10 +69,14 @@ namespace aoc2020.Puzzles.Solutions
                 if (executedLines.Contains(Line))
                     return 0;
                 if (command.Instruction == "nop")
+                {
                     nextLine++;
+                }
                 else if
-                    (command.Instruction == "jmp")
+                   (command.Instruction == "jmp")
+                {
                     nextLine += command.Parameter;
+                }
                 else if (command.Instruction == "acc")
                 {
                     Accumulator += command.Parameter;
@@ -115,7 +120,9 @@ namespace aoc2020.Puzzles.Solutions
                     corruptedInstructionsCandidate.Value.Instruction switch
                     {
                         "nop" => "jmp",
-                        "jmp" => "nop"
+                        "jmp" => "nop",
+                        _ => throw new InvalidOperationException(
+                            $"Found unknown instruction: {corruptedInstructionsCandidate.Value.Instruction}")
                     };
                 var computer = new HandHeldGameConsole(program);
                 bool success = computer.Execute();
@@ -125,7 +132,9 @@ namespace aoc2020.Puzzles.Solutions
                     corruptedInstructionsCandidate.Value.Instruction switch
                     {
                         "nop" => "jmp",
-                        "jmp" => "nop"
+                        "jmp" => "nop",
+                        _ => throw new InvalidOperationException(
+                            $"Found unknown instruction: {corruptedInstructionsCandidate.Value.Instruction}")
                     };
             }
 

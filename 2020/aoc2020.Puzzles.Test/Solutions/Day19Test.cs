@@ -29,7 +29,7 @@ aaaabbb";
         [Fact]
         public async Task Part2()
         {
-            const string input = @"";
+            const string input = "";
             Assert.Equal("", await Solution.Part2Async(input));
         }
 

@@ -50,7 +50,7 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part1Async(string input)
         {
             var instructions = GetLines(input)
-                .Select(line => (action: (Move)line.ElementAt(0), value: int.Parse(line.Substring(1))))
+                .Select(line => (action: (Move)line[0], value: int.Parse(line[1..])))
                 .ToArray();
             int manhattanDistance = CalculateManhattanDistance(instructions, Direction.East);
             return manhattanDistance.ToString();
@@ -61,7 +61,7 @@ namespace aoc2020.Puzzles.Solutions
             Position wayPoint = new Position(10, 1);
             Position shipPosition = new Position(0, 0);
             var instructions = GetLines(input)
-                .Select(line => (action: (Move)line.ElementAt(0), value: int.Parse(line.Substring(1))))
+                .Select(line => (action: (Move)line[0], value: int.Parse(line[1..])))
                 .ToArray();
             int manhattanDistance = CalculateManhattanDistance(instructions, wayPoint, shipPosition);
             return manhattanDistance.ToString();
@@ -73,8 +73,10 @@ namespace aoc2020.Puzzles.Solutions
 
             var solution = new List<string>();
             if (Debugger.IsAttached)
+            {
                 solution.Add(
                     "current Position               => current Direction => instruction     => new Position                   => new Direction");
+            }
 
             foreach (var instruction in instructions)
             {
@@ -82,8 +84,10 @@ namespace aoc2020.Puzzles.Solutions
                 string currentDirection = direction.ToString();
                 (position, direction) = MoveShip(instruction, position, direction);
                 if (Debugger.IsAttached)
+                {
                     solution.Add(
                         $"{currentPosition} => {currentDirection,-17} => {instruction,-15} => {position,5} => {direction,-5}");
+                }
             }
 
             if (Debugger.IsAttached)

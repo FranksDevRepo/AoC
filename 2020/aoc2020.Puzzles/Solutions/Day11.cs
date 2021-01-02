@@ -40,7 +40,7 @@ namespace aoc2020.Puzzles.Solutions
         {
             var currentSeatPlan = seatPlan.Select(s => s.ToArray()).ToArray();
             int countOccupiedSeats = 0;
-            do
+            while (true)
             {
                 for (int rowIndex = 0; rowIndex < seatPlan.Length; rowIndex++)
                 {
@@ -48,10 +48,14 @@ namespace aoc2020.Puzzles.Solutions
                     {
                         int occupiedAdjacentSeats = countOccupiedSeatsFunc(currentSeatPlan, rowIndex, colIndex);
                         if (currentSeatPlan[rowIndex][colIndex] == Tile.EmptySeat && occupiedAdjacentSeats == 0)
+                        {
                             seatPlan[rowIndex][colIndex] = Tile.OccupiedSeat;
+                        }
                         else if (currentSeatPlan[rowIndex][colIndex] == Tile.OccupiedSeat &&
-                                 occupiedAdjacentSeats >= maxOccupiedSeats)
+                                occupiedAdjacentSeats >= maxOccupiedSeats)
+                        {
                             seatPlan[rowIndex][colIndex] = Tile.EmptySeat;
+                        }
                     }
                 }
 
@@ -60,7 +64,7 @@ namespace aoc2020.Puzzles.Solutions
                     break;
                 else
                     currentSeatPlan = seatPlan.Select(s => s.ToArray()).ToArray();
-            } while (true);
+            }
 
             for (int row = 0; row < seatPlan.Length; row++)
             {
@@ -83,9 +87,11 @@ namespace aoc2020.Puzzles.Solutions
                         isEqual = false;
                         break;
                     }
+
                     if (!isEqual) break;
                 }
             }
+
             return isEqual;
         }
 
@@ -105,6 +111,7 @@ namespace aoc2020.Puzzles.Solutions
                     };
                 }
             }
+
             return countOccupiedAdjacentSeats;
         }
 
@@ -156,7 +163,8 @@ namespace aoc2020.Puzzles.Solutions
                 Direction.LeftUp => (row: -1, col: -1),
                 Direction.LeftDown => (row: 1, col: -1),
                 Direction.RightUp => (row: -1, col: 1),
-                Direction.RightDown => (row: 1, col: 1)
+                Direction.RightDown => (row: 1, col: 1),
+                _ => throw new InvalidOperationException($"Found unknown direction: {direction}")
             };
             do
             {
@@ -174,7 +182,8 @@ namespace aoc2020.Puzzles.Solutions
                     if (seatPlan[rowIndex][colIndex] == Tile.EmptySeat)
                         return 0;
 
-                } while (col != 0 && direction != Direction.RightUp && direction != Direction.LeftUp && direction != Direction.LeftDown && direction != Direction.RightDown);
+                } while (col != 0 && direction != Direction.RightUp && direction != Direction.LeftUp &&
+                         direction != Direction.LeftDown && direction != Direction.RightDown);
 
                 if (colIndex < 0 || colIndex > seatPlan[rowIndex].Length - 1)
                     break;

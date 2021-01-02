@@ -105,7 +105,7 @@ namespace aoc2020.Puzzles.Solutions
 
             Dictionary<string, Func<int, bool>> ruleSet = new Dictionary<string, Func<int, bool>>();
             List<int[]> nearbyTickets = new List<int[]>();
-            int[] myTicket = new int[] { };
+            int[] myTicket = Array.Empty<int>();
 
             bool isMyTicketLine = false;
             bool isNearbyTicketLine = false;

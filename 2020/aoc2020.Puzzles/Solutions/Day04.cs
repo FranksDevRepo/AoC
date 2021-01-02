@@ -83,10 +83,10 @@ namespace aoc2020.Puzzles.Solutions
 
         private bool IsValidHeight(string heightString)
         {
-            string unit = heightString.Substring(heightString.Length - 2);
+            string unit = heightString[^2..];
             if (unit != "cm" && unit != "in")
                 return false;
-            int height = int.Parse(heightString.Substring(0, heightString.Length - 2));
+            int height = int.Parse(heightString[0..^2]);
             if (unit == "cm")
                 return height >= 150 && height <= 193;
             else if (unit == "in")

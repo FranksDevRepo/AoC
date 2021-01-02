@@ -11,7 +11,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"class: 1-3 or 5-7
+            const string input = @"class: 1-3 or 5-7
 row: 6-11 or 33-44
 seat: 13-40 or 45-50
 
@@ -30,7 +30,7 @@ nearby tickets:
         [Fact(Skip = "No test case provided")]
         public async Task Part2()
         {
-            var input = @"";
+            const string input = "";
             Assert.Equal("", await Solution.Part2Async(input));
         }
 
@@ -51,6 +51,5 @@ nearby tickets:
 
             Assert.Equal("634796407951", await Solution.Part2Async(input));
         }
-
     }
 }
