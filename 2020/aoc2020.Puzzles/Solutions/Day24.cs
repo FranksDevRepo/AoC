@@ -168,9 +168,8 @@ namespace aoc2020.Puzzles.Solutions
             foreach (var direction in directions)
             {
                 var adjacentTile = coord + direction;
-                if (tileDict.ContainsKey(adjacentTile))
-                    if (tileDict[adjacentTile] == Color.Black)
-                        result++;
+                bool found = tileDict.TryGetValue(adjacentTile, out var tileColor);
+                if (found && tileColor == Color.Black) result++;
             }
 
             return result;

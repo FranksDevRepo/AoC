@@ -31,7 +31,7 @@ namespace aoc2020.Puzzles.Solutions
             }
 
             var computer = new HandHeldGameConsole(program);
-            bool returnCode = computer.Execute();
+            computer.Execute();
             accumulator = computer.Accumulator;
 
             return accumulator.ToString();
