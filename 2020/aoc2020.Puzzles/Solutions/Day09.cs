@@ -26,11 +26,14 @@ namespace aoc2020.Puzzles.Solutions
         }
 
         public static BigInteger CalculateSolutionPart2(IEnumerable<BigInteger> contiguousSet)
-            => contiguousSet.Min() + contiguousSet.Max();
+        {
+            var bigIntegers = contiguousSet.ToList();
+            return bigIntegers.Min() + bigIntegers.Max();
+        }
 
         public static IEnumerable<BigInteger> FindContiguousSetOfAtLeastTwoNumbers(string input, in BigInteger invalidNumber)
         {
-            var numbers = GetLines(input).ConvertAll(n => BigInteger.Parse(n));
+            var numbers = GetLines(input).ConvertAll(BigInteger.Parse);
 
             BigInteger sum = 0;
             int firstNumberIndex = 0;
