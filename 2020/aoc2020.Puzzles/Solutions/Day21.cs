@@ -81,8 +81,8 @@ namespace aoc2020.Puzzles.Solutions
                     .Where(kvp => kvp.Value.Count > 1)
                     .Select(kvp => kvp.Key).ToList();
                 ingredientsWithMoreThanOneAllergen.ForEach(x =>
-                    allergenicIngredients[x] = Enumerable.ToHashSet<string>(allergenicIngredients[x]
-                        .Where(i => !ingredientsWithOnlyOneAllergen.Contains(i)).ToList()));
+                    allergenicIngredients[x] = allergenicIngredients[x]
+                        .Where(i => !ingredientsWithOnlyOneAllergen.Contains(i)).ToHashSet<string>());
             }
 
             var i = string.Join(',', allergenicIngredients.OrderBy(x => x.Key).SelectMany(kvp => kvp.Value));

@@ -36,7 +36,8 @@ namespace aoc2020.Puzzles.Solutions
                         commonPositiveGroupAnswerSet.IntersectWith(personAnswer);
                 }
                 //solution.Add($"{groupCounter.ToString(),5}: {personCounter.ToString(), 5} => {string.Join(", ", commonPositiveGroupAnswerSet.OrderBy(c => c)), -100} => {commonPositiveGroupAnswerSet.Count, 5} => {commonPositiveGroupAnswers.ToString(), 5}");
-                commonPositiveGroupAnswers += commonPositiveGroupAnswerSet.Count;
+                if (commonPositiveGroupAnswerSet != null)
+                    commonPositiveGroupAnswers += commonPositiveGroupAnswerSet.Count;
             }
 
             //var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
