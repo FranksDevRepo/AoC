@@ -60,7 +60,6 @@ namespace aoc2020.Puzzles.Solutions
                         if (@char == '#')
                             data.Add(new Coordinate {x = x, y = y, z = 0});
                         x++;
-
                     }
 
                     y++;
@@ -86,7 +85,6 @@ namespace aoc2020.Puzzles.Solutions
                             if (isActiveState)
                             {
                                 if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
-
                                     currentCube.Add(currentPos);
                             }
                             else
@@ -104,7 +102,6 @@ namespace aoc2020.Puzzles.Solutions
                     DebugOutput();
             }
 
-
             private void Resize()
             {
                 --min.x;
@@ -115,7 +112,6 @@ namespace aoc2020.Puzzles.Solutions
                 ++max.z;
             }
 
-
             private long CountNeighbors(Coordinate coordinate)
             {
                 long count = 0;
@@ -125,11 +121,12 @@ namespace aoc2020.Puzzles.Solutions
                     {
                         for (int z = coordinate.z - 1; z < coordinate.z + 2; z++)
                         {
-                            var neighbor = new Coordinate { x = x, y = y, z = z };
+                            var neighbor = new Coordinate {x = x, y = y, z = z};
                             if (neighbor != coordinate && data.Contains(neighbor)) count++;
                         }
                     }
                 }
+
                 return count;
             }
 
@@ -157,7 +154,7 @@ namespace aoc2020.Puzzles.Solutions
         }
 
         public override async Task<string> Part1Async(string input)
-        { 
+        {
             var cube = new Cube3Dim();
             cube.Setup(input);
             int cycle = 0;
@@ -166,6 +163,7 @@ namespace aoc2020.Puzzles.Solutions
                 cycle++;
                 cube.ChangeState();
             } while (cycle < 6);
+
             var cubesInActiveState = cube.CountActiveState;
             return cubesInActiveState.ToString();
         }
@@ -180,9 +178,11 @@ namespace aoc2020.Puzzles.Solutions
                 cycle++;
                 cube.ChangeState();
             } while (cycle < 6);
+
             var cubesInActiveState = cube.CountActiveState;
             return cubesInActiveState.ToString();
         }
+
         private class Cube4Dim
         {
             private HashSet<Coordinate> data = new HashSet<Coordinate>();
@@ -218,19 +218,15 @@ namespace aoc2020.Puzzles.Solutions
                 get => output.ToString();
             }
 
-            public long CountActiveState
-            {
-                get => data.Count;
-
-            }
+            public long CountActiveState => data.Count;
 
             public void Setup(string input)
             {
                 var slice = (from line in GetLines(input)
-                             where !string.IsNullOrWhiteSpace(line)
-                             select line).ToArray();
+                    where !string.IsNullOrWhiteSpace(line)
+                    select line).ToArray();
 
-                max = new Coordinate { x = slice.Length, y = slice.Length, z = 1, w = 1};
+                max = new Coordinate {x = slice.Length, y = slice.Length, z = 1, w = 1};
 
                 int y = 0;
                 foreach (var line in slice)
@@ -242,6 +238,7 @@ namespace aoc2020.Puzzles.Solutions
                             data.Add(new Coordinate {x = x, y = y, z = 0, w = 0});
                         x++;
                     }
+
                     y++;
                 }
 
@@ -266,7 +263,6 @@ namespace aoc2020.Puzzles.Solutions
                                 if (data.Contains(currentPos))
                                 {
                                     if (countActiveNeighbors >= 2 && countActiveNeighbors <= 3)
-
                                         currentCube.Add(currentPos);
                                 }
                                 else
@@ -284,7 +280,6 @@ namespace aoc2020.Puzzles.Solutions
                 if (Debugger.IsAttached)
                     DebugOutput();
             }
-
 
             private void Resize()
             {
@@ -315,8 +310,10 @@ namespace aoc2020.Puzzles.Solutions
                         }
                     }
                 }
+
                 return count;
             }
+
             private HashSet<Coordinate> GetNeighbors(Coordinate coordinate)
             {
                 HashSet<Coordinate> neighbors = new HashSet<Coordinate>();
@@ -326,12 +323,13 @@ namespace aoc2020.Puzzles.Solutions
                     {
                         for (int z = coordinate.z - 1; z < coordinate.z + 2; z++)
                         {
-                            var neighbor = new Coordinate { x = x, y = y, z = z };
+                            var neighbor = new Coordinate {x = x, y = y, z = z};
                             if (neighbor != coordinate)
                                 neighbors.Add(neighbor);
                         }
                     }
                 }
+
                 return neighbors;
             }
 
@@ -362,6 +360,5 @@ namespace aoc2020.Puzzles.Solutions
                 output.AppendLine(new string('-', 10));
             }
         }
-
     }
 }

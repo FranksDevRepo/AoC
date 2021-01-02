@@ -52,7 +52,7 @@ namespace aoc2020.Puzzles.Solutions
             return result.ToString();
         }
 
-        long CalcResult(string mathExpression, bool evaluateAdditionsFirst = false)
+        private long CalcResult(string mathExpression, bool evaluateAdditionsFirst = false)
         {
             var expression = new StringBuilder(mathExpression);
             if (evaluateAdditionsFirst)
@@ -77,7 +77,7 @@ namespace aoc2020.Puzzles.Solutions
             var operationStack = new Stack<string>();
 
             var isDigitRegex = new Regex(@"\d+");
-            var isOperandRegex = new Regex(@"[+*-]");
+            var isOperandRegex = new Regex("[+*-]");
 
             foreach (var token in tokens)
             {

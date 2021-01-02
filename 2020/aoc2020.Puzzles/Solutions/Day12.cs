@@ -43,7 +43,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public override string ToString()
             {
-                return $"East/West {EastWest,3} North/South: {NorthSouth, 3}";
+                return $"East/West {EastWest,3} North/South: {NorthSouth,3}";
             }
         }
 
@@ -83,7 +83,7 @@ namespace aoc2020.Puzzles.Solutions
                 (position, direction) = MoveShip(instruction, position, direction);
                 if (Debugger.IsAttached)
                     solution.Add(
-                        $"{currentPosition} => {currentDirection,-17} => {instruction.ToString(),-15} => {position.ToString(),5} => {direction.ToString(),-5}");
+                        $"{currentPosition} => {currentDirection,-17} => {instruction,-15} => {position,5} => {direction,-5}");
             }
 
             if (Debugger.IsAttached)
@@ -111,12 +111,12 @@ namespace aoc2020.Puzzles.Solutions
             }
             return Math.Abs(shipPosition.NorthSouth) + Math.Abs(shipPosition.EastWest);
         }
-        
+
         private (Position, Direction) MoveShip((Move action, int value) instruction, Position position, Direction direction)
         {
             if (instruction.action == Move.Right)
             {
-                direction = (Direction)(((int) direction + instruction.value) % 360);
+                direction = (Direction)(((int)direction + instruction.value) % 360);
             }
             else if (instruction.action == Move.Left)
             {
@@ -143,7 +143,7 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     Move.East => position.EastWest + instruction.value,
                     Move.West => position.EastWest - instruction.value,
-                _ => position.EastWest + 0
+                    _ => position.EastWest + 0
                 };
                 position.NorthSouth = instruction.action switch
                 {
@@ -156,7 +156,6 @@ namespace aoc2020.Puzzles.Solutions
             return (position, direction);
         }
 
-        
         private Position MoveShip(Position shipPosition, Position wayPoint, (Move action, int value) instruction)
         {
             switch (instruction.action)

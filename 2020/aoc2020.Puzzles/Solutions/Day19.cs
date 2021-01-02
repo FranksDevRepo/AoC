@@ -93,7 +93,6 @@ namespace aoc2020.Puzzles.Solutions
                         foreach (var t in third)
                         {
                             yield return $"{f}{s}{t}";
-
                         }
 
                         if (!third.Any())

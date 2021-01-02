@@ -12,13 +12,13 @@ namespace aoc2020.Puzzles.Solutions
     {
         public struct Coordinate
         {
-            public int x;
-            public int y;
+            public int X { get; set; }
+            public int Y { get; set; }
 
             public static Coordinate operator +(Coordinate a, Coordinate b) =>
-                new Coordinate {x = a.x + b.x, y = a.y + b.y};
+                new Coordinate {X = a.X + b.X, Y = a.Y + b.Y};
 
-            public override string ToString() => $"x={x},y={y}";
+            public override string ToString() => $"x={X},y={Y}";
         }
 
         public enum Color
@@ -55,7 +55,7 @@ namespace aoc2020.Puzzles.Solutions
 
             var count = 0;
             var tiles = new Dictionary<int, List<string>>();
-            var tileRegex = new Regex(@"((?:se)|(?:ne)|(?:sw)|(?:nw)|(?:e)|(?:w))");
+            var tileRegex = new Regex("((?:se)|(?:ne)|(?:sw)|(?:nw)|(?:e)|(?:w))");
             foreach (var line in lines)
             {
                 count++;
@@ -107,13 +107,12 @@ namespace aoc2020.Puzzles.Solutions
 
         private Dictionary<Coordinate, Color> FlipColors(Dictionary<Coordinate, Color> tileDict, int count)
         {
-
             for (int i = 0; i < count; i++)
             {
-                var minX = tileDict.Min(kvp => kvp.Key.x);
-                var maxX = tileDict.Max(kvp => kvp.Key.x);
-                var minY = tileDict.Min(kvp => kvp.Key.y);
-                var maxY = tileDict.Max(kvp => kvp.Key.y);
+                var minX = tileDict.Min(kvp => kvp.Key.X);
+                var maxX = tileDict.Max(kvp => kvp.Key.X);
+                var minY = tileDict.Min(kvp => kvp.Key.Y);
+                var maxY = tileDict.Max(kvp => kvp.Key.Y);
                 var evenMinX = minX % 2 == 0 ? minX : minX + 1;
                 var oddMinX = minX % 2 == 0 ? minX + 1 : minX;
 
@@ -125,7 +124,7 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     for (int x = y % 2 == 0 ? evenMinX - 2 : oddMinX - 2; x <= maxX + 2; x += 2)
                     {
-                        var currentCoord = new Coordinate {x = x, y = y};
+                        var currentCoord = new Coordinate {X = x, Y = y};
                         Color currentColor;
                         tileDict.TryGetValue(currentCoord, out currentColor);
 
@@ -158,18 +157,18 @@ namespace aoc2020.Puzzles.Solutions
             int result = 0;
             var directions = new[]
             {
-                new Coordinate {x = 1, y = -1}, 
-                new Coordinate {x = 2, y = 0},
-                new Coordinate {x = 1, y = 1}, 
-                new Coordinate {x = -1, y = 1}, 
-                new Coordinate {x = -2, y = 0},
-                new Coordinate {x = -1, y = -1}
+                new Coordinate {X = 1, Y = -1},
+                new Coordinate {X = 2, Y = 0},
+                new Coordinate {X = 1, Y = 1},
+                new Coordinate {X = -1, Y = 1},
+                new Coordinate {X = -2, Y = 0},
+                new Coordinate {X = -1, Y = -1}
             };
 
             foreach (var direction in directions)
             {
                 var adjacentTile = coord + direction;
-                if(tileDict.ContainsKey(adjacentTile))
+                if (tileDict.ContainsKey(adjacentTile))
                     if (tileDict[adjacentTile] == Color.Black)
                         result++;
             }
@@ -182,17 +181,17 @@ namespace aoc2020.Puzzles.Solutions
         // grid type = odd-r
         private Coordinate FollowDirections(List<string> tileDirections)
         {
-            var tile = new Coordinate {x = 0, y = 0};
+            var tile = new Coordinate {X = 0, Y = 0};
             foreach (var direction in tileDirections)
             {
                 tile += direction switch
                 {
-                    "ne" => new Coordinate {x = 1, y = -1},
-                    "e" => new Coordinate {x = 2, y = 0},
-                    "se" => new Coordinate {x = 1, y = 1},
-                    "sw" => new Coordinate {x = -1, y = 1},
-                    "w" => new Coordinate {x = -2, y = 0},
-                    "nw" => new Coordinate {x = -1, y = -1},
+                    "ne" => new Coordinate {X = 1, Y = -1},
+                    "e" => new Coordinate {X = 2, Y = 0},
+                    "se" => new Coordinate {X = 1, Y = 1},
+                    "sw" => new Coordinate {X = -1, Y = 1},
+                    "w" => new Coordinate {X = -2, Y = 0},
+                    "nw" => new Coordinate {X = -1, Y = -1},
                     _ => throw new InvalidOperationException($"Could not follow direction: {direction}")
                 };
             }

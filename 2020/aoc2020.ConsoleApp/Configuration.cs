@@ -9,7 +9,7 @@ namespace aoc2020.ConsoleApp
         public int Year { get; set; } = 2020;
 
         public string PuzzleProjectPath { get; set; } = Path.Combine("..", "..", "..", "..", "aoc2020.Puzzles");
-        
+
         public string SessionCookie { get; set; }
 
         private Configuration() { }

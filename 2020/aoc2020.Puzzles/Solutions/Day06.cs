@@ -10,7 +10,7 @@ namespace aoc2020.Puzzles.Solutions
     public sealed class Day06 : SolutionBase
     {
         public override async Task<string> Part1Async(string input)
-        { 
+        {
             var customDeclarationForms = GetCustomDeclarationForms(input);
             int positiveGroupAnwers = customDeclarationForms.Sum(hs => hs.Count);
             return positiveGroupAnwers.ToString();
@@ -30,7 +30,7 @@ namespace aoc2020.Puzzles.Solutions
                 foreach (var personAnswer in customDeclarationForm)
                 {
                     //personCounter++;
-                    if (commonPositiveGroupAnswerSet==null)
+                    if (commonPositiveGroupAnswerSet == null)
                         commonPositiveGroupAnswerSet = new HashSet<char>(personAnswer);
                     else
                         commonPositiveGroupAnswerSet.IntersectWith(personAnswer);

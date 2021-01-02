@@ -50,7 +50,7 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     'L' => (seatRange.lower, (seatRange.lower + seatRange.upper) / 2),
                     'R' => ((seatRange.lower + seatRange.upper) / 2 + 1, seatRange.upper),
-                _ => seatRange
+                    _ => seatRange
                 };
             }
 

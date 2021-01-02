@@ -29,23 +29,22 @@ namespace aoc2020.Puzzles.Solutions
             {
                 if (!CheckValidPassport(passport))
                     continue;
-                if(!IsValidYear(passport["byr"], 1920, 2002))
+                if (!IsValidYear(passport["byr"], 1920, 2002))
                     continue;
-                if(!IsValidYear(passport["iyr"], 2010, 2020))
+                if (!IsValidYear(passport["iyr"], 2010, 2020))
                     continue;
-                if(!IsValidYear(passport["eyr"], 2020, 2030))
+                if (!IsValidYear(passport["eyr"], 2020, 2030))
                     continue;
-                if(!IsValidHeight(passport["hgt"]))
+                if (!IsValidHeight(passport["hgt"]))
                     continue;
-                if(!IsValidFormat(passport["hcl"], "#[a-f,0-9]{6,6}"))
+                if (!IsValidFormat(passport["hcl"], "#[a-f,0-9]{6,6}"))
                     continue;
-                if(!IsValidFormat(passport["ecl"], "^(amb|blu|brn|gry|grn|hzl|oth)$"))
+                if (!IsValidFormat(passport["ecl"], "^(amb|blu|brn|gry|grn|hzl|oth)$"))
                     continue;
-                if(!IsValidFormat(passport["pid"], "^[0-9]{9,9}$"))
+                if (!IsValidFormat(passport["pid"], "^[0-9]{9,9}$"))
                     continue;
-                
+
                 countValidPassports++;
-                
             }
 
             return countValidPassports.ToString();
@@ -90,11 +89,10 @@ namespace aoc2020.Puzzles.Solutions
             int height = int.Parse(heightString.Substring(0, heightString.Length - 2));
             if (unit == "cm")
                 return height >= 150 && height <= 193;
-            else if (unit=="in")
+            else if (unit == "in")
                 return height >= 59 && height <= 76;
             else
                 return false;
         }
-
     }
 }

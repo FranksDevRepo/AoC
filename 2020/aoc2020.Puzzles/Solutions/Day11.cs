@@ -31,7 +31,7 @@ namespace aoc2020.Puzzles.Solutions
         {
             var seatPlan = GetSeatPlan(input);
             int occupiedSeats = ApplyRules(seatPlan, CountOccupiedAdjacentSeats, 4);
-            
+
             return occupiedSeats.ToString();
         }
 
@@ -91,9 +91,9 @@ namespace aoc2020.Puzzles.Solutions
 
         private int CountOccupiedAdjacentSeats(Tile[][] seatPlan, int rowIndex, int colIndex)
         {
-            int countOccupiedAdjacentSeats=0;
+            int countOccupiedAdjacentSeats = 0;
 
-            for (int row = Math.Max(rowIndex - 1, 0); row < Math.Min(rowIndex+2, seatPlan.Length); row++)
+            for (int row = Math.Max(rowIndex - 1, 0); row < Math.Min(rowIndex + 2, seatPlan.Length); row++)
             {
                 for (int col = Math.Max(colIndex - 1, 0); col < Math.Min(colIndex + 2, seatPlan[row].Length); col++)
                 {
@@ -147,7 +147,7 @@ namespace aoc2020.Puzzles.Solutions
 
         private int CountOccupiedVisibleSeats(Tile[][] seatPlan, int rowIndex, int colIndex, Direction direction)
         {
-            var move = direction switch
+            var (row, col) = direction switch
             {
                 Direction.Up => (row: -1, col: 0),
                 Direction.Down => (row: 1, col: 0),
@@ -160,13 +160,13 @@ namespace aoc2020.Puzzles.Solutions
             };
             do
             {
-                rowIndex += move.row;
-                if (rowIndex < 0 || rowIndex > seatPlan.Length-1)
+                rowIndex += row;
+                if (rowIndex < 0 || rowIndex > seatPlan.Length - 1)
                     break;
                 do
                 {
-                    colIndex += move.col;
-                    if (colIndex < 0 || colIndex > seatPlan[rowIndex].Length-1)
+                    colIndex += col;
+                    if (colIndex < 0 || colIndex > seatPlan[rowIndex].Length - 1)
                         break;
                     if (seatPlan[rowIndex][colIndex] == Tile.OccupiedSeat)
                         return 1;
@@ -174,11 +174,11 @@ namespace aoc2020.Puzzles.Solutions
                     if (seatPlan[rowIndex][colIndex] == Tile.EmptySeat)
                         return 0;
 
-                } while (move.col != 0 && direction != Direction.RightUp && direction!=Direction.LeftUp && direction!=Direction.LeftDown && direction!=Direction.RightDown);
+                } while (col != 0 && direction != Direction.RightUp && direction != Direction.LeftUp && direction != Direction.LeftDown && direction != Direction.RightDown);
 
-                if (colIndex < 0 || colIndex > seatPlan[rowIndex].Length-1)
+                if (colIndex < 0 || colIndex > seatPlan[rowIndex].Length - 1)
                     break;
-            } while (move.row != 0);
+            } while (row != 0);
 
             return 0;
         }

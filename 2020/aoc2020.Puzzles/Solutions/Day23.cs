@@ -25,7 +25,7 @@ namespace aoc2020.Puzzles.Solutions
             return game.ResultPart2();
         }
 
-        class CrapCupsGame
+        private class CrapCupsGame
         {
             private readonly LinkedList<int> _cups;
             // create an index to have a "fast" node search
@@ -39,16 +39,16 @@ namespace aoc2020.Puzzles.Solutions
 
             public void SetDestinationNode()
             {
-                    var dest = CurrentCup;
-                    do
-                    {
-                        dest--;
-                        if (dest < 1)
-                            dest = _cupsIndex.Count;
-                    } while (_pickup.Contains(dest));
+                var dest = CurrentCup;
+                do
+                {
+                    dest--;
+                    if (dest < 1)
+                        dest = _cupsIndex.Count;
+                } while (_pickup.Contains(dest));
 
-                    //_destination = _cups.Find(dest);
-                    _destination = _cupsIndex[dest];
+                //_destination = _cups.Find(dest);
+                _destination = _cupsIndex[dest];
             }
 
             public string Result()
@@ -67,7 +67,7 @@ namespace aoc2020.Puzzles.Solutions
             public CrapCupsGame(string input)
             {
                 var cups = (from @char in input.Replace("\n", string.Empty)
-                        select int.Parse(@char.ToString()))
+                            select int.Parse(@char.ToString()))
                     .ToList();
 
                 _cups = new LinkedList<int>(cups);
@@ -103,7 +103,7 @@ namespace aoc2020.Puzzles.Solutions
                 _cups.Remove(CurrentNode.NextOrFirst());
 
                 SetDestinationNode();
-                
+
                 var destNode = _cups.AddAfter(_destination, _pickup[0]);
                 _cupsIndex[destNode.Value] = destNode;
                 destNode = _cups.AddAfter(_destination.NextOrFirst(), _pickup[1]);
@@ -135,10 +135,10 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
     }
-    static class CircularLinkedList
+
+    internal static class CircularLinkedList
     {
         public static LinkedListNode<T> NextOrFirst<T>(this LinkedListNode<T> node) =>
             node.Next ?? node.List.First;
     }
-
 }

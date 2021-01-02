@@ -13,7 +13,7 @@ namespace aoc2020.Puzzles.Solutions
     [Puzzle("Jurassic Jigsaw")]
     public sealed class Day20 : SolutionBase
     {
-        class Checksum
+        private class Checksum
         {
             public ushort top;
             public ushort left;
@@ -27,16 +27,15 @@ namespace aoc2020.Puzzles.Solutions
 
         private static ushort SetSpecificBitAtPosition(ushort value, int bitPosition)
         {
-            ushort mask = (ushort) (1 << bitPosition);
-            return (ushort) unchecked(value | mask);
+            ushort mask = (ushort)(1 << bitPosition);
+            return (ushort)unchecked(value | mask);
         }
 
         private static ushort UnsetSpecificBitAtPosition(ushort value, int bitPosition)
         {
-            ushort mask = (ushort) (1 << bitPosition);
-            return (ushort) unchecked(value & ~mask);
+            ushort mask = (ushort)(1 << bitPosition);
+            return (ushort)unchecked(value & ~mask);
         }
-
 
         public override async Task<string> Part1Async(string input)
         {
@@ -66,16 +65,18 @@ namespace aoc2020.Puzzles.Solutions
 
             puzzleSolver.StartPuzzling();
 
-            return "0";
+            int countSeaMonsters = puzzleSolver.CountSeaMonsters();
+
+            return countSeaMonsters.ToString();
         }
 
         private class PuzzleSolver
         {
             private Lazy<Tile[,]> _puzzle;
-            private Dictionary<int, Tile> Tiles { get; set; }
+            private Dictionary<int, Tile> Tiles { get; }
 
             public Tile[,] Puzzle => _puzzle.Value;
-            
+
             public PuzzleSolver()
             {
                 Tiles = new Dictionary<int, Tile>();
@@ -84,7 +85,7 @@ namespace aoc2020.Puzzles.Solutions
             public void ParseInput(string input)
             {
                 var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
-                    select line).ToArray();
+                             select line).ToArray();
 
                 var tileNumberRegex = new Regex(@"^Tile (?'TileNumber'\d+):$");
 
@@ -128,7 +129,7 @@ namespace aoc2020.Puzzles.Solutions
             public long CalculateProductOfCornerTileIDs() =>
                 Tiles.Values
                     .Where(t => t.IsCorner)
-                    .Select(t => (long) t.ID)
+                    .Select(t => (long)t.ID)
                     .Aggregate((a, b) => a * b);
 
             public void StartPuzzling()
@@ -137,7 +138,24 @@ namespace aoc2020.Puzzles.Solutions
                 _puzzle = new Lazy<Tile[,]>(() => new Tile[size, size]);
 
                 Puzzle[0, 0] = Tiles.Values.First(t => t.IsCorner);
+
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        if (x == 0 && y == 0) continue;
+                        if (x == 0 || y == 0 || x == size - 1 || y == size - 1)
+                        {
+                            Puzzle[x, y] = Puzzle[x - 1, y].MatchingTiles.First(t => t.IsEdge);
+                        }
+                    }
+                }
                 Puzzle[size - 1, size - 1] = Tiles.Values.Last(t => t.IsCorner);
+            }
+
+            public int CountSeaMonsters()
+            {
+                throw new NotImplementedException();
             }
 
             public void WriteDebugChecksums()
@@ -187,11 +205,11 @@ namespace aoc2020.Puzzles.Solutions
 
         private class Tile
         {
-            public int ID { get; private set; }
-            public List<string> Image { get; private set; }
-            public List<ushort> Sides { get; private set; }
-            public Checksum Checksum { get; private set; }
-            public List<Tile> MatchingTiles { get; private set; }
+            public int ID { get; }
+            public List<string> Image { get; }
+            public List<ushort> Sides { get; }
+            public Checksum Checksum { get; }
+            public List<Tile> MatchingTiles { get; }
             public bool IsCorner => MatchingTiles.Count == 2;
             public bool IsEdge => MatchingTiles.Count == 3;
             public bool IsCenter => MatchingTiles.Count == 4;

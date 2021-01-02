@@ -118,7 +118,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public InvalidInstructionHandler(Instruction instruction)
             {
-                Instruction = (InvalidInstruction) instruction;
+                Instruction = (InvalidInstruction)instruction;
             }
 
             public override void Process(SessionContainer session)
@@ -133,7 +133,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public MemoryInstructionHandler(Instruction instruction)
             {
-                Instruction = (MemoryInstruction) instruction;
+                Instruction = (MemoryInstruction)instruction;
             }
 
             public override void Process(SessionContainer session)
@@ -177,7 +177,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public MemoryInstructionHandlerPart2(Instruction instruction)
             {
-                Instruction = (MemoryInstruction) instruction;
+                Instruction = (MemoryInstruction)instruction;
             }
 
             public override void Process(SessionContainer session)
@@ -210,7 +210,7 @@ namespace aoc2020.Puzzles.Solutions
                     }
                 }
 
-                var addressList = new List<ulong>() {baseAddress};
+                var addressList = new List<ulong>() { baseAddress };
                 int count = 0;
 
                 for (int i = 0; i < bitmask.Length; i++)
@@ -244,7 +244,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public BitMaskInstructionHandler(Instruction instruction)
             {
-                Instruction = (BitMaskInstruction) instruction;
+                Instruction = (BitMaskInstruction)instruction;
             }
 
             public override void Process(SessionContainer session)
@@ -282,8 +282,8 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part1Async(string input)
         {
             var instructions = from line in GetLines(input)
-                where !string.IsNullOrWhiteSpace(line)
-                select line;
+                               where !string.IsNullOrWhiteSpace(line)
+                               select line;
 
             var session = new SessionContainer();
 
@@ -323,8 +323,8 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part2Async(string input)
         {
             var instructions = from line in GetLines(input)
-                where !string.IsNullOrWhiteSpace(line)
-                select line;
+                               where !string.IsNullOrWhiteSpace(line)
+                               select line;
 
             var session = new SessionContainer();
 

@@ -11,7 +11,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"0: 4 1 5
+            const string input = @"0: 4 1 5
 1: 2 3 | 3 2
 2: 4 4 | 5 5
 3: 4 5 | 5 4
@@ -29,7 +29,7 @@ aaaabbb";
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
+            const string input = @"";
             Assert.Equal("", await Solution.Part2Async(input));
         }
 
@@ -50,6 +50,5 @@ aaaabbb";
 
             Assert.Equal("", await Solution.Part2Async(input));
         }
-
     }
 }

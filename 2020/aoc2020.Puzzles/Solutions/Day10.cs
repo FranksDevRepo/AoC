@@ -21,7 +21,7 @@ namespace aoc2020.Puzzles.Solutions
         public override async Task<string> Part2Async(string input)
         {
             var voltageDifferences = VoltageDifferences(input);
-            var computedPermutations = new Dictionary<long,long>();
+            var computedPermutations = new Dictionary<long, long>();
             var count = CountPermutations(voltageDifferences, ref computedPermutations, 0);
             return count.ToString();
         }
@@ -46,7 +46,7 @@ namespace aoc2020.Puzzles.Solutions
             return voltageDifferences;
         }
 
-        private long CountPermutations(Dictionary<long, long> voltageDifferences, ref Dictionary<long,long> computedPermutations, long currentVoltage)
+        private long CountPermutations(Dictionary<long, long> voltageDifferences, ref Dictionary<long, long> computedPermutations, long currentVoltage)
         {
             long countPermutations = 0;
             if (computedPermutations.TryGetValue(currentVoltage, out var result))
@@ -60,7 +60,7 @@ namespace aoc2020.Puzzles.Solutions
             for (long i = 1; i < 4; i++)
             {
                 if (voltageDifferences.ContainsKey(currentVoltage + i))
-                    countPermutations += CountPermutations(voltageDifferences, ref computedPermutations,currentVoltage + i);
+                    countPermutations += CountPermutations(voltageDifferences, ref computedPermutations, currentVoltage + i);
             }
             computedPermutations[currentVoltage] = countPermutations;
 

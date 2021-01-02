@@ -34,7 +34,6 @@ namespace aoc2020.Puzzles.Solutions
 
             return countFoodsWithoutAllergens.ToString();
 
-
             //var foodsWithOnlyOneAllergen = foods
             //    .Where(f => f.Allergens.Count == 1)
             //    .ToList();
@@ -89,14 +88,13 @@ namespace aoc2020.Puzzles.Solutions
             var i = string.Join(',', allergenicIngredients.OrderBy(x => x.Key).SelectMany(kvp => kvp.Value));
 
             return i;
-
         }
 
         private List<Food> ParseInput(string input)
         {
             var lines = from line in GetLines(input)
-                where !string.IsNullOrWhiteSpace(line)
-                select line;
+                        where !string.IsNullOrWhiteSpace(line)
+                        select line;
 
             var foodRegex = new Regex(@"(?'Ingredients'\w+(?: \w+)+) \(contains (?'Allergens'\w+(?:, \w+)*)\)");
 
@@ -121,17 +119,17 @@ namespace aoc2020.Puzzles.Solutions
             return foods;
         }
 
-        class Ingredient
+        private class Ingredient
         {
-            public string Name { get; private set; }
-            public string Allergen { get; private set; }
+            public string Name { get; }
+            public string Allergen { get; }
             public bool ContainsAllergen => Allergen != string.Empty;
         }
 
-        class Food
+        private class Food
         {
-            public HashSet<string> Ingredients { get; private set; }
-            public HashSet<string> Allergens { get; set; }
+            public HashSet<string> Ingredients { get; }
+            public HashSet<string> Allergens { get; }
 
             public Food()
             {

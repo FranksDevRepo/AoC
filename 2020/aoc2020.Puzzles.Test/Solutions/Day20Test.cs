@@ -120,7 +120,7 @@ Tile 3079:
         [Fact]
         public async Task Part1()
         {
-            var expected = 1951L * 3079L * 2971L * 1171L;
+            const long expected = 1951L * 3079L * 2971L * 1171L;
             Assert.Equal(expected.ToString(), await Solution.Part1Async(myInput));
         }
 
@@ -147,6 +147,5 @@ Tile 3079:
 
             Assert.Equal("", await Solution.Part2Async(input));
         }
-
     }
 }

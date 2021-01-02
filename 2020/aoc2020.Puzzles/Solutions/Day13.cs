@@ -12,8 +12,8 @@ namespace aoc2020.Puzzles.Solutions
         {
             var data =
                 (from line in GetLines(input)
-                    where !string.IsNullOrWhiteSpace(line)
-                    select line).ToArray();
+                 where !string.IsNullOrWhiteSpace(line)
+                 select line).ToArray();
 
             var earliestPossibeDepartureTime = long.Parse(data[0]);
             var busIDs = data[1].Split(',')
@@ -26,7 +26,6 @@ namespace aoc2020.Puzzles.Solutions
             {
                 long departureTime = GetNextDepartureTime(busID, earliestPossibeDepartureTime);
                 departureTimes.Add(departureTime, busID);
-
             }
 
             long nextDepartureTime = departureTimes.Keys.Min();
@@ -45,8 +44,8 @@ namespace aoc2020.Puzzles.Solutions
         {
             var data =
                 (from line in GetLines(input).Skip(1)
-                    where !string.IsNullOrWhiteSpace(line)
-                    select line).ToArray();
+                 where !string.IsNullOrWhiteSpace(line)
+                 select line).ToArray();
 
             var busIDs = data[0].Split(',')
                 .Select(id => id switch
@@ -54,13 +53,13 @@ namespace aoc2020.Puzzles.Solutions
                     "x" => 0,
                     _ => long.Parse(id)
                 })
-                .Select((bus, index) => new {bus, index})
+                .Select((bus, index) => new { bus, index })
                 .Where(x => x.bus != 0)
                 .OrderByDescending(tuple => tuple.bus)
                 .ToDictionary(x => x.bus, x => x.index);
 
             var departureInterval = busIDs.First().Key;
-            var timestamp = busIDs.First().Key - (long) busIDs.First().Value;
+            var timestamp = busIDs.First().Key - (long)busIDs.First().Value;
 
             for (int n = 1; n <= busIDs.Count; n++)
             {

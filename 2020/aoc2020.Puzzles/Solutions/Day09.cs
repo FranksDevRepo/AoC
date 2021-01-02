@@ -52,7 +52,6 @@ namespace aoc2020.Puzzles.Solutions
             return numbers.Skip(firstNumberIndex - 1).Take(lastNumberIndex - firstNumberIndex + 1);
         }
 
-
         public static BigInteger FindInvalidNumber(string input, int preambleLength = 25)
         {
             var numbers = GetLines(input).Select(n => BigInteger.Parse(n));
@@ -89,6 +88,5 @@ namespace aoc2020.Puzzles.Solutions
 
             return invalidNumber;
         }
-
     }
 }

@@ -39,7 +39,7 @@ namespace aoc2020.Puzzles.Solutions
 
         private static IEnumerable<int> GetExpenses(string input) => GetLines(input).Select(x => Convert.ToInt32(x));
 
-        static (int x1, int x2)? PairExists(IEnumerable<int> numbers, int sum)
+        private static (int x1, int x2)? PairExists(IEnumerable<int> numbers, int sum)
         {
             var set = new HashSet<int>(numbers);
             foreach (var elem in set)

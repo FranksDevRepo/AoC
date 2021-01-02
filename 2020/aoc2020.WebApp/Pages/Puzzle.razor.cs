@@ -110,7 +110,7 @@ namespace aoc2020.WebApp.Pages
                     Progress = new SolutionProgress();
                     StateHasChanged();
                     await Task.Delay(1);
-                    if (IsWorking == false) { break; }
+                    if (!IsWorking) { break; }
                     Results[index] = await ExceptionToResult(part);
                 }
             }

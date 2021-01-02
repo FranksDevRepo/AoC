@@ -39,7 +39,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public class HandHeldGameConsole
         {
-            public Dictionary<int, Command> Program { get; private set; }
+            public Dictionary<int, Command> Program { get; }
             public int Accumulator { get; private set; }
             public int Line { get; private set; }
             private readonly HashSet<int> executedLines = new HashSet<int>();
@@ -59,7 +59,7 @@ namespace aoc2020.Puzzles.Solutions
                     Line = Execute(command);
                 } while (Line > 0 && Line <= Program.Count);
 
-                return (Line == Program.Count + 1);
+                return Line == Program.Count + 1;
             }
 
             private int Execute(Command command)

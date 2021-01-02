@@ -37,7 +37,7 @@ namespace aoc2020.Puzzles.Solutions
                     continue;
                 }
 
-                if(!isMyTicketLine && !isNearbyTicketLine)
+                if (!isMyTicketLine && !isNearbyTicketLine)
                 {
                     var rule = ParseRules(line);
                     ruleSet.Add(rule.Item2);
@@ -49,7 +49,6 @@ namespace aoc2020.Puzzles.Solutions
                     var ticket = line.Split(',').Select(n => int.Parse(n)).ToArray();
                     tickets.Add(ticket);
                 }
-
             }
 
             foreach (var ticket in tickets)
@@ -57,6 +56,7 @@ namespace aoc2020.Puzzles.Solutions
                 int errorRate = CheckTicket(ticket, ruleSet);
                 ticketScanningErrorRate += errorRate;
             }
+
             return ticketScanningErrorRate.ToString();
         }
 
@@ -78,6 +78,7 @@ namespace aoc2020.Puzzles.Solutions
                 if (!isValid)
                     errorRate += field;
             }
+
             return errorRate;
         }
 
@@ -104,7 +105,7 @@ namespace aoc2020.Puzzles.Solutions
 
             Dictionary<string, Func<int, bool>> ruleSet = new Dictionary<string, Func<int, bool>>();
             List<int[]> nearbyTickets = new List<int[]>();
-            int[] myTicket = new int[]{};
+            int[] myTicket = new int[] { };
 
             bool isMyTicketLine = false;
             bool isNearbyTicketLine = false;
@@ -129,13 +130,11 @@ namespace aoc2020.Puzzles.Solutions
                 }
                 else if (isMyTicketLine && !isNearbyTicketLine)
                     myTicket = line.Split(',').Select(n => int.Parse(n)).ToArray();
-
                 else if (isNearbyTicketLine)
                 {
                     var ticket = line.Split(',').Select(n => int.Parse(n)).ToArray();
                     nearbyTickets.Add(ticket);
                 }
-
             }
 
             RemoveTicketsWithErrors(nearbyTickets, ruleSet);
@@ -146,7 +145,7 @@ namespace aoc2020.Puzzles.Solutions
                 .Where(kvp => kvp.Key.StartsWith("departure"))
                 .Select(kvp => kvp.Value).ToList();
 
-            if(departureFieldPositions.Count > 6)
+            if (departureFieldPositions.Count > 6)
                 throw new InvalidOperationException();
 
             long puzzle = 1;
@@ -164,7 +163,8 @@ namespace aoc2020.Puzzles.Solutions
             nearbyTickets.RemoveAll(t => CheckTicket(t, ruleSet.Values.ToList()) > 0);
         }
 
-        private Dictionary<string, int> GetFieldPositions(List<int[]> tickets, Dictionary<string, Func<int, bool>> ruleSet)
+        private Dictionary<string, int> GetFieldPositions(List<int[]> tickets,
+            Dictionary<string, Func<int, bool>> ruleSet)
         {
             var rulesWithInvalidColumns = new Dictionary<string, List<int>>();
             int countFields = tickets[0].Length;
@@ -203,6 +203,7 @@ namespace aoc2020.Puzzles.Solutions
                     }
                 }
             }
+
             return fieldPositionOfRules;
         }
     }

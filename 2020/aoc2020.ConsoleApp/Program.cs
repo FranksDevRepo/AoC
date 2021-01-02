@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using aoc2020.Puzzles.Core;
 using CommandLine;
 using CommandLine.Text;
 using HtmlAgilityPack;
-using System.Text.RegularExpressions;
-using aoc2020.Puzzles.Core;
 
 namespace aoc2020.ConsoleApp
 {
@@ -32,7 +32,7 @@ namespace aoc2020.ConsoleApp
             public int? DayToSetup { get; set; }
 
             [Usage(ApplicationAlias = "aoc2020.ConsoleApp")]
-            public static IEnumerable<Example> Examples => new Example[]
+            public static IEnumerable<Example> Examples => new[]
             {
                 new Example("Run all available solutions", new Options { RunAllDays = true }),
                 new Example("Run the last available solution", new Options { RunLastDay = true }),
@@ -206,7 +206,7 @@ namespace aoc2020.ConsoleApp
         {
             var descriptionAddress = $"https://adventofcode.com/{myConfig.Year}/day/{day}";
             var descriptionFile = new FileInfo(Path.Combine(puzzleProjectPath, "Descriptions", $"day{dayString}.html"));
-            var puzzleTitleRegex = new Regex(@"---.*: (?'title'.*) ---");
+            var puzzleTitleRegex = new Regex("---.*: (?'title'.*) ---");
 
             Console.WriteLine($"Downloading description from {descriptionAddress}");
             var descriptionPageSource = await httpClient.GetStringAsync(descriptionAddress);
@@ -216,7 +216,7 @@ namespace aoc2020.ConsoleApp
 
             var titleNode = articleNodes.First().SelectSingleNode("//h2");
             var puzzleTitle = puzzleTitleRegex.Match(titleNode.InnerText).Groups["title"].Value;
-            titleNode.InnerHtml = $"--- Part One ---";
+            titleNode.InnerHtml = "--- Part One ---";
             Console.WriteLine($"Found {articleNodes.Count} parts. Title: {puzzleTitle}");
             var description = articleNodes.Aggregate(string.Empty, (result, node) => result + node.OuterHtml);
 
@@ -228,9 +228,9 @@ namespace aoc2020.ConsoleApp
 
         private static async Task CreateSolutionSourceAsync(int day, string dayString, string consoleProjectBinPath, string puzzleProjectPath, string puzzleTitle)
         {
-            var solutionSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", $"Day_DAYSTRING_.cs"));
+            var solutionSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", "Day_DAYSTRING_.cs"));
             var solutionTargetFile = new FileInfo(Path.Combine(puzzleProjectPath, "Solutions", $"Day{dayString}.cs"));
-            var testSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", $"Day_DAYSTRING_Test.cs"));
+            var testSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", "Day_DAYSTRING_Test.cs"));
             var testTargetFile = new FileInfo(Path.Combine($"{puzzleProjectPath}.Test", "Solutions", $"Day{dayString}Test.cs"));
 
             if (solutionTargetFile.Exists)
@@ -254,7 +254,6 @@ namespace aoc2020.ConsoleApp
             }
             else
             {
-
                 Console.WriteLine($"Saving test file to {testTargetFile.FullName}");
                 var testContent = await File.ReadAllTextAsync(testSourceFile.FullName);
                 testContent = testContent.Replace("_DAYSTRING_", dayString);

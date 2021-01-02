@@ -36,13 +36,12 @@ namespace aoc2020.Puzzles.Solutions
         }
     }
 
-    class Game
+    internal class Game
     {
-        private readonly List<Player> _players = new List<Player>();
         //private readonly List<string> debugOutput = new List<string>();
         public int GameNbr { get; private set; }
         public int Round { get; private set; }
-        public List<Player> Players => _players;
+        public List<Player> Players { get; } = new List<Player>();
 
         public void Start(IEnumerable<string> lines)
         {
@@ -69,17 +68,17 @@ namespace aoc2020.Puzzles.Solutions
             foreach (var index in playersCards.Keys)
             {
                 var player = new Player(index, playersCards[index]);
-                _players.Add(player);
+                Players.Add(player);
             }
         }
 
         public void Play()
         {
-            while (_players.Select(p => p.HasCards).All(c => c))
+            while (Players.Select(p => p.HasCards).All(c => c))
             {
                 Round++;
                 Dictionary<Player, int> results = new Dictionary<Player, int>();
-                foreach (var player in _players)
+                foreach (var player in Players)
                 {
                     int card = player.Draw();
                     results.Add(player, card);
@@ -96,7 +95,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public int CalculateScore()
         {
-            var winner = _players.First(p => p.HasCards);
+            var winner = Players.First(p => p.HasCards);
 
             var cards = winner.Deck;
 
@@ -163,11 +162,11 @@ namespace aoc2020.Puzzles.Solutions
                     //debugOutput.Add($"Player {winner} wins round {Round} of game {GameNbr}\n");
                 }
 
-                players[winner-1].Win(results
-                    .SkipWhile(r => r.Key.Number != winner)
-                    .Concat(results.TakeWhile(r => r.Key.Number != winner))
-                    .Select(r => r.Value.Item1)
-                    .ToList(), false
+                players[winner - 1].Win(results
+                        .SkipWhile(r => r.Key.Number != winner)
+                        .Concat(results.TakeWhile(r => r.Key.Number != winner))
+                        .Select(r => r.Value.Item1)
+                        .ToList(), false
                 );
 
                 //var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -180,12 +179,12 @@ namespace aoc2020.Puzzles.Solutions
         }
     }
 
-    class Player
+    internal class Player
     {
         private readonly Dictionary<string, int> _hadSameCards;
-        public List<int> Deck { get; private set; }
+        public List<int> Deck { get; }
 
-        public int Number { get; private set; }
+        public int Number { get; }
         public bool HasCards => Deck.Any();
         public bool HadSameCards => _hadSameCards.Any(kvp => kvp.Value > 1);
         public int RemainingCards => Deck.Count;
@@ -195,8 +194,7 @@ namespace aoc2020.Puzzles.Solutions
         {
             Number = number;
             Deck = new List<int>(cards);
-            _hadSameCards = new Dictionary<string, int>();
-            _hadSameCards.Add(GetCardsKey, 1);
+            _hadSameCards = new Dictionary<string, int> {{GetCardsKey, 1}};
         }
 
         public int Draw()

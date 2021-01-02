@@ -16,7 +16,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 mem[8] = 11
 mem[7] = 101
 mem[8] = 0";
-            Assert.Equal("165" , await Solution.Part1Async(input));
+            Assert.Equal("165", await Solution.Part1Async(input));
         }
 
         [Fact]

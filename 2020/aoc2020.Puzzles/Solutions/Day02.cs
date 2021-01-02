@@ -29,7 +29,7 @@ namespace aoc2020.Puzzles.Solutions
                 bool isValidPassword = (min <= countNumOfLetters && countNumOfLetters <= max);
                 countValidPasswords += isValidPassword ? 1 : 0;
                 if (Debugger.IsAttached)
-                    solution.Add($"{line,-40}: {letter} : {countNumOfLetters,2} => {isValidPassword.ToString()}");
+                    solution.Add($"{line,-40}: {letter} : {countNumOfLetters,2} => {isValidPassword}");
             }
 
             if (Debugger.IsAttached)

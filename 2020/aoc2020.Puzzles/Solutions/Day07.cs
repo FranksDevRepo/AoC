@@ -39,7 +39,7 @@ namespace aoc2020.Puzzles.Solutions
                 foreach (var innerBag in innerBags.Split(',', StringSplitOptions.TrimEntries))
                 {
                     var innerBagMatch = innerBagRegex.Match(innerBag);
-                    if(!innerBagMatch.Success)
+                    if (!innerBagMatch.Success)
                         continue;
 
                     var innerBagColor = innerBagMatch.Groups["colors"].Value;
@@ -48,7 +48,6 @@ namespace aoc2020.Puzzles.Solutions
                     coloredBagDict[innerBagColor].Add(outerBagColor);
                 }
             }
-
 
             var possibleBagColors = new HashSet<string>();
             GetPossibleBagColors("shiny gold", coloredBagDict, ref possibleBagColors);
@@ -88,7 +87,6 @@ namespace aoc2020.Puzzles.Solutions
                 }
             }
 
-
             int numberOfRequiredBags = GetNumberOfRequiredBags("shiny gold", coloredBagDict);
             return numberOfRequiredBags.ToString();
         }
@@ -110,7 +108,7 @@ namespace aoc2020.Puzzles.Solutions
             foreach (var bagColor in coloredBagDict[color])
             {
                 possibleBagColors.Add(bagColor);
-                if(coloredBagDict.ContainsKey(bagColor))
+                if (coloredBagDict.ContainsKey(bagColor))
                     GetPossibleBagColors(bagColor, coloredBagDict, ref possibleBagColors);
             }
         }
