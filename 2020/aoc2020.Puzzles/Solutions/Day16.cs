@@ -129,8 +129,10 @@ namespace aoc2020.Puzzles.Solutions
                     ruleSet.Add(rule.Item1, rule.Item2);
                 }
                 else if (isMyTicketLine && !isNearbyTicketLine)
+                {
                     myTicket = line.Split(',').Select(n => int.Parse(n)).ToArray();
-                else if (isNearbyTicketLine)
+                }
+                else
                 {
                     var ticket = line.Split(',').Select(n => int.Parse(n)).ToArray();
                     nearbyTickets.Add(ticket);
