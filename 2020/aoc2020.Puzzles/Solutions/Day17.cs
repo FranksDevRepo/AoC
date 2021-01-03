@@ -12,10 +12,10 @@ namespace aoc2020.Puzzles.Solutions
     {
         private class Cube3Dim
         {
-            private HashSet<Coordinate> data = new HashSet<Coordinate>();
-            private Coordinate min = new Coordinate {x = 0, y = 0, z = 0};
+            private HashSet<Coordinate> data = new();
+            private Coordinate min = new() {x = 0, y = 0, z = 0};
             private Coordinate max;
-            private readonly StringBuilder output = new StringBuilder();
+            private readonly StringBuilder output = new();
 
             public struct Coordinate
             {
@@ -23,7 +23,7 @@ namespace aoc2020.Puzzles.Solutions
                 public int y;
                 public int z;
 
-                public bool Equals(Coordinate other)
+                private bool Equals(Coordinate other)
                 {
                     return x == other.x && y == other.y && z == other.z;
                 }
@@ -142,7 +142,7 @@ namespace aoc2020.Puzzles.Solutions
                 return count;
             }
 
-            public void DebugOutput()
+            private void DebugOutput()
             {
                 for (var z = min.z; z < max.z; z++)
                 {
@@ -197,10 +197,10 @@ namespace aoc2020.Puzzles.Solutions
 
         private class Cube4Dim
         {
-            private HashSet<Coordinate> data = new HashSet<Coordinate>();
+            private HashSet<Coordinate> data = new();
             private Coordinate min = new Coordinate();
             private Coordinate max;
-            private readonly StringBuilder output = new StringBuilder();
+            private readonly StringBuilder output = new();
 
             public struct Coordinate
             {

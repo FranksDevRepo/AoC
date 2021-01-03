@@ -15,7 +15,7 @@ namespace aoc2020.Puzzles.Solutions
             public int Y { get; set; }
 
             public static Coordinate operator +(Coordinate a, Coordinate b) =>
-                new Coordinate {X = a.X + b.X, Y = a.Y + b.Y};
+                new() {X = a.X + b.X, Y = a.Y + b.Y};
 
             public override string ToString() => $"x={X},y={Y}";
         }

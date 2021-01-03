@@ -40,7 +40,7 @@ namespace aoc2020.Puzzles.Solutions
         //private readonly List<string> debugOutput = new List<string>();
         public int GameNbr { get; private set; }
         public int Round { get; private set; }
-        public List<Player> Players { get; } = new List<Player>();
+        public List<Player> Players { get; } = new();
 
         public void Start(IEnumerable<string> lines)
         {

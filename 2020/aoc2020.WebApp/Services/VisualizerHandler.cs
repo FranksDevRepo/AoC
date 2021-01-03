@@ -61,6 +61,6 @@ namespace aoc2020.WebApp.Services
 
         public CancellationToken GetVisualizationCancellationToken() => myCancellationTokenSource.Token;
 
-        private CancellationTokenSource myCancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource myCancellationTokenSource = new();
     }
 }

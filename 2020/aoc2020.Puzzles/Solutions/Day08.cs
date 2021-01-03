@@ -42,7 +42,7 @@ namespace aoc2020.Puzzles.Solutions
             public Dictionary<int, Command> Program { get; }
             public int Accumulator { get; private set; }
             public int Line { get; private set; }
-            private readonly HashSet<int> executedLines = new HashSet<int>();
+            private readonly HashSet<int> executedLines = new();
 
             public HandHeldGameConsole(Dictionary<int, Command> program)
             {

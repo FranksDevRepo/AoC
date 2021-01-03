@@ -85,9 +85,9 @@ namespace aoc2020.WebApp.Services
         }
 
         private readonly HttpClient myHttpClient;
-        private readonly Dictionary<int, object[]> myResultCache = new Dictionary<int, object[]>();
-        private readonly Dictionary<int, string> myInputCache = new Dictionary<int, string>();
-        private readonly Dictionary<int, string> myDescriptionCache = new Dictionary<int, string>();
-        private readonly Dictionary<int, string> mySourceCodeCache = new Dictionary<int, string>();
+        private readonly Dictionary<int, object[]> myResultCache = new();
+        private readonly Dictionary<int, string> myInputCache = new();
+        private readonly Dictionary<int, string> myDescriptionCache = new();
+        private readonly Dictionary<int, string> mySourceCodeCache = new();
     }
 }

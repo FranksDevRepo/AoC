@@ -66,7 +66,7 @@ namespace aoc2020.WebApp.Shared
             }
         }
 
-        private readonly List<TabPage> myPages = new List<TabPage>();
+        private readonly List<TabPage> myPages = new();
         private TabPage myActivePage;
     }
 }
