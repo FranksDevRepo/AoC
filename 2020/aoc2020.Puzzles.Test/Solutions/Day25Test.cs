@@ -11,7 +11,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"5764801
+            const string input = @"5764801
 17807724";
             Assert.Equal("14897079", await Solution.Part1Async(input));
         }
@@ -19,7 +19,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact(Skip = "need to solve all remaining puzzles to get second star")]
         public async Task Part2()
         {
-            var input = @"";
+            const string input = "";
             Assert.Equal("", await Solution.Part2Async(input));
         }
 
@@ -40,6 +40,5 @@ namespace aoc2020.Puzzles.Test.Solutions
 
             Assert.Equal("", await Solution.Part2Async(input));
         }
-
     }
 }

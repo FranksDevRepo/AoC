@@ -27,7 +27,7 @@ dotted black bags contain no other bags.";
         [Fact]
         public async Task Part2()
         {
-            string input = @"shiny gold bags contain 2 dark red bags.
+            const string input = @"shiny gold bags contain 2 dark red bags.
 dark red bags contain 2 dark orange bags.
 dark orange bags contain 2 dark yellow bags.
 dark yellow bags contain 2 dark green bags.

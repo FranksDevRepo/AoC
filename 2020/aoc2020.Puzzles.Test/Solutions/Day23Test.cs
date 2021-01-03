@@ -11,7 +11,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"389125467";
+            const string input = "389125467";
             // after 10 moves 92658374
             // after 100 moves 67384529
             Assert.Equal("67384529", await Solution.Part1Async(input));
@@ -20,7 +20,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part2()
         {
-            var input = @"389125467";
+            const string input = "389125467";
             Assert.Equal("149245887792", await Solution.Part2Async(input));
         }
 
@@ -41,6 +41,5 @@ namespace aoc2020.Puzzles.Test.Solutions
 
             Assert.Equal("902208073192", await Solution.Part2Async(input));
         }
-
     }
 }

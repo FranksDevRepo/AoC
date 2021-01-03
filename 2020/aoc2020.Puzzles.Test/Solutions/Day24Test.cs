@@ -62,6 +62,5 @@ wseweeenwnesenwwwswnew
 
             Assert.Equal("3933", await Solution.Part2Async(input));
         }
-
     }
 }

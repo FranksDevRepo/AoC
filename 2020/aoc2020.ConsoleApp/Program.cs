@@ -120,7 +120,7 @@ namespace aoc2020.ConsoleApp
 
             var dayString = day.ToString().PadLeft(2, '0');
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", $"day{dayString}.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", $"day{dayString}.txt"));
 
             Console.WriteLine($"Day {day}: {solutionMetadata.Title}");
             await SolvePart(1, input, solution.Part1Async, solution);
@@ -176,7 +176,7 @@ namespace aoc2020.ConsoleApp
         {
             var dayString = day.ToString().PadLeft(2, '0');
             var consoleProjectBinPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var puzzleProjectPath = Path.Combine(consoleProjectBinPath, myConfig.PuzzleProjectPath);
+            var puzzleProjectPath = Path.Combine(consoleProjectBinPath ?? throw new InvalidOperationException("Could not find consoleProjectBinPath."), myConfig.PuzzleProjectPath);
             Console.WriteLine($"Setting up input and description for {myConfig.Year}/12/{dayString}...");
 
             var cookieContainer = new CookieContainer();

@@ -52,6 +52,5 @@ Player 2:
 
             Assert.Equal("31835", await Solution.Part2Async(input));
         }
-
     }
 }

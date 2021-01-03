@@ -56,6 +56,5 @@ namespace aoc2020.Puzzles.Test.Solutions
             Assert.True(actualNumber > 100000000000000);
             Assert.Equal("404517869995362", await Solution.Part2Async(input));
         }
-
     }
 }

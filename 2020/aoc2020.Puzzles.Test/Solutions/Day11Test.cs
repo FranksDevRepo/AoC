@@ -8,7 +8,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 {
     public sealed class Day11Test : TestBase<Day11>
     {
-        private readonly string input = @"L.LL.LL.LL
+        private readonly string _input = @"L.LL.LL.LL
 LLLLLLL.LL
 L.L.L..L..
 LLLL.LL.LL
@@ -23,13 +23,13 @@ L.LLLLL.LL
         [Fact]
         public async Task Part1()
         {
-            Assert.Equal("37", await Solution.Part1Async(input));
+            Assert.Equal("37", await Solution.Part1Async(_input));
         }
 
         [Fact]
         public async Task Part2()
         {
-            Assert.Equal("26", await Solution.Part2Async(input));
+            Assert.Equal("26", await Solution.Part2Async(_input));
         }
 
         [Fact]

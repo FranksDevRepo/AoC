@@ -53,6 +53,5 @@ b";
 
             Assert.Equal("3323", await Solution.Part2Async(input));
         }
-
     }
 }

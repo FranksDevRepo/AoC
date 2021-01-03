@@ -11,7 +11,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            var input = @"FBFBBFFRLR
+            const string input = @"FBFBBFFRLR
 BFFFBBFRRR
 FFFBBBFRRR
 BBFFBBFRLL";
@@ -21,7 +21,7 @@ BBFFBBFRLL";
         [Fact(Skip = "missing testcase")]
         public async Task Part2()
         {
-            var input = "";
+            const string input = "";
             Assert.Equal("747", await Solution.Part2Async(input));
         }
 

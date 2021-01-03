@@ -48,6 +48,5 @@ namespace aoc2020.Puzzles.Test.Solutions
 
             Assert.Equal("2192", actual);
         }
-
     }
 }

@@ -42,6 +42,5 @@ sqjhc mxmxvkd sbzzf (contains fish)";
 
             Assert.Equal("rhvbn,mmcpg,kjf,fvk,lbmt,jgtb,hcbdb,zrb", await Solution.Part2Async(input));
         }
-
     }
 }

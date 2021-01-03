@@ -51,6 +51,5 @@ iyr:2011 ecl:brn hgt:59in";
 
             Assert.Equal("103", await Solution.Part2Async(input));
         }
-
     }
 }

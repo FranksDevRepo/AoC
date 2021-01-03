@@ -49,6 +49,5 @@ namespace aoc2020.Puzzles.Test.Solutions
 
             Assert.Equal("451589894841552", await Solution.Part2Async(input));
         }
-
     }
 }

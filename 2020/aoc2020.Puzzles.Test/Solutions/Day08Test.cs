@@ -47,6 +47,5 @@ acc +6";
 
             Assert.Equal("1984", await Solution.Part2Async(input));
         }
-
     }
 }
