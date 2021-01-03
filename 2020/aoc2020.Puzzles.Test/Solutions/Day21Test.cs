@@ -29,7 +29,7 @@ sqjhc mxmxvkd sbzzf (contains fish)";
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day21.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day21.txt"));
 
             Assert.Equal("2517", await Solution.Part1Async(input));
         }
@@ -38,7 +38,7 @@ sqjhc mxmxvkd sbzzf (contains fish)";
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day21.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day21.txt"));
 
             Assert.Equal("rhvbn,mmcpg,kjf,fvk,lbmt,jgtb,hcbdb,zrb", await Solution.Part2Async(input));
         }

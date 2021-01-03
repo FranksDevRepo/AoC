@@ -43,7 +43,7 @@ mem[26] = 1";
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day14.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day14.txt"));
 
             var actual = await Solution.Part1Async(input);
 
@@ -56,7 +56,7 @@ mem[26] = 1";
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day14.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day14.txt"));
 
             Assert.Equal("4330547254348", await Solution.Part2Async(input));
         }

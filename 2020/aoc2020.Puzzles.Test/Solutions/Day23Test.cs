@@ -28,7 +28,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day23.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day23.txt"));
 
             Assert.Equal("97342568", await Solution.Part1Async(input));
         }
@@ -37,7 +37,7 @@ namespace aoc2020.Puzzles.Test.Solutions
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day23.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day23.txt"));
 
             Assert.Equal("902208073192", await Solution.Part2Async(input));
         }

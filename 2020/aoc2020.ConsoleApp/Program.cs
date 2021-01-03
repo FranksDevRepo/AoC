@@ -120,7 +120,7 @@ namespace aoc2020.ConsoleApp
 
             var dayString = day.ToString().PadLeft(2, '0');
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", $"day{dayString}.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", $"day{dayString}.txt"));
 
             Console.WriteLine($"Day {day}: {solutionMetadata.Title}");
             await SolvePart(1, input, solution.Part1Async, solution);
@@ -199,7 +199,7 @@ namespace aoc2020.ConsoleApp
             var input = await httpClient.GetStringAsync(inputAddress);
 
             Console.WriteLine($"Saving input to {inputFile.FullName}");
-            File.WriteAllText(inputFile.FullName, input, Encoding.UTF8);
+            await File.WriteAllTextAsync(inputFile.FullName, input, Encoding.UTF8);
         }
 
         private async Task<string> SaveDescriptionAsync(int day, string dayString, string puzzleProjectPath, HttpClient httpClient)
@@ -221,7 +221,7 @@ namespace aoc2020.ConsoleApp
             var description = articleNodes.Aggregate(string.Empty, (result, node) => result + node.OuterHtml);
 
             Console.WriteLine($"Saving description to {descriptionFile.FullName}");
-            File.WriteAllText(descriptionFile.FullName, description, Encoding.UTF8);
+            await File.WriteAllTextAsync(descriptionFile.FullName, description, Encoding.UTF8);
 
             return puzzleTitle;
         }

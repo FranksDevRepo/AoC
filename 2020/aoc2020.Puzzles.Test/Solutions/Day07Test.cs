@@ -41,7 +41,7 @@ dark violet bags contain no other bags.";
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day07.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "day07.txt"));
 
             Assert.Equal("296", await Solution.Part1Async(input));
         }
@@ -50,7 +50,7 @@ dark violet bags contain no other bags.";
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "day07.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "day07.txt"));
 
             Assert.Equal("9339", await Solution.Part2Async(input));
         }

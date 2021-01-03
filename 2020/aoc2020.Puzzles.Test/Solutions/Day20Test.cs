@@ -134,7 +134,7 @@ Tile 3079:
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day20.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day20.txt"));
 
             Assert.Equal("29293767579581", await Solution.Part1Async(input));
         }
@@ -143,7 +143,7 @@ Tile 3079:
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day20.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day20.txt"));
 
             Assert.Equal("", await Solution.Part2Async(input));
         }

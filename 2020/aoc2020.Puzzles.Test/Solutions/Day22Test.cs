@@ -39,7 +39,7 @@ Player 2:
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day22.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day22.txt"));
 
             Assert.Equal("33694", await Solution.Part1Async(input));
         }
@@ -48,7 +48,7 @@ Player 2:
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day22.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day22.txt"));
 
             Assert.Equal("31835", await Solution.Part2Async(input));
         }

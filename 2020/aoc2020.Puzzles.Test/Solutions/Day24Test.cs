@@ -46,7 +46,7 @@ wseweeenwnesenwwwswnew
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day24.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day24.txt"));
 
             var actual = await Solution.Part1Async(input);
             Assert.True(int.Parse(actual) > 343, $"result {actual} is too low");
@@ -58,7 +58,7 @@ wseweeenwnesenwwwswnew
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", "Day24.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day24.txt"));
 
             Assert.Equal("3933", await Solution.Part2Async(input));
         }
