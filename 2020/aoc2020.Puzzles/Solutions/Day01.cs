@@ -13,14 +13,14 @@ namespace aoc2020.Puzzles.Solutions
         {
             var expenses = GetExpenses(input);
             var solution = PairExists(expenses, 2020);
-            return (solution.Value.x1 * solution.Value.x2).ToString();
+            return solution != null ? (solution.Value.x1 * solution.Value.x2).ToString() : string.Empty;
         }
 
         public override async Task<string> Part2Async(string input)
         {
             var expenses = GetExpenses(input);
             var solution = TripleExists(expenses, 2020);
-            return (solution.Value.x1 * solution.Value.x2 * solution.Value.x3).ToString();
+            return solution != null ? (solution.Value.x1 * solution.Value.x2 * solution.Value.x3).ToString() : string.Empty;
         }
 
         private (int x1, int x2, int x3)? TripleExists(IEnumerable<int> numbers, int sum)

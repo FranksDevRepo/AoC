@@ -36,10 +36,7 @@ namespace aoc2020.Puzzles.Solutions
                 public override string ToString() => $"x={x},y={y},z={z}";
             }
 
-            public string Output
-            {
-                get => output.ToString();
-            }
+            public string Output => output.ToString();
 
             public long CountActiveState => data.Count;
 
@@ -213,10 +210,7 @@ namespace aoc2020.Puzzles.Solutions
                 }
             }
 
-            public string Output
-            {
-                get => output.ToString();
-            }
+            public string Output => output.ToString();
 
             public long CountActiveState => data.Count;
 
