@@ -1,5 +1,4 @@
 ﻿using aoc2020.Puzzles.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -94,7 +93,7 @@ namespace aoc2020.Puzzles.Solutions
 
             private void Move()
             {
-                _pickup[0] = CurrentNode.NextOrFirst<int>().Value;
+                _pickup[0] = CurrentNode.NextOrFirst().Value;
                 _cups.Remove(CurrentNode.NextOrFirst());
                 _pickup[1] = CurrentNode.NextOrFirst().Value;
                 _cups.Remove(CurrentNode.NextOrFirst());

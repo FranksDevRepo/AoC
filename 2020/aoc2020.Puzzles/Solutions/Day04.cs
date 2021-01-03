@@ -52,9 +52,9 @@ namespace aoc2020.Puzzles.Solutions
         private List<Dictionary<string, string>> GetPassports(string input)
         {
             var passports = new List<Dictionary<string, string>>();
-            foreach (var passport in input.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var passport in input.Split(new[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
-                passports.Add(passport.Split(new string[] { Environment.NewLine, " " }, StringSplitOptions.RemoveEmptyEntries)
+                passports.Add(passport.Split(new[] { Environment.NewLine, " " }, StringSplitOptions.RemoveEmptyEntries)
                     .ToDictionary(x => x.Split(":")[0], x => x.Split(":")[1]));
             }
             return passports;
@@ -85,7 +85,7 @@ namespace aoc2020.Puzzles.Solutions
             string unit = heightString[^2..];
             if (unit != "cm" && unit != "in")
                 return false;
-            int height = int.Parse(heightString[0..^2]);
+            int height = int.Parse(heightString[..^2]);
             if (unit == "cm")
                 return height >= 150 && height <= 193;
             else if (unit == "in")

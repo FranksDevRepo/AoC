@@ -21,7 +21,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList())
                     .Distinct().ToList();
-                var ingredients = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet<string>();
+                var ingredients = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet();
                 allergenicIngredients.Add(allergen, ingredients);
             }
 
@@ -67,7 +67,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var match = foods.Where(f => f.Allergens.Contains(allergen)).Select(f => f.Ingredients.ToList())
                     .Distinct().ToList();
-                var ingredients = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet<string>();
+                var ingredients = match.Aggregate((x, y) => x.Intersect(y).ToList()).ToHashSet();
                 allergenicIngredients.Add(allergen, ingredients);
             }
 
@@ -81,7 +81,7 @@ namespace aoc2020.Puzzles.Solutions
                     .Select(kvp => kvp.Key).ToList();
                 ingredientsWithMoreThanOneAllergen.ForEach(x =>
                     allergenicIngredients[x] = allergenicIngredients[x]
-                        .Where(i => !ingredientsWithOnlyOneAllergen.Contains(i)).ToHashSet<string>());
+                        .Where(i => !ingredientsWithOnlyOneAllergen.Contains(i)).ToHashSet());
             }
 
             var i = string.Join(',', allergenicIngredients.OrderBy(x => x.Key).SelectMany(kvp => kvp.Value));
