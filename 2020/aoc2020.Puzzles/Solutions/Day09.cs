@@ -56,7 +56,7 @@ namespace aoc2020.Puzzles.Solutions
 
         public static BigInteger FindInvalidNumber(string input, int preambleLength = 25)
         {
-            var numbers = GetLines(input).Select(n => BigInteger.Parse(n));
+            var numbers = GetLines(input).Select(BigInteger.Parse);
             var preamble = numbers.Take(preambleLength).ToList();
 
             numbers = numbers.Skip(preambleLength).ToList();

@@ -45,7 +45,7 @@ namespace aoc2020.Puzzles.Solutions
 
                 if (isNearbyTicketLine)
                 {
-                    var ticket = line.Split(',').Select(n => int.Parse(n)).ToArray();
+                    var ticket = line.Split(',').Select(int.Parse).ToArray();
                     tickets.Add(ticket);
                 }
             }
@@ -129,11 +129,11 @@ namespace aoc2020.Puzzles.Solutions
                 }
                 else if (isMyTicketLine && !isNearbyTicketLine)
                 {
-                    myTicket = line.Split(',').Select(n => int.Parse(n)).ToArray();
+                    myTicket = line.Split(',').Select(int.Parse).ToArray();
                 }
                 else
                 {
-                    var ticket = line.Split(',').Select(n => int.Parse(n)).ToArray();
+                    var ticket = line.Split(',').Select(int.Parse).ToArray();
                     nearbyTickets.Add(ticket);
                 }
             }

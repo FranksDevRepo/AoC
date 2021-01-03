@@ -28,7 +28,7 @@ namespace aoc2020.Puzzles.Solutions
         private static Dictionary<long, long> VoltageDifferences(string input)
         {
             var adapters = GetLines(input)
-                .Select(n => long.Parse(n))
+                .Select(long.Parse)
                 .OrderBy(n => n)
                 .ToList();
 

@@ -17,7 +17,7 @@ namespace aoc2020.Puzzles.Solutions
             var earliestPossibeDepartureTime = long.Parse(data[0]);
             var busIDs = data[1].Split(',')
                 .Where(id => id != "x")
-                .Select(id => long.Parse(id))
+                .Select(long.Parse)
                 .ToArray();
 
             Dictionary<long, long> departureTimes = new Dictionary<long, long>();
