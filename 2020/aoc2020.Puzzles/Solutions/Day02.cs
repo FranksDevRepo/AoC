@@ -35,13 +35,13 @@ namespace aoc2020.Puzzles.Solutions
             if (Debugger.IsAttached)
             {
                 var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                File.WriteAllLines(
+                await File.WriteAllLinesAsync(
                     Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day02.txt"), solution);
             }
             return countValidPasswords.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var lines = GetLines(input);
             int countValidPasswords = 0;

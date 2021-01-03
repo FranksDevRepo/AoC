@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -17,10 +16,9 @@ namespace aoc2020.Puzzles.Solutions
             Invalid
         }
 
-
         internal abstract class Instruction
         {
-            public Operation Operation { get; private set; }
+            public Operation Operation { get; }
 
             protected Instruction(Operation operation)
             {
@@ -30,7 +28,7 @@ namespace aoc2020.Puzzles.Solutions
 
         internal class BitMaskInstruction : Instruction
         {
-            public string BitMask { get; private set; }
+            public string BitMask { get; }
 
             public BitMaskInstruction(string bitMask) : base(Operation.BitMask)
             {
@@ -40,8 +38,8 @@ namespace aoc2020.Puzzles.Solutions
 
         internal class MemoryInstruction : Instruction
         {
-            public ulong Memory { get; private set; }
-            public ulong Value { get; private set; }
+            public ulong Memory { get; }
+            public ulong Value { get; }
 
             public MemoryInstruction(ulong memory, ulong value) : base(Operation.Memory)
             {
@@ -52,7 +50,7 @@ namespace aoc2020.Puzzles.Solutions
 
         internal class InvalidInstruction : Instruction
         {
-            public string ErrorMessage { get; private set; }
+            public string ErrorMessage { get; }
 
             public InvalidInstruction() : base(Operation.Invalid)
             {
@@ -68,21 +66,12 @@ namespace aoc2020.Puzzles.Solutions
         {
             public static InstructionHandler CreateInstructionHandler(Instruction instruction)
             {
-
-                InstructionHandler instructionHandler = null;
-                switch (instruction.Operation)
+                InstructionHandler instructionHandler = instruction.Operation switch
                 {
-                    case Operation.BitMask:
-                        instructionHandler = new BitMaskInstructionHandler(instruction);
-                        break;
-                    case Operation.Memory:
-                        instructionHandler = new MemoryInstructionHandler(instruction);
-                        break;
-                    default:
-                        instructionHandler = new InvalidInstructionHandler(instruction);
-                        break;
-                }
-
+                    Operation.BitMask => new BitMaskInstructionHandler(instruction),
+                    Operation.Memory => new MemoryInstructionHandler(instruction),
+                    _ => new InvalidInstructionHandler(instruction),
+                };
                 return instructionHandler;
             }
 
@@ -93,28 +82,19 @@ namespace aoc2020.Puzzles.Solutions
         {
             public new static InstructionHandler CreateInstructionHandler(Instruction instruction)
             {
-
-                InstructionHandler instructionHandler = null;
-                switch (instruction.Operation)
+                InstructionHandler instructionHandler = instruction.Operation switch
                 {
-                    case Operation.BitMask:
-                        instructionHandler = new BitMaskInstructionHandler(instruction);
-                        break;
-                    case Operation.Memory:
-                        instructionHandler = new MemoryInstructionHandlerPart2(instruction);
-                        break;
-                    default:
-                        instructionHandler = new InvalidInstructionHandler(instruction);
-                        break;
-                }
-
+                    Operation.BitMask => new BitMaskInstructionHandler(instruction),
+                    Operation.Memory => new MemoryInstructionHandlerPart2(instruction),
+                    _ => new InvalidInstructionHandler(instruction),
+                };
                 return instructionHandler;
             }
         }
 
         internal class InvalidInstructionHandler : InstructionHandler
         {
-            public InvalidInstruction Instruction { get; private set; }
+            public InvalidInstruction Instruction { get; }
 
             public InvalidInstructionHandler(Instruction instruction)
             {
@@ -129,7 +109,7 @@ namespace aoc2020.Puzzles.Solutions
 
         internal class MemoryInstructionHandler : InstructionHandler
         {
-            public MemoryInstruction Instruction { get; private set; }
+            public MemoryInstruction Instruction { get; }
 
             public MemoryInstructionHandler(Instruction instruction)
             {
@@ -148,7 +128,6 @@ namespace aoc2020.Puzzles.Solutions
                 {
                     session.Memory[Instruction.Memory] = value;
                 }
-
             }
 
             private ulong ApplyBitMask(string bitmask, ulong value)
@@ -159,7 +138,9 @@ namespace aoc2020.Puzzles.Solutions
                     if (reversedBitmask[i] == 'X')
                         continue;
                     if (reversedBitmask[i] == '1')
+                    {
                         value = SetSpecificBitAtPosition(value, i);
+                    }
                     else if (reversedBitmask[i] == '0')
                     {
                         value = UnsetSpecificBitAtPosition(value, i);
@@ -170,10 +151,9 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
 
-
         internal class MemoryInstructionHandlerPart2 : InstructionHandler
         {
-            public MemoryInstruction Instruction { get; private set; }
+            public MemoryInstruction Instruction { get; }
 
             public MemoryInstructionHandlerPart2(Instruction instruction)
             {
@@ -195,7 +175,6 @@ namespace aoc2020.Puzzles.Solutions
                         session.Memory[memoryAddress] = Instruction.Value;
                     }
                 }
-
             }
 
             private List<ulong> ApplyBitMask(string bitmask, in ulong address)
@@ -237,10 +216,9 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
 
-
         internal class BitMaskInstructionHandler : InstructionHandler
         {
-            public BitMaskInstruction Instruction { get; private set; }
+            public BitMaskInstruction Instruction { get; }
 
             public BitMaskInstructionHandler(Instruction instruction)
             {
@@ -271,15 +249,11 @@ namespace aoc2020.Puzzles.Solutions
         //https://stackoverflow.com/questions/27421208/how-to-share-a-property-amongst-several-c-sharp-classes
         internal class SessionContainer
         {
-            private readonly IDictionary<ulong, ulong> _memory = new Dictionary<ulong, ulong>();
             internal BitMaskInstruction CurrentBitMask { get; set; }
-            internal IDictionary<ulong, ulong> Memory
-            {
-                get => _memory;
-            }
+            internal IDictionary<ulong, ulong> Memory { get; } = new Dictionary<ulong, ulong>();
         }
 
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var instructions = from line in GetLines(input)
                                where !string.IsNullOrWhiteSpace(line)
@@ -315,12 +289,9 @@ namespace aoc2020.Puzzles.Solutions
                 var value = ulong.Parse(instructionMatch.Groups["value"].Value);
                 return new MemoryInstruction(memory, value);
             }
-
-
-
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var instructions = from line in GetLines(input)
                                where !string.IsNullOrWhiteSpace(line)
@@ -333,7 +304,6 @@ namespace aoc2020.Puzzles.Solutions
                 var instruction = ParseInstruction(instructionString);
                 var instructionHandler = InstructionHandlerPart2.CreateInstructionHandler(instruction);
                 instructionHandler.Process(session);
-
             }
 
             return session.Memory.Select(kvp => kvp.Value).Aggregate((currentSum, item) => currentSum + item).ToString();

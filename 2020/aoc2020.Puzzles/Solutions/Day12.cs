@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -47,7 +46,7 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
 
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var instructions = GetLines(input)
                 .Select(line => (action: (Move)line[0], value: int.Parse(line[1..])))
@@ -56,7 +55,7 @@ namespace aoc2020.Puzzles.Solutions
             return manhattanDistance.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             Position wayPoint = new Position(10, 1);
             Position shipPosition = new Position(0, 0);

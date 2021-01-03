@@ -1,24 +1,23 @@
 ﻿using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Adapter Array")]
     public sealed class Day10 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var voltageDifferences = VoltageDifferences(input);
 
-            long count1VoltDifferences = voltageDifferences.Where(kvp => kvp.Value == 1).Count();
-            long count3VoltDifferences = voltageDifferences.Where(kvp => kvp.Value == 3).Count();
+            long count1VoltDifferences = voltageDifferences.Count(kvp => kvp.Value == 1);
+            long count3VoltDifferences = voltageDifferences.Count(kvp => kvp.Value == 3);
 
             return (count1VoltDifferences * count3VoltDifferences).ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var voltageDifferences = VoltageDifferences(input);
             var computedPermutations = new Dictionary<long, long>();
@@ -38,7 +37,7 @@ namespace aoc2020.Puzzles.Solutions
             Dictionary<long, long> voltageDifferences = new Dictionary<long, long>();
             foreach (var adapter in adapters)
             {
-                voltageDifferences.Add(adapter, (adapter - lastAdapterVoltage));
+                voltageDifferences.Add(adapter, adapter - lastAdapterVoltage);
                 lastAdapterVoltage = adapter;
             }
 

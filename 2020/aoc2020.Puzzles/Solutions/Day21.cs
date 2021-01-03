@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Allergen Assessment")]
     public sealed class Day21 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var foods = ParseInput(input);
 
@@ -56,7 +55,7 @@ namespace aoc2020.Puzzles.Solutions
             //return foods.Count.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var foods = ParseInput(input);
 

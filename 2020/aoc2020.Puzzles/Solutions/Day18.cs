@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Operation Order")]
     public sealed class Day18 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             return ParseInputAndCalcResult(input);
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             return ParseInputAndCalcResult(input, true);
         }

@@ -1,19 +1,18 @@
 ﻿using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Rambunctious Recitation")]
     public sealed class Day15 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             return CalculateSolutionForNumbersOfRounds(input, 2020);
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             return CalculateSolutionForNumbersOfRounds(input, 30000000);
         }

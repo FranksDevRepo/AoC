@@ -1,7 +1,6 @@
 ﻿using aoc2020.Puzzles.Core;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -11,7 +10,7 @@ namespace aoc2020.Puzzles.Solutions
         private const long DIVISOR = 20201227;
         private const int SUBJECT_NUMBER = 7;
 
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var keys = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)
@@ -53,7 +52,7 @@ namespace aoc2020.Puzzles.Solutions
             return result;
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             throw new NotImplementedException();
         }

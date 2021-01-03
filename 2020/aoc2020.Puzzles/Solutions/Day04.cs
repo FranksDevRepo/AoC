@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Passport Processing")]
     public sealed class Day04 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var passports = GetPassports(input);
             int countValidPassports = 0;
@@ -21,7 +20,7 @@ namespace aoc2020.Puzzles.Solutions
             return countValidPassports.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var passports = GetPassports(input);
             int countValidPassports = 0;

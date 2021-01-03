@@ -1,14 +1,13 @@
 ﻿using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Shuttle Search")]
     public sealed class Day13 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var data =
                 (from line in GetLines(input)
@@ -40,7 +39,7 @@ namespace aoc2020.Puzzles.Solutions
             return departureTime + (busId - departureTime % busId);
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var data =
                 (from line in GetLines(input).Skip(1)

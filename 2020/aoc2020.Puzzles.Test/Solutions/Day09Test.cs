@@ -32,14 +32,14 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            Assert.Equal("127", Day09.FindInvalidNumber(myInput, 5).ToString());
+            Assert.Equal("127", await Task.FromResult(Day09.FindInvalidNumber(myInput, 5).ToString()));
         }
 
         [Fact]
         public async Task Part2()
         {
             var invalidNumber = Day09.FindInvalidNumber(myInput, 5);
-            var contiguousNumbers = Day09.FindContiguousSetOfAtLeastTwoNumbers(myInput, invalidNumber);
+            var contiguousNumbers = await Task.FromResult(Day09.FindContiguousSetOfAtLeastTwoNumbers(myInput, invalidNumber));
             var solution = Day09.CalculateSolutionPart2(contiguousNumbers).ToString();
             Assert.Equal("62", solution);
         }

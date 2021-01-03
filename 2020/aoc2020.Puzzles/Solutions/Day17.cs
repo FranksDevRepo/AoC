@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -150,7 +149,7 @@ namespace aoc2020.Puzzles.Solutions
             }
         }
 
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var cube = new Cube3Dim();
             cube.Setup(input);
@@ -165,7 +164,7 @@ namespace aoc2020.Puzzles.Solutions
             return cubesInActiveState.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var cube = new Cube4Dim();
             cube.Setup(input);

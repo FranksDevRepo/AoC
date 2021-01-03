@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -27,7 +26,7 @@ namespace aoc2020.Puzzles.Solutions
             Black
         }
 
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var tiles = ParseTiles(input);
 
@@ -36,7 +35,7 @@ namespace aoc2020.Puzzles.Solutions
             return CountBlackTiles(tileDict).ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var tiles = ParseTiles(input);
 

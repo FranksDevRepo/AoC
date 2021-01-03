@@ -2,14 +2,13 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Toboggan Trajectory")]
     public sealed class Day03 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var terrain = input.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(line => line.Select(c => c is '#').ToArray()).ToArray();
             var countTrees = CountTrees(terrain, 3, 1);
@@ -17,7 +16,7 @@ namespace aoc2020.Puzzles.Solutions
             return countTrees.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var terrain = input.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(line => line.Select(c => c is '#').ToArray()).ToArray();
             BigInteger countTreesSlope1 = CountTrees(terrain, 1, 1);

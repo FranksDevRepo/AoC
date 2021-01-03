@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Crab Combat")]
     public sealed class Day22 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var lines = from line in GetLines(input)
                 where !string.IsNullOrEmpty(line)
@@ -22,7 +21,7 @@ namespace aoc2020.Puzzles.Solutions
             return score.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var lines = from line in GetLines(input)
                 where !string.IsNullOrEmpty(line)

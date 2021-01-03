@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Ticket Translation")]
     public sealed class Day16 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var lines = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)
@@ -97,7 +96,7 @@ namespace aoc2020.Puzzles.Solutions
             return (rule, (value) => (value >= min1 && value <= max1) || (value >= min2 && value <= max2));
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var lines = (from line in GetLines(input)
                 where !string.IsNullOrWhiteSpace(line)

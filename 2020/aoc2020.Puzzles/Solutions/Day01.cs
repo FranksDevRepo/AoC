@@ -2,21 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
     [Puzzle("Report Repair")]
     public sealed class Day01 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var expenses = GetExpenses(input);
             var solution = PairExists(expenses, 2020);
             return solution != null ? (solution.Value.x1 * solution.Value.x2).ToString() : string.Empty;
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var expenses = GetExpenses(input);
             var solution = TripleExists(expenses, 2020);
@@ -34,6 +33,7 @@ namespace aoc2020.Puzzles.Solutions
                     return (x1: pair.Value.x1, x2: pair.Value.x2, x3: number);
                 }
             }
+
             return null;
         }
 
@@ -43,10 +43,13 @@ namespace aoc2020.Puzzles.Solutions
         {
             var set = new HashSet<int>(numbers);
             foreach (var elem in set)
+            {
                 if (set.Contains(sum - elem))
                 {
                     return (x1: elem, x2: sum - elem);
                 }
+            }
+
             return null;
         }
     }

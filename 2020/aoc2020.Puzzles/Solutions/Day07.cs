@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace aoc2020.Puzzles.Solutions
 {
@@ -17,7 +16,7 @@ namespace aoc2020.Puzzles.Solutions
     [Puzzle("Handy Haversacks")]
     public sealed class Day07 : SolutionBase
     {
-        public override async Task<string> Part1Async(string input)
+        public override string Part1(string input)
         {
             var lines = GetLines(input);
             var outerBagRegex = new Regex("^(?'outerColor'.*?) bags contain (?'innerBags'.*).$", RegexOptions.Compiled);
@@ -54,7 +53,7 @@ namespace aoc2020.Puzzles.Solutions
             return possibleBagColors.Count.ToString();
         }
 
-        public override async Task<string> Part2Async(string input)
+        public override string Part2(string input)
         {
             var lines = GetLines(input);
             var outerBagRegex = new Regex("^(?'outerColor'.*?) bags contain (?'innerBags'.*).$", RegexOptions.Compiled);
