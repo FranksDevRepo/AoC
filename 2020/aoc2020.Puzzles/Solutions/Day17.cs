@@ -1,4 +1,5 @@
-﻿using aoc2020.Puzzles.Core;
+﻿using System;
+using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,6 +22,21 @@ namespace aoc2020.Puzzles.Solutions
                 public int x;
                 public int y;
                 public int z;
+
+                public bool Equals(Coordinate other)
+                {
+                    return x == other.x && y == other.y && z == other.z;
+                }
+
+                public override bool Equals(object obj)
+                {
+                    return obj is Coordinate other && Equals(other);
+                }
+
+                public override int GetHashCode()
+                {
+                    return HashCode.Combine(x, y, z);
+                }
 
                 public static bool operator ==(Coordinate c1, Coordinate c2)
                 {
@@ -193,6 +209,21 @@ namespace aoc2020.Puzzles.Solutions
                 public int z;
                 public int w;
 
+                private bool Equals(Coordinate other)
+                {
+                    return x == other.x && y == other.y && z == other.z && w == other.w;
+                }
+
+                public override bool Equals(object obj)
+                {
+                    return obj is Coordinate other && Equals(other);
+                }
+
+                public override int GetHashCode()
+                {
+                    return HashCode.Combine(x, y, z, w);
+                }
+
                 public static bool operator ==(Coordinate c1, Coordinate c2)
                 {
                     return c1.Equals(c2);
@@ -326,7 +357,7 @@ namespace aoc2020.Puzzles.Solutions
                 return neighbors;
             }
 
-            public void DebugOutput()
+            private void DebugOutput()
             {
                 for (var w = min.w; w < max.w; w++)
                 {
