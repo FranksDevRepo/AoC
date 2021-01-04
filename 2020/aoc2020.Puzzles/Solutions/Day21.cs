@@ -118,12 +118,12 @@ namespace aoc2020.Puzzles.Solutions
             return foods;
         }
 
-        private class Ingredient
-        {
-            public string Name { get; }
-            private string Allergen { get; }
-            public bool ContainsAllergen => Allergen != string.Empty;
-        }
+        //private class Ingredient
+        //{
+        //    public string Name { get; }
+        //    private string Allergen { get; }
+        //    public bool ContainsAllergen => Allergen != string.Empty;
+        //}
 
         private class Food
         {
