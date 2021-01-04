@@ -60,12 +60,11 @@ namespace aoc2020.Puzzles.Solutions
             var preamble = numbers.Take(preambleLength).ToList();
 
             numbers = numbers.Skip(preambleLength).ToList();
-            bool isValid;
             BigInteger invalidNumber = 0L;
             foreach (int number in numbers)
             {
                 var preambleDict = new HashSet<BigInteger>(preamble);
-                isValid = false;
+                var isValid = false;
                 foreach (int preambleNumber in preamble)
                 {
                     Int64 difference = number - preambleNumber;

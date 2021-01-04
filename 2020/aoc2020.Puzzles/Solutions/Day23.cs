@@ -31,11 +31,11 @@ namespace aoc2020.Puzzles.Solutions
             private LinkedListNode<int> _destination;
             private readonly int[] _pickup = new int[3];
 
-            public int CurrentCup { get; private set; }
+            private int CurrentCup { get; set; }
 
-            public LinkedListNode<int> CurrentNode { get; set; }
+            private LinkedListNode<int> CurrentNode { get; set; }
 
-            public void SetDestinationNode()
+            private void SetDestinationNode()
             {
                 var dest = CurrentCup;
                 do

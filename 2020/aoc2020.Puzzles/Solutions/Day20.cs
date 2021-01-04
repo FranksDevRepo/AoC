@@ -74,7 +74,7 @@ namespace aoc2020.Puzzles.Solutions
             private Lazy<Tile[,]> _puzzle;
             private Dictionary<int, Tile> Tiles { get; }
 
-            public Tile[,] Puzzle => _puzzle.Value;
+            private Tile[,] Puzzle => _puzzle.Value;
 
             public PuzzleSolver()
             {
@@ -212,7 +212,18 @@ namespace aoc2020.Puzzles.Solutions
             public bool IsCorner => MatchingTiles.Count == 2;
             public bool IsEdge => MatchingTiles.Count == 3;
             public bool IsCenter => MatchingTiles.Count == 4;
-            public string Position => IsCorner ? "Ecke" : IsEdge ? "Kante" : "Mitte";
+            public string Position
+            {
+                get
+                {
+                    if (IsCorner)
+                        return "Ecke";
+                    else if (IsEdge)
+                        return "Kante";
+                    else
+                        return "Mitte";
+                }
+            }
 
             public Tile(int id)
             {

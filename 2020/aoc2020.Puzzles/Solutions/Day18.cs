@@ -94,7 +94,9 @@ namespace aoc2020.Puzzles.Solutions
                     var result = operation switch
                     {
                         "*" => stack.Pop() * stack.Pop(),
+#pragma warning disable S1764 // Identical expressions should not be used on both sides of a binary operator
                         "-" => (stack.Pop() - stack.Pop()) * -1,
+#pragma warning restore S1764 // Identical expressions should not be used on both sides of a binary operator
                         "+" => stack.Pop() + stack.Pop(),
                         _ => throw new InvalidOperationException($"Found unknown operation: {operation}")
                     };

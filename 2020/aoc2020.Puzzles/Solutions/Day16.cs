@@ -127,7 +127,9 @@ namespace aoc2020.Puzzles.Solutions
                     var rule = ParseRules(line);
                     ruleSet.Add(rule.Item1, rule.Item2);
                 }
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
                 else if (isMyTicketLine && !isNearbyTicketLine)
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
                 {
                     myTicket = line.Split(',').Select(int.Parse).ToArray();
                 }

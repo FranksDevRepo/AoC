@@ -20,16 +20,16 @@ namespace aoc2020.ConsoleApp
         private sealed class Options
         {
             [Option('a', "all", HelpText = "Run all available solutions.")]
-            public bool RunAllDays { get; set; }
+            public bool RunAllDays { get; private init; }
 
             [Option('l', "last", HelpText = "Run the last available solution.")]
-            public bool RunLastDay { get; set; }
+            public bool RunLastDay { get; init; }
 
             [Option('d', "day", HelpText = "[Number of day] Run the solution for the given day.")]
-            public int? DayToRun { get; set; }
+            public int? DayToRun { get; private init; }
 
             [Option('s', "setup", HelpText = "[Number of day] Download input and description for given day, and add it to aoc2020.Puzzles along with an empty solution .cs file.")]
-            public int? DayToSetup { get; set; }
+            public int? DayToSetup { get; private init; }
 
             [Usage(ApplicationAlias = "aoc2020.ConsoleApp")]
             public static IEnumerable<Example> Examples => new[]
@@ -134,7 +134,7 @@ namespace aoc2020.ConsoleApp
 
             Console.Write(waitingMessage);
 
-            string result = null;
+            string result;
             try
             {
                 solution.ProgressUpdated += ProgressUpdated;

@@ -121,7 +121,7 @@ namespace aoc2020.Puzzles.Solutions
         private class Ingredient
         {
             public string Name { get; }
-            public string Allergen { get; }
+            private string Allergen { get; }
             public bool ContainsAllergen => Allergen != string.Empty;
         }
 
