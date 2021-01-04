@@ -30,7 +30,7 @@ namespace aoc2020.Puzzles.Solutions
                 var pair = PairExists(numbers, sum - number);
                 if (pair.HasValue)
                 {
-                    return (x1: pair.Value.x1, x2: pair.Value.x2, x3: number);
+                    return (pair.Value.x1, pair.Value.x2, x3: number);
                 }
             }
 

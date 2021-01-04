@@ -1,6 +1,9 @@
 ﻿using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace aoc2020.Puzzles.Solutions
@@ -37,7 +40,7 @@ namespace aoc2020.Puzzles.Solutions
 
     internal class Game
     {
-        //private readonly List<string> debugOutput = new List<string>();
+        private readonly List<string> debugOutput = new List<string>();
         public int GameNbr { get; private set; }
         public int Round { get; private set; }
         public List<Player> Players { get; } = new();
@@ -113,19 +116,24 @@ namespace aoc2020.Puzzles.Solutions
         public int PlayRecursiveCombat(List<Player> players)
         {
             GameNbr++;
-            //debugOutput.Add($"=== Game {GameNbr} ===\n");
+            if (Debugger.IsAttached)
+                debugOutput.Add($"=== Game {GameNbr} ===\n");
             int winner = 0;
             Round = 0;
             while (players.Select(p => p.HasCards).All(c => c))
             {
                 Round++;
-                //debugOutput.Add($"-- Round {Round} (Game {GameNbr}) --");
-                //debugOutput.Add($"Player 1's deck: {players[0].GetCardsKey}");
-                //debugOutput.Add($"Player 2's deck: {players[1].GetCardsKey}");
+                if (Debugger.IsAttached)
+                {
+                    debugOutput.Add($"-- Round {Round} (Game {GameNbr}) --");
+                    debugOutput.Add($"Player 1's deck: {players[0].GetCardsKey}");
+                    debugOutput.Add($"Player 2's deck: {players[1].GetCardsKey}");
+                }
 
                 if (players.Any(p => p.HadSameCards))
                 {
-                    //debugOutput.Add($"...anyway, back to game {--GameNbr}.");
+                    if (Debugger.IsAttached)
+                        debugOutput.Add($"...anyway, back to game {--GameNbr}.");
                     return 1;
                 }
 
@@ -134,15 +142,17 @@ namespace aoc2020.Puzzles.Solutions
                 foreach (var player in players)
                 {
                     int card = player.Draw();
-                    //debugOutput.Add($"Player {player.Number} plays: {card}");
+                    if (Debugger.IsAttached)
+                        debugOutput.Add($"Player {player.Number} plays: {card}");
                     bool hasEnoughRemainingCards = card <= player.RemainingCards;
-                    var result = (card: card, hasEnoughRemainingCards: hasEnoughRemainingCards);
+                    var result = (card, hasEnoughRemainingCards);
                     results.Add(player, result);
                 }
 
                 if (results.All(r => r.Value.Item2))
                 {
-                    //debugOutput.Add($"Playing a sub-game to determine the winner...\n");
+                    if (Debugger.IsAttached)
+                        debugOutput.Add("Playing a sub-game to determine the winner...\n");
                     List<Player> recursivePlayers = new List<Player>();
                     int card = results[players[0]].Item1;
                     Player p1 = new Player(players[0].Number, players[0].Deck.Take(card).ToList());
@@ -158,7 +168,8 @@ namespace aoc2020.Puzzles.Solutions
                         .Where(p => p.Value.Item1 == results.Max(r => r.Value.Item1))
                         .Select(r => r.Key.Number)
                         .First();
-                    //debugOutput.Add($"Player {winner} wins round {Round} of game {GameNbr}\n");
+                    if (Debugger.IsAttached)
+                        debugOutput.Add($"Player {winner} wins round {Round} of game {GameNbr}\n");
                 }
 
                 players[winner - 1].Win(results
@@ -167,11 +178,13 @@ namespace aoc2020.Puzzles.Solutions
                         .Select(r => r.Value.Item1)
                         .ToList(), false
                 );
-
-                //var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                //File.WriteAllLines(
-                //    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day22 part 2.txt"),
-                //    debugOutput);
+                if (Debugger.IsAttached)
+                {
+                    var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    File.WriteAllLines(
+                        Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day22 part 2.txt"),
+                        debugOutput);
+                }
             }
 
             return winner;

@@ -32,27 +32,6 @@ namespace aoc2020.Puzzles.Solutions
                     .Contains(i));
 
             return countFoodsWithoutAllergens.ToString();
-
-            //var foodsWithOnlyOneAllergen = foods
-            //    .Where(f => f.Allergens.Count == 1)
-            //    .ToList();
-            //foreach (var food in foods.OrderBy(f => f.Allergens.Count))
-            //{
-            //    foreach (var ingredient in food.Ingredients)
-            //    {
-            //        foreach (var otherFood in foods.Where(f => f.Ingredients.Contains(ingredient) && !f.Ingredients.Equals(food.Ingredients)))
-            //        {
-            //            foreach (var allergen in food.Allergens)
-            //            {
-            //                if (!otherFood.Allergens.Contains(allergen))
-            //                {
-
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //return foods.Count.ToString();
         }
 
         public override string Part2(string input)
@@ -117,13 +96,6 @@ namespace aoc2020.Puzzles.Solutions
 
             return foods;
         }
-
-        //private class Ingredient
-        //{
-        //    public string Name { get; }
-        //    private string Allergen { get; }
-        //    public bool ContainsAllergen => Allergen != string.Empty;
-        //}
 
         private class Food
         {

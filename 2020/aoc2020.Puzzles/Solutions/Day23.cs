@@ -45,7 +45,6 @@ namespace aoc2020.Puzzles.Solutions
                         dest = _cupsIndex.Count;
                 } while (_pickup.Contains(dest));
 
-                //_destination = _cups.Find(dest);
                 _destination = _cupsIndex[dest];
             }
 

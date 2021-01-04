@@ -19,10 +19,8 @@ namespace aoc2020.Puzzles.Solutions
             var cardsPublicKey = long.Parse(keys[0]);
             var doorsPublicKey = long.Parse(keys.Last());
 
-            //var secrectLoopSizeCard = DetermineLoopSize(cardsPublicKey);
             var secrectLoopSizeDoor = DetermineLoopSize(doorsPublicKey);
 
-            //var encryptionKeyCard = TransformSubjectNumber(doorsPublicKey, secrectLoopSizeCard);
             var encryptionKeyDoor = TransformSubjectNumber(cardsPublicKey, secrectLoopSizeDoor);
 
             return encryptionKeyDoor.ToString();
