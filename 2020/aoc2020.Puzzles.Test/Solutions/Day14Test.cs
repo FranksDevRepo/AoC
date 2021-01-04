@@ -16,7 +16,7 @@ namespace aoc2020.Puzzles.Test.Solutions
 mem[8] = 11
 mem[7] = 101
 mem[8] = 0";
-            Assert.Equal("165", await Solution.Part1Async(input));
+            Assert.Equal("165", await Solution.Part1Async(input).ConfigureAwait(false));
         }
 
         [Fact]
@@ -26,7 +26,7 @@ mem[8] = 0";
 mem[4841] = 3942
 mem[9168] = 414370178
 ";
-            Assert.Equal((28111278914 + 28111278914).ToString(), await Solution.Part1Async(input));
+            Assert.Equal((28111278914 + 28111278914).ToString(), await Solution.Part1Async(input).ConfigureAwait(false));
         }
 
         [Fact]
@@ -36,16 +36,16 @@ mem[9168] = 414370178
 mem[42] = 100
 mask = 00000000000000000000000000000000X0XX
 mem[26] = 1";
-            Assert.Equal("208", await Solution.Part2Async(input));
+            Assert.Equal("208", await Solution.Part2Async(input).ConfigureAwait(false));
         }
 
         [Fact]
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day14.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day14.txt")).ConfigureAwait(false);
 
-            var actual = await Solution.Part1Async(input);
+            var actual = await Solution.Part1Async(input).ConfigureAwait(false);
 
             Assert.True(BigInteger.Parse(actual) > 106385978789);
 
@@ -56,9 +56,9 @@ mem[26] = 1";
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day14.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day14.txt")).ConfigureAwait(false);
 
-            Assert.Equal("4330547254348", await Solution.Part2Async(input));
+            Assert.Equal("4330547254348", await Solution.Part2Async(input).ConfigureAwait(false));
         }
     }
 }

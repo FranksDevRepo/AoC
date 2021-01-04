@@ -36,7 +36,7 @@ namespace aoc2020.Puzzles.Solutions
             {
                 var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 await File.WriteAllLinesAsync(
-                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day02.txt"), solution);
+                    Path.Combine(rootDir, @"..\\..\\..\\..\\aoc2020.Puzzles", "Input", "solution day02.txt"), solution).ConfigureAwait(false);
             }
             return countValidPasswords.ToString();
         }

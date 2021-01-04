@@ -32,14 +32,14 @@ namespace aoc2020.Puzzles.Test.Solutions
         [Fact]
         public async Task Part1()
         {
-            Assert.Equal("127", await Task.FromResult(Day09.FindInvalidNumber(myInput, 5).ToString()));
+            Assert.Equal("127", await Task.FromResult(Day09.FindInvalidNumber(myInput, 5).ToString()).ConfigureAwait(false));
         }
 
         [Fact]
         public async Task Part2()
         {
             var invalidNumber = Day09.FindInvalidNumber(myInput, 5);
-            var contiguousNumbers = await Task.FromResult(Day09.FindContiguousSetOfAtLeastTwoNumbers(myInput, invalidNumber));
+            var contiguousNumbers = await Task.FromResult(Day09.FindContiguousSetOfAtLeastTwoNumbers(myInput, invalidNumber)).ConfigureAwait(false);
             var solution = Day09.CalculateSolutionPart2(contiguousNumbers).ToString();
             Assert.Equal("62", solution);
         }
@@ -48,18 +48,18 @@ namespace aoc2020.Puzzles.Test.Solutions
         public async Task Part1WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day09.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day09.txt")).ConfigureAwait(false);
 
-            Assert.Equal("167829540", await Solution.Part1Async(input));
+            Assert.Equal("167829540", await Solution.Part1Async(input).ConfigureAwait(false));
         }
 
         [Fact]
         public async Task Part2WithInputFile()
         {
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day09.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir, "Input", "Day09.txt")).ConfigureAwait(false);
 
-            Assert.Equal("28045630", await Solution.Part2Async(input));
+            Assert.Equal("28045630", await Solution.Part2Async(input).ConfigureAwait(false));
         }
     }
 }
