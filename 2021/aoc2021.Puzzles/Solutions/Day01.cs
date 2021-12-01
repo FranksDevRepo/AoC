@@ -26,7 +26,19 @@ namespace aoc2021.Puzzles.Solutions
 
         public override string Part2(string input)
         {
-            throw new NotImplementedException();
+            var numbers = GetLines(input).Select(x => Convert.ToInt32(x)).ToArray();
+            int? previousSum = null;
+            var count = 0;
+            for (int i = 0; i <= numbers.Count() - 3; i++)
+            {
+                var upperRangeWindow = i + 3;
+                var currentSum = numbers[i..upperRangeWindow].Sum();
+                if (currentSum > previousSum)
+                    count++;
+                previousSum = currentSum;
+            }
+
+            return count.ToString();
         }
     }
 }

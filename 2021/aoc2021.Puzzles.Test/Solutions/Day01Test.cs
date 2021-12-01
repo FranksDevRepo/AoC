@@ -29,8 +29,7 @@ namespace aoc2021.Puzzles.Test.Solutions
         [Fact]
         public async Task Part2()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("5", await Solution.Part2Async(_input));
         }
 
         [Fact]
@@ -48,7 +47,7 @@ namespace aoc2021.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day01.txt"));
 
-            Assert.Equal("", await Solution.Part2Async(input));
+            Assert.Equal("1127", await Solution.Part2Async(input));
         }
 
     }
