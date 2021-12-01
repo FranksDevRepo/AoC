@@ -29,7 +29,7 @@ public sealed class Day01 : SolutionBase
         var numbers = GetLines(input).Select(x => Convert.ToInt32(x)).ToArray();
         int? previousSum = null;
         var count = 0;
-        for (int i = 0; i <= numbers.Count() - 3; i++)
+        for (var i = 0; i <= numbers.Length - 3; i++)
         {
             var upperRangeWindow = i + 3;
             var currentSum = numbers[i..upperRangeWindow].Sum();

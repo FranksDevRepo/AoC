@@ -9,7 +9,7 @@ namespace aoc2021.Puzzles.Test.Solutions;
 
 public sealed class Day01Test : TestBase<Day01>
 {
-    private string _input = @"199
+    private readonly string _input = @"199
 200
 208
 210
