@@ -9,11 +9,21 @@ namespace aoc2021.Puzzles.Test.Solutions
 {
     public sealed class Day01Test : TestBase<Day01>
     {
+        private string _input = @"199
+200
+208
+210
+200
+207
+240
+269
+260
+263";
+
         [Fact]
         public async Task Part1()
         {
-            var input = @"";
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("7", await Solution.Part1Async(_input));
         }
 
         [Fact]
@@ -29,7 +39,7 @@ namespace aoc2021.Puzzles.Test.Solutions
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day01.txt"));
 
-            Assert.Equal("", await Solution.Part1Async(input));
+            Assert.Equal("1154", await Solution.Part1Async(input));
         }
 
         [Fact]
