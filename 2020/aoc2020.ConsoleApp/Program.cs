@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using aoc2020.Puzzles.Core;
 using CommandLine;
 using CommandLine.Text;
 using HtmlAgilityPack;
-using System.Text.RegularExpressions;
-using aoc2020.Puzzles.Core;
 
 namespace aoc2020.ConsoleApp
 {
@@ -20,19 +20,19 @@ namespace aoc2020.ConsoleApp
         private sealed class Options
         {
             [Option('a', "all", HelpText = "Run all available solutions.")]
-            public bool RunAllDays { get; set; }
+            public bool RunAllDays { get; private init; }
 
             [Option('l', "last", HelpText = "Run the last available solution.")]
-            public bool RunLastDay { get; set; }
+            public bool RunLastDay { get; init; }
 
             [Option('d', "day", HelpText = "[Number of day] Run the solution for the given day.")]
-            public int? DayToRun { get; set; }
+            public int? DayToRun { get; private init; }
 
             [Option('s', "setup", HelpText = "[Number of day] Download input and description for given day, and add it to aoc2020.Puzzles along with an empty solution .cs file.")]
-            public int? DayToSetup { get; set; }
+            public int? DayToSetup { get; private init; }
 
             [Usage(ApplicationAlias = "aoc2020.ConsoleApp")]
-            public static IEnumerable<Example> Examples => new Example[]
+            public static IEnumerable<Example> Examples => new[]
             {
                 new Example("Run all available solutions", new Options { RunAllDays = true }),
                 new Example("Run the last available solution", new Options { RunLastDay = true }),
@@ -41,7 +41,7 @@ namespace aoc2020.ConsoleApp
             };
         }
 
-        public static async Task Main(string[] args) => await new Program(args).Run();
+        public static async Task Main(string[] args) => await new Program(args).Run().ConfigureAwait(false);
 
         public Program(string[] args)
         {
@@ -67,23 +67,23 @@ namespace aoc2020.ConsoleApp
 
             if (myOptions.DayToSetup.HasValue)
             {
-                await SetupDay(myOptions.DayToSetup.Value);
+                await SetupDay(myOptions.DayToSetup.Value).ConfigureAwait(false);
             }
 
             if (myOptions.RunAllDays)
             {
-                await SolveAllDays();
+                await SolveAllDays().ConfigureAwait(false);
                 return;
             }
 
             if (myOptions.RunLastDay)
             {
-                await SolveLastDay();
+                await SolveLastDay().ConfigureAwait(false);
             }
 
             if (myOptions.DayToRun.HasValue)
             {
-                await SolveDay(myOptions.DayToRun.Value);
+                await SolveDay(myOptions.DayToRun.Value).ConfigureAwait(false);
             }
         }
 
@@ -92,7 +92,7 @@ namespace aoc2020.ConsoleApp
             var count = 0;
             foreach (var day in mySolutionHandler.Solutions.Keys.OrderBy(x => x))
             {
-                await SolveDay(day);
+                await SolveDay(day).ConfigureAwait(false);
                 if (++count < mySolutionHandler.Solutions.Count)
                 {
                     Console.WriteLine();
@@ -105,7 +105,7 @@ namespace aoc2020.ConsoleApp
             var lastSolutionDay = mySolutionHandler.Solutions.Keys.LastOrDefault(x => x >= 1 && x <= 25);
             if (lastSolutionDay > 0)
             {
-                await SolveDay(lastSolutionDay);
+                await SolveDay(lastSolutionDay).ConfigureAwait(false);
             }
             else
             {
@@ -120,11 +120,11 @@ namespace aoc2020.ConsoleApp
 
             var dayString = day.ToString().PadLeft(2, '0');
             var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var input = File.ReadAllText(Path.Combine(rootDir, "Input", $"day{dayString}.txt"));
+            var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", $"day{dayString}.txt")).ConfigureAwait(false);
 
             Console.WriteLine($"Day {day}: {solutionMetadata.Title}");
-            await SolvePart(1, input, solution.Part1Async, solution);
-            await SolvePart(2, input, solution.Part2Async, solution);
+            await SolvePart(1, input, solution.Part1Async, solution).ConfigureAwait(false);
+            await SolvePart(2, input, solution.Part2Async, solution).ConfigureAwait(false);
         }
 
         private static async Task SolvePart(int partNumber, string input, Func<string, Task<string>> action, ISolution solution)
@@ -134,11 +134,11 @@ namespace aoc2020.ConsoleApp
 
             Console.Write(waitingMessage);
 
-            string result = null;
+            string result;
             try
             {
                 solution.ProgressUpdated += ProgressUpdated;
-                result = await action(input);
+                result = await action(input).ConfigureAwait(false);
             }
             catch (NotImplementedException)
             {
@@ -176,7 +176,7 @@ namespace aoc2020.ConsoleApp
         {
             var dayString = day.ToString().PadLeft(2, '0');
             var consoleProjectBinPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var puzzleProjectPath = Path.Combine(consoleProjectBinPath, myConfig.PuzzleProjectPath);
+            var puzzleProjectPath = Path.Combine(consoleProjectBinPath ?? throw new InvalidOperationException("Could not find consoleProjectBinPath."), myConfig.PuzzleProjectPath);
             Console.WriteLine($"Setting up input and description for {myConfig.Year}/12/{dayString}...");
 
             var cookieContainer = new CookieContainer();
@@ -184,9 +184,9 @@ namespace aoc2020.ConsoleApp
             using var httpClientHandler = new HttpClientHandler { CookieContainer = cookieContainer };
             using var httpClient = new HttpClient(httpClientHandler);
 
-            await SaveInputAsync(day, dayString, puzzleProjectPath, httpClient);
-            string puzzleTitle = await SaveDescriptionAsync(day, dayString, puzzleProjectPath, httpClient);
-            await CreateSolutionSourceAsync(day, dayString, consoleProjectBinPath, puzzleProjectPath, puzzleTitle);
+            await SaveInputAsync(day, dayString, puzzleProjectPath, httpClient).ConfigureAwait(false);
+            string puzzleTitle = await SaveDescriptionAsync(day, dayString, puzzleProjectPath, httpClient).ConfigureAwait(false);
+            await CreateSolutionSourceAsync(day, dayString, consoleProjectBinPath, puzzleProjectPath, puzzleTitle).ConfigureAwait(false);
 
             Console.WriteLine("Done.");
         }
@@ -196,41 +196,41 @@ namespace aoc2020.ConsoleApp
             var inputAddress = $"https://adventofcode.com/{myConfig.Year}/day/{day}/input";
             var inputFile = new FileInfo(Path.Combine(puzzleProjectPath, "Input", $"day{dayString}.txt"));
             Console.WriteLine($"Downloading input from {inputAddress}");
-            var input = await httpClient.GetStringAsync(inputAddress);
+            var input = await httpClient.GetStringAsync(inputAddress).ConfigureAwait(false);
 
             Console.WriteLine($"Saving input to {inputFile.FullName}");
-            File.WriteAllText(inputFile.FullName, input, Encoding.UTF8);
+            await File.WriteAllTextAsync(inputFile.FullName, input, Encoding.UTF8).ConfigureAwait(false);
         }
 
         private async Task<string> SaveDescriptionAsync(int day, string dayString, string puzzleProjectPath, HttpClient httpClient)
         {
             var descriptionAddress = $"https://adventofcode.com/{myConfig.Year}/day/{day}";
             var descriptionFile = new FileInfo(Path.Combine(puzzleProjectPath, "Descriptions", $"day{dayString}.html"));
-            var puzzleTitleRegex = new Regex(@"---.*: (?'title'.*) ---");
+            var puzzleTitleRegex = new Regex("---.*: (?'title'.*) ---");
 
             Console.WriteLine($"Downloading description from {descriptionAddress}");
-            var descriptionPageSource = await httpClient.GetStringAsync(descriptionAddress);
+            var descriptionPageSource = await httpClient.GetStringAsync(descriptionAddress).ConfigureAwait(false);
             var descriptionPage = new HtmlDocument();
             descriptionPage.LoadHtml(descriptionPageSource);
             var articleNodes = descriptionPage.DocumentNode.SelectNodes("//article[@class='day-desc']");
 
             var titleNode = articleNodes.First().SelectSingleNode("//h2");
             var puzzleTitle = puzzleTitleRegex.Match(titleNode.InnerText).Groups["title"].Value;
-            titleNode.InnerHtml = $"--- Part One ---";
+            titleNode.InnerHtml = "--- Part One ---";
             Console.WriteLine($"Found {articleNodes.Count} parts. Title: {puzzleTitle}");
             var description = articleNodes.Aggregate(string.Empty, (result, node) => result + node.OuterHtml);
 
             Console.WriteLine($"Saving description to {descriptionFile.FullName}");
-            File.WriteAllText(descriptionFile.FullName, description, Encoding.UTF8);
+            await File.WriteAllTextAsync(descriptionFile.FullName, description, Encoding.UTF8).ConfigureAwait(false);
 
             return puzzleTitle;
         }
 
         private static async Task CreateSolutionSourceAsync(int day, string dayString, string consoleProjectBinPath, string puzzleProjectPath, string puzzleTitle)
         {
-            var solutionSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", $"Day_DAYSTRING_.cs"));
+            var solutionSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", "Day_DAYSTRING_.cs"));
             var solutionTargetFile = new FileInfo(Path.Combine(puzzleProjectPath, "Solutions", $"Day{dayString}.cs"));
-            var testSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", $"Day_DAYSTRING_Test.cs"));
+            var testSourceFile = new FileInfo(Path.Combine(consoleProjectBinPath, "Template", "Day_DAYSTRING_Test.cs"));
             var testTargetFile = new FileInfo(Path.Combine($"{puzzleProjectPath}.Test", "Solutions", $"Day{dayString}Test.cs"));
 
             if (solutionTargetFile.Exists)
@@ -240,12 +240,12 @@ namespace aoc2020.ConsoleApp
             else
             {
                 Console.WriteLine($"Saving source file to {solutionTargetFile.FullName}");
-                var sourceContent = await File.ReadAllTextAsync(solutionSourceFile.FullName);
+                var sourceContent = await File.ReadAllTextAsync(solutionSourceFile.FullName).ConfigureAwait(false);
                 sourceContent = sourceContent
                     .Replace("_DAYNUMBER_", day.ToString())
                     .Replace("_DAYSTRING_", dayString)
                     .Replace("_PUZZLETITLE_", puzzleTitle);
-                await File.WriteAllTextAsync(solutionTargetFile.FullName, sourceContent, Encoding.UTF8);
+                await File.WriteAllTextAsync(solutionTargetFile.FullName, sourceContent, Encoding.UTF8).ConfigureAwait(false);
             }
 
             if (testTargetFile.Exists)
@@ -254,11 +254,10 @@ namespace aoc2020.ConsoleApp
             }
             else
             {
-
                 Console.WriteLine($"Saving test file to {testTargetFile.FullName}");
-                var testContent = await File.ReadAllTextAsync(testSourceFile.FullName);
+                var testContent = await File.ReadAllTextAsync(testSourceFile.FullName).ConfigureAwait(false);
                 testContent = testContent.Replace("_DAYSTRING_", dayString);
-                await File.WriteAllTextAsync(testTargetFile.FullName, testContent, Encoding.UTF8);
+                await File.WriteAllTextAsync(testTargetFile.FullName, testContent, Encoding.UTF8).ConfigureAwait(false);
             }
         }
 

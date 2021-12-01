@@ -1,4 +1,4 @@
-# Advent of Code 2019 C# Blazor solutions [![.NET Core build badge](https://github.com/sanraith/aoc2020/workflows/.NET%20Core/badge.svg)](https://github.com/sanraith/aoc2020/actions)
+# Advent of Code 2020 C# Blazor solutions [![.NET Core build badge](https://github.com/sanraith/aoc2020/workflows/.NET%20Core/badge.svg)](https://github.com/sanraith/aoc2020/actions)
 
 Solutions for [Advent of Code 2020](https://adventofcode.com/2020) in C# with a Blazor WebAssembly runner. This project uses .Net Core 3.1.  
 Solutions can be run in console or directly inside a modern web browser, thanks to Blazor WebAssembly.

@@ -35,7 +35,7 @@ namespace aoc2020.Puzzles.Core
 
         Task IProgressPublisher.UpdateProgressAsync(double current, double total) => UpdateProgressAsync(current, total);
 
-        protected virtual SolutionProgress Progress { get; set; } = new SolutionProgress();
+        protected virtual SolutionProgress Progress { get; set; } = new();
 
         /// <summary>
         /// Returns true if <see cref="UpdateProgressAsync"/> should be called to update the UI of the solution runner. This happens every couple of milliseconds.

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using aoc2020.WebApp.Visualizers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using aoc2020.WebApp.Visualizers;
 
 namespace aoc2020.WebApp.Services
 {
@@ -61,6 +61,6 @@ namespace aoc2020.WebApp.Services
 
         public CancellationToken GetVisualizationCancellationToken() => myCancellationTokenSource.Token;
 
-        private CancellationTokenSource myCancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource myCancellationTokenSource = new();
     }
 }

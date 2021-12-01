@@ -1,0 +1,108 @@
+Tile  : 2311
+Top   :          210
+Left  :          498
+Right :           89
+Bottom:          231
+
+Flipped Top   :  300
+Flipped Left  :  318
+Flipped Right :  616
+Flipped Bottom:  924
+
+
+Tile  : 1951
+Top   :          710
+Left  :          841
+Right :          498
+Bottom:          564
+
+Flipped Top   :  397
+Flipped Left  :  587
+Flipped Right :  318
+Flipped Bottom:  177
+
+
+Tile  : 1171
+Top   :          966
+Left  :          902
+Right :          288
+Bottom:           24
+
+Flipped Top   :  399
+Flipped Left  :  391
+Flipped Right :   18
+Flipped Bottom:   96
+
+
+Tile  : 1427
+Top   :          948
+Left  :          576
+Right :          234
+Bottom:          210
+
+Flipped Top   :  183
+Flipped Left  :    9
+Flipped Right :  348
+Flipped Bottom:  300
+
+
+Tile  : 1489
+Top   :          848
+Left  :          565
+Right :           18
+Bottom:          948
+
+Flipped Top   :   43
+Flipped Left  :  689
+Flipped Right :  288
+Flipped Bottom:  183
+
+
+Tile  : 2473
+Top   :          542
+Left  :          966
+Right :          116
+Bottom:          234
+
+Flipped Top   :  481
+Flipped Left  :  399
+Flipped Right :  184
+Flipped Bottom:  348
+
+
+Tile  : 2971
+Top   :          161
+Left  :          456
+Right :          565
+Bottom:           85
+
+Flipped Top   :  532
+Flipped Left  :   78
+Flipped Right :  689
+Flipped Bottom:  680
+
+
+Tile  : 2729
+Top   :           85
+Left  :          271
+Right :          576
+Bottom:          710
+
+Flipped Top   :  680
+Flipped Left  :  962
+Flipped Right :    9
+Flipped Bottom:  397
+
+
+Tile  : 3079
+Top   :          702
+Left  :          616
+Right :          264
+Bottom:          184
+
+Flipped Top   :  501
+Flipped Left  :   89
+Flipped Right :   66
+Flipped Bottom:  116
+
+

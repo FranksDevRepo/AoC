@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -31,19 +30,19 @@ namespace aoc2020.WebApp.Services
 
         public async Task<string> GetInputAsync(int day)
         {
-            var input = await GetFileAsync(day, "input/day{0}.txt", myInputCache);
+            var input = await GetFileAsync(day, "input/day{0}.txt", myInputCache).ConfigureAwait(false);
             return input;
         }
 
         public async Task<string> GetDescriptionAsync(int day)
         {
-            var description = await GetFileAsync(day, "description/day{0}.html", myDescriptionCache);
+            var description = await GetFileAsync(day, "description/day{0}.html", myDescriptionCache).ConfigureAwait(false);
             return description ?? "No description available.";
         }
 
         public async Task<string> GetSourceCodeAsync(int day)
         {
-            var source = await GetFileAsync(day, "source/Day{0}.cs", mySourceCodeCache);
+            var source = await GetFileAsync(day, "source/Day{0}.cs", mySourceCodeCache).ConfigureAwait(false);
             return source ?? "No source file available.";
         }
 
@@ -54,7 +53,7 @@ namespace aoc2020.WebApp.Services
                 var dayString = day.ToString().PadLeft(2, '0');
                 try
                 {
-                    description = await myHttpClient.GetStringAsync(string.Format(pathTemplate, dayString));
+                    description = await myHttpClient.GetStringAsync(string.Format(pathTemplate, dayString)).ConfigureAwait(false);
                 }
                 catch (HttpRequestException)
                 {
@@ -86,9 +85,9 @@ namespace aoc2020.WebApp.Services
         }
 
         private readonly HttpClient myHttpClient;
-        private readonly Dictionary<int, object[]> myResultCache = new Dictionary<int, object[]>();
-        private readonly Dictionary<int, string> myInputCache = new Dictionary<int, string>();
-        private readonly Dictionary<int, string> myDescriptionCache = new Dictionary<int, string>();
-        private readonly Dictionary<int, string> mySourceCodeCache = new Dictionary<int, string>();
+        private readonly Dictionary<int, object[]> myResultCache = new();
+        private readonly Dictionary<int, string> myInputCache = new();
+        private readonly Dictionary<int, string> myDescriptionCache = new();
+        private readonly Dictionary<int, string> mySourceCodeCache = new();
     }
 }

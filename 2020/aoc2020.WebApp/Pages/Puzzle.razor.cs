@@ -62,7 +62,7 @@ namespace aoc2020.WebApp.Pages
             {
                 SolutionMetadata = solutionMetadata;
                 Results = InputHandler.GetResults(SolutionMetadata.Day);
-                if (InputHandler.IsCachedInputAvailable(solutionMetadata.Day)) { await LoadInputAsync(); }
+                if (InputHandler.IsCachedInputAvailable(solutionMetadata.Day)) { await LoadInputAsync().ConfigureAwait(false); }
                 Description = "Loading description...";
                 LoadPuzzleMetadataInBackground();
             }
@@ -74,12 +74,12 @@ namespace aoc2020.WebApp.Pages
             Task.Run(() => LoadInputAsync(), myCancellationTokenSource.Token);
             Task.Run(async () =>
             {
-                Description = await InputHandler.GetDescriptionAsync(SolutionMetadata.Day);
+                Description = await InputHandler.GetDescriptionAsync(SolutionMetadata.Day).ConfigureAwait(false);
                 StateHasChanged();
             }, myCancellationTokenSource.Token);
             Task.Run(async () =>
             {
-                SourceCode = await InputHandler.GetSourceCodeAsync(SolutionMetadata.Day);
+                SourceCode = await InputHandler.GetSourceCodeAsync(SolutionMetadata.Day).ConfigureAwait(false);
                 StateHasChanged();
             }, myCancellationTokenSource.Token);
         }
@@ -87,7 +87,7 @@ namespace aoc2020.WebApp.Pages
         private async Task LoadInputAsync(bool forceReload = false)
         {
             Input = forceReload ? null : Input;
-            Input = Input ?? await InputHandler.GetInputAsync(SolutionMetadata.Day);
+            Input ??= await InputHandler.GetInputAsync(SolutionMetadata.Day).ConfigureAwait(false);
             HasInputChanged = false;
             StateHasChanged();
         }
@@ -109,9 +109,9 @@ namespace aoc2020.WebApp.Pages
                 {
                     Progress = new SolutionProgress();
                     StateHasChanged();
-                    await Task.Delay(1);
-                    if (IsWorking == false) { break; }
-                    Results[index] = await ExceptionToResult(part);
+                    await Task.Delay(1).ConfigureAwait(false);
+                    if (!IsWorking) { break; }
+                    Results[index] = await ExceptionToResult(part).ConfigureAwait(false);
                 }
             }
             finally
@@ -143,7 +143,7 @@ namespace aoc2020.WebApp.Pages
         {
             try
             {
-                return await (func(Input) ?? Task.FromResult<string>(null));
+                return await (func(Input) ?? Task.FromResult<string>(null)).ConfigureAwait(false);
             }
             catch (Exception exception)
             {

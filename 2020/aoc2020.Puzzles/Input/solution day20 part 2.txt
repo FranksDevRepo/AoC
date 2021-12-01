@@ -1,0 +1,51 @@
+Tile  : 1171 Ecke
+Match : 1489 Kante
+Match : 2473 Kante
+
+
+Tile  : 1951 Ecke
+Match : 2311 Kante
+Match : 2729 Kante
+
+
+Tile  : 2971 Ecke
+Match : 1489 Kante
+Match : 2729 Kante
+
+
+Tile  : 3079 Ecke
+Match : 2311 Kante
+Match : 2473 Kante
+
+
+Tile  : 1489 Kante
+Match : 1171 Ecke
+Match : 1427 Mitte
+Match : 2971 Ecke
+
+
+Tile  : 2311 Kante
+Match : 1427 Mitte
+Match : 1951 Ecke
+Match : 3079 Ecke
+
+
+Tile  : 2473 Kante
+Match : 1171 Ecke
+Match : 1427 Mitte
+Match : 3079 Ecke
+
+
+Tile  : 2729 Kante
+Match : 1427 Mitte
+Match : 1951 Ecke
+Match : 2971 Ecke
+
+
+Tile  : 1427 Mitte
+Match : 1489 Kante
+Match : 2311 Kante
+Match : 2473 Kante
+Match : 2729 Kante
+
+
