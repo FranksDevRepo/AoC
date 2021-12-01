@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace aoc2021.Puzzles.Core
+namespace aoc2021.Puzzles.Core;
+
+public interface IProgressPublisher
 {
-    public interface IProgressPublisher
-    {
-        bool IsUpdateProgressNeeded();
-        Task UpdateProgressAsync(double current, double total);
-    }
+    bool IsUpdateProgressNeeded();
+    Task UpdateProgressAsync(double current, double total);
 }

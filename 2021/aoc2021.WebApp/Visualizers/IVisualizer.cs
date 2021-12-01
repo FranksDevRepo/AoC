@@ -1,9 +1,8 @@
 ﻿using aoc2021.Puzzles.Core;
 
-namespace aoc2021.WebApp.Visualizers
+namespace aoc2021.WebApp.Visualizers;
+
+public interface IVisualizer
 {
-    public interface IVisualizer
-    {
-        ISolution SolutionInstance { get; set; }
-    }
+    ISolution SolutionInstance { get; set; }
 }
