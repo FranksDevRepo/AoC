@@ -83,7 +83,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public void ParseInput(string input)
             {
-                var lines = (from line in input.Replace("\r", "").Split("\n").ToList()
+                var lines = (from line in input.Split(Environment.NewLine).ToList()
                              select line).ToArray();
 
                 var tileNumberRegex = new Regex(@"^Tile (?'TileNumber'\d+):$");

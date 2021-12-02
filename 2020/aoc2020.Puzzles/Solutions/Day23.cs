@@ -1,4 +1,5 @@
-﻿using aoc2020.Puzzles.Core;
+﻿using System;
+using aoc2020.Puzzles.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +64,7 @@ namespace aoc2020.Puzzles.Solutions
 
             public CrapCupsGame(string input)
             {
-                var cups = (from @char in input.Replace("\n", string.Empty)
+                var cups = (from @char in input.Replace(Environment.NewLine, string.Empty)
                             select int.Parse(@char.ToString()))
                     .ToList();
 
