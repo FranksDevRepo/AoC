@@ -39,8 +39,7 @@ public sealed class Day04Test : TestBase<Day04>
     [Fact]
     public async Task Part2()
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part2Async(_input));
+        Assert.Equal("1924", await Solution.Part2Async(_input));
     }
 
     [Fact]
@@ -58,6 +57,6 @@ public sealed class Day04Test : TestBase<Day04>
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day04.txt"));
 
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("20774", await Solution.Part2Async(input));
     }
 }

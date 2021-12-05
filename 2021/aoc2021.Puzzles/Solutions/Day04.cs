@@ -16,18 +16,31 @@ public sealed class Day04 : SolutionBase
 {
     public override string Part1(string input)
     {
-        (string draws, string boards) = GetLines(RemoveLineBreaksAndMultipleSpaces(input)).FirstOrDefault()!.Split(' ', 2, StringSplitOptions.None);
-        var player = new Player(boards);
-        player.CreateBingoBoards();
-        var lastDraw = 0;
-        var unmarkedNumberOnWinningBoard = 0;
+        int lastDraw;
+        int unmarkedNumberOnWinningBoard;
+        var draws = ParseInputAndCreateBingoBoards(input, out var player);
         (lastDraw, unmarkedNumberOnWinningBoard) = player.Play(draws);
         return (lastDraw * unmarkedNumberOnWinningBoard).ToString();
     }
 
     public override string Part2(string input)
     {
-        throw new NotImplementedException();
+        int lastDraw;
+        int unmarkedNumberOnWinningBoard;
+        var draws = ParseInputAndCreateBingoBoards(input, out var player);
+        (lastDraw, unmarkedNumberOnWinningBoard) = player.PlayLastWinningBoardStrategy(draws);
+        return (lastDraw * unmarkedNumberOnWinningBoard).ToString();
+    }
+
+    private string ParseInputAndCreateBingoBoards(string input, out Player player)
+    {
+        (string draws, string boards) =
+            GetLines(RemoveLineBreaksAndMultipleSpaces(input)).FirstOrDefault()!.Split(' ', 2, StringSplitOptions.None);
+        player = new Player(boards);
+        player.CreateBingoBoards();
+        var lastDraw = 0;
+        var unmarkedNumberOnWinningBoard = 0;
+        return draws;
     }
 
     string RemoveLineBreaksAndMultipleSpaces(string s)
@@ -74,6 +87,40 @@ public class Player
                 }
             }
         }
+
+        return (0, 0);
+    }
+
+    public (int lastDraw, int unmarkedNumberOnWinningBoard) PlayLastWinningBoardStrategy(string draws)
+    {
+        var drawNumbers = draws.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => Convert.ToInt32(s));
+        int indexBoard = 0;
+        Dictionary<int, (int lastDrawNumber, int countNumberOfDraws)> boardDictionary = new();
+
+        foreach (var bingoBoard in BingoBoards)
+        {
+        int countNumberOfDraws = 0;
+            foreach (var drawNumber in drawNumbers)
+            {
+                countNumberOfDraws++;
+                bingoBoard.Mark(drawNumber);
+                if (bingoBoard.IsWin())
+                {
+                    boardDictionary[indexBoard] = (drawNumber, countNumberOfDraws);
+                    break;
+                }
+
+            }
+            indexBoard++;
+
+        }
+
+        var loosingBoard = boardDictionary.Where(b =>
+            b.Value.countNumberOfDraws == boardDictionary.Values.Max(x => x.countNumberOfDraws)).FirstOrDefault();
+        int lastDrawNumber = loosingBoard.Value.lastDrawNumber;
+        
+        return (lastDrawNumber, BingoBoards.ElementAt(loosingBoard.Key).SumOfUnmarkedNumber());
+
 
         return (0, 0);
     }
