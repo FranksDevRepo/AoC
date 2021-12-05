@@ -3,16 +3,14 @@ using aoc2021.Puzzles.Solutions;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 
 namespace aoc2021.Puzzles.Test.Solutions;
 
 public sealed class Day05Test : TestBase<Day05>
 {
-    [Fact]
-    public async Task Part1()
-    {
-        var input = @"0,9 -> 5,9
+    private readonly string _input = @"0,9 -> 5,9
 8,0 -> 0,8
 9,4 -> 3,4
 2,2 -> 2,1
@@ -22,14 +20,17 @@ public sealed class Day05Test : TestBase<Day05>
 3,4 -> 1,4
 0,0 -> 8,8
 5,5 -> 8,2";
-        Assert.Equal("5", await Solution.Part1Async(input));
+
+    [Fact]
+    public async Task Part1()
+    {
+        Assert.Equal("5", await Solution.Part1Async(_input));
     }
 
     [Fact]
     public async Task Part2()
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("12", await Solution.Part2Async(_input));
     }
 
     [Fact]
@@ -47,6 +48,9 @@ public sealed class Day05Test : TestBase<Day05>
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day05.txt"));
 
-        Assert.Equal("", await Solution.Part2Async(input));
+        var actual = Convert.ToInt32(await Solution.Part2Async(input));
+        actual.Should().BeGreaterThan(19179);
+
+        actual.Should().Be(21577);
     }
 }

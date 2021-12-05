@@ -12,6 +12,13 @@ public sealed class Day05 : SolutionBase
 {
     public override string Part1(string input)
     {
+        var diagram = ParseInputAndCreateDiagram(input);
+
+        return diagram.CountOverlappingPoints().ToString();
+    }
+
+    private static Diagram ParseInputAndCreateDiagram(string input, bool considerDiagonalLines = false)
+    {
         var lines = GetLines(input);
 
         var regexLineOfVent = new Regex(@"^(?'start'\d{1,3},\d{1,3}) -> (?'end'\d{1,3},\d{1,3})", RegexOptions.Compiled);
@@ -20,7 +27,7 @@ public sealed class Day05 : SolutionBase
         foreach (var line in lines)
         {
             var match = regexLineOfVent.Match(line);
-            if(!match.Success) continue;
+            if (!match.Success) continue;
             var start = new Coordinate(match.Groups["start"].Value);
             var end = new Coordinate(match.Groups["end"].Value);
             var lineOfVent = new Line(start, end);
@@ -28,14 +35,15 @@ public sealed class Day05 : SolutionBase
         }
 
         var diagram = new Diagram(linesOfVent);
-        diagram.Draw();
-
-        return diagram.CountOverlappingPoints().ToString();
+        diagram.Draw(considerDiagonalLines);
+        return diagram;
     }
 
     public override string Part2(string input)
     {
-        throw new NotImplementedException();
+        var diagram = ParseInputAndCreateDiagram(input, true);
+
+        return diagram.CountOverlappingPoints().ToString();
     }
 }
 
@@ -82,6 +90,9 @@ public struct Line
 
     public bool IsVertical()
         => Start.X == End.X;
+
+    public bool IsDiagonal()
+        => !IsHorizontal() && !IsVertical();
 }
 
 public class Diagram
@@ -97,32 +108,64 @@ public class Diagram
     public int MaxX => LinesOfVent.Max(l => Math.Max(l.Start.X, l.End.X));
     public int MaxY => LinesOfVent.Max(l => Math.Max(l.Start.Y, l.End.Y));
 
-    public void Draw()
+    public void Draw(bool considerDiagonalLines = false)
     {
         _diagram = new int[MaxY + 1, MaxX + 1];
         foreach (var lineOfVent in LinesOfVent)
         {
-            DrawLine(lineOfVent);
+            DrawLine(lineOfVent, considerDiagonalLines);
         }
     }
 
-    private void DrawLine(Line lineOfVent)
+    private void DrawLine(Line lineOfVent, bool considerDiagonalLines = false)
     {
-        if(!lineOfVent.IsHorizontal() && !lineOfVent.IsVertical())
+        if (!considerDiagonalLines && lineOfVent.IsDiagonal())
             return;
 
         if (lineOfVent.IsHorizontal())
         {
-            for(int x = lineOfVent.Start.X; x <= lineOfVent.End.X; x++)
+            for (int x = lineOfVent.Start.X; x <= lineOfVent.End.X; x++)
             {
                 _diagram[lineOfVent.Start.Y, x]++;
             }
         }
+
         if (lineOfVent.IsVertical())
         {
-            for(int y = lineOfVent.Start.Y; y <= lineOfVent.End.Y; y++)
+            for (int y = lineOfVent.Start.Y; y <= lineOfVent.End.Y; y++)
             {
                 _diagram[y, lineOfVent.Start.X]++;
+            }
+        }
+
+        if (lineOfVent.IsDiagonal())
+        {
+            if (lineOfVent.Start.Y < lineOfVent.End.Y && lineOfVent.Start.X < lineOfVent.End.X)
+            {
+                var coordinate = lineOfVent.Start;
+                do
+                {
+                    _diagram[coordinate.Y, coordinate.X]++;
+                    coordinate = new Coordinate(coordinate.X + 1, coordinate.Y + 1);
+                } while (coordinate.X <= lineOfVent.End.X && coordinate.Y <= lineOfVent.End.Y);
+            }
+            else if (lineOfVent.Start.X < lineOfVent.End.X)
+            {
+                var coordinate = lineOfVent.Start;
+                do
+                {
+                    _diagram[coordinate.Y, coordinate.X]++;
+                    coordinate = new Coordinate(coordinate.X + 1, coordinate.Y - 1);
+                } while (coordinate.X <= lineOfVent.End.X && coordinate.Y >= lineOfVent.End.Y);
+            }
+            else
+            {
+                var coordinate = lineOfVent.Start;
+                do
+                {
+                    _diagram[coordinate.Y, coordinate.X]++;
+                    coordinate = new Coordinate(coordinate.X - 1, coordinate.Y + 1);
+                } while (coordinate.X >= lineOfVent.End.X && coordinate.Y <= lineOfVent.End.Y);
             }
         }
     }
@@ -138,6 +181,7 @@ public class Diagram
                     countOverlappingLines++;
             }
         }
+
         return countOverlappingLines;
     }
 }
