@@ -29,7 +29,7 @@ public sealed class Day06Test : TestBase<Day06>
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day06.txt"));
 
-        Assert.Equal("", await Solution.Part1Async(input));
+        Assert.Equal("353079", await Solution.Part1Async(input));
     }
 
     [Fact]
