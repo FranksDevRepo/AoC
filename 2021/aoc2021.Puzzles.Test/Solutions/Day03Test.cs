@@ -1,5 +1,5 @@
-﻿using System;
-using aoc2021.Puzzles.Solutions;
+﻿using aoc2021.Puzzles.Solutions;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,8 +12,19 @@ public sealed class Day03Test : TestBase<Day03>
     [Fact]
     public async Task Part1()
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part1Async(input));
+        var input = @"00100
+11110
+10110
+10111
+10101
+01111
+00111
+11100
+10000
+11001
+00010
+01010";
+        Assert.Equal("198", await Solution.Part1Async(input));
     }
 
     [Fact]
