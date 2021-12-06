@@ -1,9 +1,9 @@
-﻿using System;
-using aoc2021.Puzzles.Solutions;
+﻿using aoc2021.Puzzles.Solutions;
+using FluentAssertions;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Xunit;
 
 namespace aoc2021.Puzzles.Test.Solutions;

@@ -1,13 +1,10 @@
 ﻿using aoc2021.Puzzles.Core;
 using aoc2021.Puzzles.Extensions;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
-using MoreLinq;
 
 namespace aoc2021.Puzzles.Solutions;
 
@@ -32,18 +29,16 @@ public sealed class Day04 : SolutionBase
         return (lastDraw * unmarkedNumberOnWinningBoard).ToString();
     }
 
-    private string ParseInputAndCreateBingoBoards(string input, out Player player)
+    private static string ParseInputAndCreateBingoBoards(string input, out Player player)
     {
         (string draws, string boards) =
             GetLines(RemoveLineBreaksAndMultipleSpaces(input)).FirstOrDefault()!.Split(' ', 2, StringSplitOptions.None);
         player = new Player(boards);
         player.CreateBingoBoards();
-        var lastDraw = 0;
-        var unmarkedNumberOnWinningBoard = 0;
         return draws;
     }
 
-    string RemoveLineBreaksAndMultipleSpaces(string s)
+    static string RemoveLineBreaksAndMultipleSpaces(string s)
     {
         s = Regex.Replace(s, @"\s+", " ");
         return s;
@@ -64,7 +59,6 @@ public class Player
 
     public void CreateBingoBoards()
     {
-        var numbersOfBoardsNeeded = boardNumbers.Length / 25;
         foreach (var boardNumbersForOneBoard in boardNumbers.Batch(25))
         {
             var bingoBoard = new BingoBoard(boardNumbersForOneBoard);
@@ -120,15 +114,12 @@ public class Player
         int lastDrawNumber = loosingBoard.Value.lastDrawNumber;
         
         return (lastDrawNumber, BingoBoards.ElementAt(loosingBoard.Key).SumOfUnmarkedNumber());
-
-
-        return (0, 0);
     }
 }
 
 public class BingoBoard
 {
-    private (int number, bool isMarked)[,] board;
+    private readonly (int number, bool isMarked)[,] board;
     public BingoBoard(IEnumerable<int> boardNumbersForOneBoard)
     {
         board = new (int number, bool isMarked)[5, 5];

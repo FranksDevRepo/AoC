@@ -1,5 +1,5 @@
-﻿using System;
-using aoc2021.Puzzles.Solutions;
+﻿using aoc2021.Puzzles.Solutions;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
