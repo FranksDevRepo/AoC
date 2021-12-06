@@ -1,7 +1,6 @@
 ﻿using aoc2021.Puzzles.Core;
 using System;
 using System.Linq;
-using System.Net.Sockets;
 
 namespace aoc2021.Puzzles.Solutions;
 
@@ -32,13 +31,13 @@ public sealed class Day03 : SolutionBase
 
             if (zeros > ones)
             {
-                gamma = gamma * 2;
+                gamma *= 2;
                 epsilon = epsilon * 2 + 1;
             }
             else
             {
                 gamma = gamma * 2 + 1;
-                epsilon = epsilon * 2;
+                epsilon *= 2;
 
             }
         }
