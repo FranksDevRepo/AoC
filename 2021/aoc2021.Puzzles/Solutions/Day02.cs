@@ -45,10 +45,7 @@ public sealed class Day02 : SolutionBase
             };
         }
 
-        public override string ToString()
-        {
-            return (this.Horizontal * this.Depth).ToString();
-        }
+        public override string ToString() => (this.Horizontal * this.Depth).ToString();
     }
 
     public override string Part1(string input)
@@ -61,6 +58,10 @@ public sealed class Day02 : SolutionBase
     private static IPosition ProcessInputAndMovePosition(string input, IPosition position)
     {
         var lines = GetLines(input);
+        // ^ start of line
+        // (?'command' ...) named match group
+        // \b ... \b word boundary
+        // \w*? 0 or more words ? lazy match 
         var instructionParser = new Regex("^(?'command'\\b\\w*?\\b) (?'units'\\d*)", RegexOptions.Compiled);
         foreach (var line in lines)
         {
@@ -110,9 +111,6 @@ public sealed class Day02 : SolutionBase
             };
         }
 
-        public override string ToString()
-        {
-            return (this.Horizontal * this.Depth).ToString();
-        }
+        public override string ToString() => (this.Horizontal * this.Depth).ToString();
     }
 }
