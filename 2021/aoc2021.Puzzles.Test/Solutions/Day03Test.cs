@@ -31,7 +31,7 @@ public sealed class Day03Test : TestBase<Day03>
     [Fact]
     public async Task Part2()
     {
-        Assert.Equal("", await Solution.Part2Async(_input));
+        Assert.Equal("230", await Solution.Part2Async(_input));
     }
 
     [Fact]
