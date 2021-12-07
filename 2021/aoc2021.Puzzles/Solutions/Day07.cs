@@ -10,7 +10,7 @@ public sealed class Day07 : SolutionBase
 {
     public override string Part1(string input)
     {
-        var horizontalPositions = GetLines(input).First().Split(',').Select(s => Convert.ToInt32(s));
+        var horizontalPositions = ParseInput(input);
 
         var minPosition = horizontalPositions.Min();
         var maxPosition = horizontalPositions.Max();
@@ -33,7 +33,7 @@ public sealed class Day07 : SolutionBase
 
     public override string Part2(string input)
     {
-        var horizontalPositions = GetLines(input).First().Split(',').Select(s => Convert.ToInt32(s));
+        var horizontalPositions = ParseInput(input);
 
         var minPosition = horizontalPositions.Min();
         var maxPosition = horizontalPositions.Max();
@@ -56,4 +56,11 @@ public sealed class Day07 : SolutionBase
         var leastFuelPossible = positionAndFuel.Min(pf => pf.fuelNeeded);
         return leastFuelPossible.ToString();
     }
+
+    private static List<int> ParseInput(string input) =>
+        GetLines(input)
+            .First()
+            .Split(',')
+            .Select(s => Convert.ToInt32(s))
+            .ToList();
 }
