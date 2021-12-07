@@ -15,33 +15,6 @@ public sealed class Day06 : SolutionBase
         return ParseInputCreateLanternFishesAndSimulate(input, 80);
     }
 
-    private static string ParseInputCreateLanternFishesAndSimulate(string input, int numberOfDaysToSimulate)
-    {
-        var lanternFishes = GetLines(input)
-            .First()
-            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(n => new LanternFish(Convert.ToSByte(n)))
-            .ToList();
-
-        int days = 0;
-        do
-        {
-            days++;
-            List<LanternFish> newLanternFishes = new();
-            foreach (var lanternFish in lanternFishes)
-            {
-                var newFish = lanternFish.SimulateDay();
-                if (newFish != null)
-                    newLanternFishes.Add(newFish);
-            }
-
-            if (newLanternFishes.Count > 0)
-                lanternFishes.AddRange(newLanternFishes);
-        } while (days < numberOfDaysToSimulate);
-
-        return lanternFishes.Count.ToString();
-    }
-
     // way too slow
     //public override string Part2(string input)
     //{
@@ -109,6 +82,33 @@ public sealed class Day06 : SolutionBase
         }
 
         return counter.ToString();
+    }
+
+    private static string ParseInputCreateLanternFishesAndSimulate(string input, int numberOfDaysToSimulate)
+    {
+        var lanternFishes = GetLines(input)
+            .First()
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(n => new LanternFish(Convert.ToSByte(n)))
+            .ToList();
+
+        int days = 0;
+        do
+        {
+            days++;
+            List<LanternFish> newLanternFishes = new();
+            foreach (var lanternFish in lanternFishes)
+            {
+                var newFish = lanternFish.SimulateDay();
+                if (newFish != null)
+                    newLanternFishes.Add(newFish);
+            }
+
+            if (newLanternFishes.Count > 0)
+                lanternFishes.AddRange(newLanternFishes);
+        } while (days < numberOfDaysToSimulate);
+
+        return lanternFishes.Count.ToString();
     }
 
     public class LanternFish
