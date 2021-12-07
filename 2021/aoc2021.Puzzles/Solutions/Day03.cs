@@ -8,9 +8,7 @@ public sealed class Day03 : SolutionBase
 {
     public override string Part1(string input)
     {
-        var data = (from line in GetLines(input)
-            where !string.IsNullOrWhiteSpace(line)
-            select line.ToCharArray()).ToArray();
+        var data = ParseInput(input);
 
         var gamma = 0L;
         var epsilon = 0L;
@@ -48,4 +46,9 @@ public sealed class Day03 : SolutionBase
     {
         throw new NotImplementedException();
     }
+
+    private static char[][] ParseInput(string input) =>
+        (from line in GetLines(input)
+            where !string.IsNullOrWhiteSpace(line)
+            select line.ToCharArray()).ToArray();
 }
