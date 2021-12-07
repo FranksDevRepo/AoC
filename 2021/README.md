@@ -26,20 +26,20 @@ Clone and build the solution:
 
 To run the Blazor WebAssembly application:
 
-- `dotnet run -p aoc2021.WebApp`
+- `dotnet run --project aoc2021.WebApp`
 - Open `http://localhost:52016/`
 
 To run all puzzle solutions in console:
 
-- `dotnet run -p aoc2021.ConsoleApp --all`
+- `dotnet run --project aoc2021.ConsoleApp --all`
 
 To run the last solution in console:
 
-- `dotnet run -p aoc2021.ConsoleApp --last`
+- `dotnet run --project aoc2021.ConsoleApp --last`
 
 To run a specific solution in console:
 
-- `dotnet run -p aoc2021.ConsoleApp --day` **`[number of day]`**
+- `dotnet run --project aoc2021.ConsoleApp --day` **`[number of day]`**
 
 To setup the environment for a new puzzle solution:
 
