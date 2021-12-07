@@ -1,5 +1,4 @@
 ﻿using aoc2021.Puzzles.Core;
-using System;
 using System.Linq;
 
 namespace aoc2021.Puzzles.Solutions;

@@ -93,7 +93,7 @@ public class Player
 
         foreach (var bingoBoard in BingoBoards)
         {
-        int countNumberOfDraws = 0;
+            int countNumberOfDraws = 0;
             foreach (var drawNumber in drawNumbers)
             {
                 countNumberOfDraws++;
@@ -105,6 +105,7 @@ public class Player
                 }
 
             }
+
             indexBoard++;
 
         }
@@ -112,7 +113,7 @@ public class Player
         var loosingBoard = boardDictionary.Where(b =>
             b.Value.countNumberOfDraws == boardDictionary.Values.Max(x => x.countNumberOfDraws)).FirstOrDefault();
         int lastDrawNumber = loosingBoard.Value.lastDrawNumber;
-        
+
         return (lastDrawNumber, BingoBoards.ElementAt(loosingBoard.Key).SumOfUnmarkedNumber());
     }
 }
