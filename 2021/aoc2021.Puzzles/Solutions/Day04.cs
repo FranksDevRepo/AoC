@@ -38,12 +38,11 @@ public sealed class Day04 : SolutionBase
         return draws;
     }
 
-    static string RemoveLineBreaksAndMultipleSpaces(string s)
+    private static string RemoveLineBreaksAndMultipleSpaces(string s)
     {
         s = Regex.Replace(s, @"\s+", " ");
         return s;
     }
-
 }
 
 public class Player
@@ -103,15 +102,13 @@ public class Player
                     boardDictionary[indexBoard] = (drawNumber, countNumberOfDraws);
                     break;
                 }
-
             }
 
             indexBoard++;
 
         }
 
-        var loosingBoard = boardDictionary.Where(b =>
-            b.Value.countNumberOfDraws == boardDictionary.Values.Max(x => x.countNumberOfDraws)).FirstOrDefault();
+        var loosingBoard = boardDictionary.First(b => b.Value.countNumberOfDraws == boardDictionary.Values.Max(x => x.countNumberOfDraws));
         int lastDrawNumber = loosingBoard.Value.lastDrawNumber;
 
         return (lastDrawNumber, BingoBoards.ElementAt(loosingBoard.Key).SumOfUnmarkedNumber());
@@ -146,7 +143,6 @@ public class BingoBoard
                     board[row, col].isMarked = true;
             }
         }
-        
     }
 
     public bool IsWin()
