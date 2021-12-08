@@ -50,7 +50,8 @@ public sealed class Day03 : SolutionBase
         var oxygenGeneratorRating = CalculateRating(data, MostCommonRatingFunc);
         var co2ScrubberRating = CalculateRating(data, LeastCommonRatingFunc);
 
-        return (oxygenGeneratorRating * co2ScrubberRating).ToString();
+        var lifeSupportRating = oxygenGeneratorRating * co2ScrubberRating;
+        return lifeSupportRating.ToString();
     }
 
     Func<long, long, bool> MostCommonRatingFunc => (zeros, ones) => zeros > ones;
