@@ -70,7 +70,7 @@ To setup the environment for a new puzzle solution:
 |----:|:------|
 | 1   | Sonar Sweep - part 2 needed a sliding window sum, implemented by range ```numbers[i..upperRangeWindow].Sum()``` |
 | 2   | Dive! - parsing commands by **regex** expression , used IPosition Interface to simplify code |
-| 3   | Binary Diagnostic - checking bits in a row, although easy , I had some trouble finding a solution, data structures, 🚧 part 2 to do |
+| 3   | Binary Diagnostic - checking bits in a row, although easy , I had some trouble finding a solution, data structures, used `Func<long, long, bool>`-Delegate to avoid code duplication in the `CalculateRating()`-Method |
 | 4   | Giant Squid - bingo boards, data structure, part 1 find winning bingo board, part 2 find last winning bingo board, 🔨 could need some refactoring |
 | 5   | Hydrothermal Venture - part 2 was tricky because of diagonals, 📈 visualisation would be nice|
 | 6   | Lanternfish - solved part 1 - surprisingly, part 2 execution time seems to be exponential, 🐎 💩 needs optimization |
