@@ -47,6 +47,6 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day08.txt"));
 
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("1043697", await Solution.Part2Async(input));
     }
 }

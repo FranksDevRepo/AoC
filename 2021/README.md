@@ -72,10 +72,10 @@ To setup the environment for a new puzzle solution:
 | 2   | Dive! - parsing commands by **regex** expression , used IPosition Interface to simplify code |
 | 3   | Binary Diagnostic - checking bits in a row, although easy , I had some trouble finding a solution, data structures, used `Func<long, long, bool>`-Delegate to avoid code duplication in the `CalculateRating()`-Method |
 | 4   | Giant Squid - bingo boards, data structure, part 1 find winning bingo board, part 2 find last winning bingo board, 🔨 could need some refactoring |
-| 5   | Hydrothermal Venture - part 2 was tricky because of diagonals, 📈 visualisation would be nice|
+| 5   | Hydrothermal Venture - part 2 was tricky because of diagonals, 📈 visualisation would be nice, 🐎 could need some optimization |
 | 6   | Lanternfish - solved part 1 - surprisingly, part 2 execution time seems to be exponential, 🐎 💩 needs optimization |
 | 7   | The Treachery of Whales - rather straight forward, easy |
-| 8   | |
+| 8   | Seven Segment Search - at first reading, seemed very complicated, but the first part was not. But I was overfitting the regular expression, so it didn't match. Second part was tricky to get one's head round, I looked into reddit to get an idea for an algorithm. Somehow it reminded me of a puzzle in 2020, where I solved a puzzle by an elimination approach: Using the 4 digits with a unique number of segments, you can find the digits with 5 segments (2, 3, 5) and the digits with 6 segments (6, 9, 0). The order of decoding in `Decode5CharSegments()` is significant. 💩 Ugly code in `DecodeXCharSegments()` |
 | 9   | |
 | 10  | |
 | 11  | |
