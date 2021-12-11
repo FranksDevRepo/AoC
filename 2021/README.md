@@ -77,7 +77,7 @@ To setup the environment for a new puzzle solution:
 | 7   | The Treachery of Whales - rather straight forward, easy |
 | 8   | Seven Segment Search - at first reading, seemed very complicated, but the first part was not. But I was overfitting the regular expression, so it didn't match. Second part was tricky to get one's head round, I looked into reddit to get an idea for an algorithm. Somehow it reminded me of a puzzle in 2020, where I solved a puzzle by an elimination approach: Using the 4 digits with a unique number of segments, you can find the digits with 5 segments (2, 3, 5) and the digits with 6 segments (6, 9, 0). The order of decoding in `Decode5CharSegments()` is significant. 💩 Ugly code in `DecodeXCharSegments()` |
 | 9   | |
-| 10  | |
+| 10  | Syntax Scoring - attempted to solve the puzzle by a backreferencing regular expression, but it turned out to be a lot easier, to solve the puzzle with a simple stack, part ii caused an numeric overflow of an int32 so that my result was too low. But my mistake was easy to spot because the were negative values in the list of scores. 🔨 could need some refactoring |
 | 11  | |
 | 12  | |
 

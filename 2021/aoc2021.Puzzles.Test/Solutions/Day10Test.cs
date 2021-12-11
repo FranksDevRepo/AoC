@@ -4,6 +4,8 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
+using FluentAssertions;
+using System.Numerics;
 
 namespace aoc2021.Puzzles.Test.Solutions;
 
@@ -47,6 +49,8 @@ public sealed class Day10Test : TestBase<Day10>
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day10.txt"));
 
-        Assert.Equal("", await Solution.Part2Async(input));
+        var actual = BigInteger.Parse(await Solution.Part2Async(input));
+        actual.Should().BeGreaterThan(165561627);
+        actual.Should().Be(3103006161);
     }
 }
