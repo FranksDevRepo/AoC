@@ -9,10 +9,7 @@ namespace aoc2021.Puzzles.Test.Solutions;
 
 public sealed class Day10Test : TestBase<Day10>
 {
-    [Fact]
-    public async Task Part1()
-    {
-        var input = @"[({(<(())[]>[[{[]{<()<>>
+    private readonly string _input = @"[({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
 {([(<{}[<>[]}>{[]{[(<()>
 (((({<>}<{<{<>}{[]{[]{}
@@ -22,14 +19,17 @@ public sealed class Day10Test : TestBase<Day10>
 [<(<(<(<{}))><([]([]()
 <{([([[(<>()){}]>(<<{{
 <{([{{}}[<[[[<>{}]]]>[]]";
-        Assert.Equal("26397", await Solution.Part1Async(input));
+
+    [Fact]
+    public async Task Part1()
+    {
+        Assert.Equal("26397", await Solution.Part1Async(_input));
     }
 
     [Fact]
     public async Task Part2()
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("288957", await Solution.Part2Async(_input));
     }
 
     [Fact]
