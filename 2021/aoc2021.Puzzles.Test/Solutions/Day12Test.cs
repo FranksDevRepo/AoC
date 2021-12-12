@@ -12,17 +12,17 @@ public sealed class Day12Test : TestBase<Day12>
 {
     [Theory]
     [MemberData(nameof(GetExampleTestcasesPart1))]
-    public async Task Part1(string input, string expected)
+    public async Task Part1(string input, string expectedPart1, string _)
     {
-        Assert.Equal(expected, await Solution.Part1Async(input));
+        Assert.Equal(expectedPart1, await Solution.Part1Async(input));
     }
 
 
-    [Fact]
-    public async Task Part2()
+    [Theory]
+    [MemberData(nameof(GetExampleTestcasesPart1))]
+    public async Task Part2(string input, string _, string expectedPart2)
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal(expectedPart2, await Solution.Part2Async(input));
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public sealed class Day12Test : TestBase<Day12>
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day12.txt"));
 
-        Assert.Equal("", await Solution.Part1Async(input));
+        Assert.Equal("4413", await Solution.Part1Async(input));
     }
 
     [Fact]
@@ -54,7 +54,7 @@ A-c
 A-b
 b-d
 A-end
-b-end", "10"
+b-end", "10", "36"
             },
             new object[]
             {
@@ -67,7 +67,7 @@ LN-dc
 HN-end
 kj-sa
 kj-HN
-kj-dc", "19"
+kj-dc", "19", "103"
             },
             new object[]
             {
@@ -88,7 +88,7 @@ start-pj
 he-WI
 zg-he
 pj-fs
-start-RW", "226"
+start-RW", "226", "3509"
             }
         };
 }
