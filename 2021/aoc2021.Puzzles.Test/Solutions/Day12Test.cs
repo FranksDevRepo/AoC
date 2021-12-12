@@ -40,7 +40,7 @@ public sealed class Day12Test : TestBase<Day12>
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day12.txt"));
 
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("118803", await Solution.Part2Async(input));
     }
 
     public static IEnumerable<object[]> GetExampleTestcasesPart1() =>
