@@ -59,10 +59,20 @@ To setup the environment for a new puzzle solution:
   - [MoreLINQ](https://morelinq.github.io/)
   - [MoreLINQ Examples](https://github.com/morelinq/examples)
 - Reddit
-  - [Solution Megathreads](https://www.reddit.com/r/adventofcode/wiki/solution_megathreads)
+  - [Solution Megathreads](https://www.reddit.com/r/adventofcode/wiki/solution_megathreads) 💡
+  - [mega-thread solutions scraper](https://aocweb.yulrizka.com/) 💡
 - YouTube
   - [Brad Wilson, xUnit maintainer](https://www.youtube.com/user/dotnetguy64)
   - [Brad Wilson on Twitch](https://www.twitch.tv/BradWilson72)
+- GitHub
+  - [Awesome Advent of Code](https://github.com/Bogdanp/awesome-advent-of-code)
+  - [David Nemeth Cs.](https://github.com/encse/adventofcode) - smart and functional style, immutability and LINQ
+  - [Eduardo Cáceres](https://github.com/eduherminio/AoC2021)
+  - [AoCHelper](https://github.com/eduherminio/AoCHelper)
+  - [AdventOfCode.Template](https://github.com/eduherminio/AdventOfCode.Template)
+  - [Johannes Norrbacka](https://github.com/norrbacka/aoc2021) - functional style
+  - [Giannis Ntovas](https://github.com/ntovas/AdventOfCode) - tries to solve with LINQ
+  - [Stuart Turner](https://github.com/viceroypenguin/adventofcode/tree/master/2021) - smart
 
 ## notes on 2021 puzzles
 
@@ -73,7 +83,7 @@ To setup the environment for a new puzzle solution:
 | 3   | Binary Diagnostic - checking bits in a row, although easy , I had some trouble finding a solution, data structures, used `Func<long, long, bool>`-Delegate to avoid code duplication in the `CalculateRating()`-Method |
 | 4   | Giant Squid - bingo boards, data structure, part 1 find winning bingo board, part 2 find last winning bingo board, 🔨 could need some refactoring |
 | 5   | Hydrothermal Venture - part 2 was tricky because of diagonals, 📈 visualisation would be nice, 🐎 could need some optimization |
-| 6   | Lanternfish - solved part 1 - surprisingly, part 2 execution time seems to be exponential, 🐎 💩 needs optimization |
+| 6   | Lanternfish - solved part 1 - surprisingly, part 2 execution time seems to be exponential, 🐎 💩 needs optimization, need to look at this clever [circular shift register](https://www.reddit.com/r/adventofcode/comments/r9z49j/2021_day_6_solutions/hnfhi24/) solution by [David Nemeth Cs.](https://github.com/encse/adventofcode/blob/master/2021/Day06/Solution.cs) |
 | 7   | The Treachery of Whales - rather straight forward, easy |
 | 8   | Seven Segment Search - at first reading, seemed very complicated, but the first part was not. But I was overfitting the regular expression, so it didn't match. Second part was tricky to get one's head round, I looked into reddit to get an idea for an algorithm. Somehow it reminded me of a puzzle in 2020, where I solved a puzzle by an elimination approach: Using the 4 digits with a unique number of segments, you can find the digits with 5 segments (2, 3, 5) and the digits with 6 segments (6, 9, 0). The order of decoding in `Decode5CharSegments()` is significant. 💩 Ugly code in `DecodeXCharSegments()` |
 | 9   | Smoke Basin - |
