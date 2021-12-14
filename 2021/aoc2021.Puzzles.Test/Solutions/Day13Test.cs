@@ -63,6 +63,7 @@ fold along x=5";
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day13.txt"));
 
+        // capital letters = UEFZCUCJ
         Assert.Equal(@"#..#.####.####.####..##..#..#..##....##
 #..#.#....#.......#.#..#.#..#.#..#....#
 #..#.###..###....#..#....#..#.#.......#
