@@ -73,6 +73,11 @@ To setup the environment for a new puzzle solution:
   - [Johannes Norrbacka](https://github.com/norrbacka/aoc2021) - functional style
   - [Giannis Ntovas](https://github.com/ntovas/AdventOfCode) - tries to solve with LINQ
   - [Stuart Turner](https://github.com/viceroypenguin/adventofcode/tree/master/2021) - smart
+  - [David Camp](https://github.com/Bpendragon/AdventOfCodeCSharp/)
+- F\#
+  - [Kimmo Parviainen-Jalanko](https://github.com/kimvais/AoC2021)
+- Python
+  - [Jonathan Paulson](https://github.com/jonathanpaulson/AdventOfCode) , [streaming on YouTube](https://www.youtube.com/channel/UCuWLIm0l4sDpEe28t41WITA)
 
 ## notes on 2021 puzzles
 
@@ -90,8 +95,8 @@ To setup the environment for a new puzzle solution:
 | 10  | Syntax Scoring - attempted to solve the puzzle by a backreferencing regular expression, but it turned out to be a lot easier, to solve the puzzle with a simple stack, part ii caused an numeric overflow of an int32 so that my result was too low. But my mistake was easy to spot because the were negative values in the list of scores. 🔨 could need some refactoring |
 | 11  | Dumbo Octopus - similar to days 11 part 2 (2d), 17 of 2020 (3d)? |
 | 12  | Passage Pathing - the problem involves a graph, I thought about implementing a graph algorithm with nodes, edges, ... But then I looked into a solution. Found it at [mega-thread solutions scraper](https://aocweb.yulrizka.com/?year=2021&day=12&language=C%23): [encse day 12 c# solution](https://reddit.com/r/adventofcode/comments/rehj2r/2021_day_12_solutions/ho8dez5/). Much simpler approach using only a (adjacency) dictionary of adjacent nodes). It is readable and compact. *for concept of graphs see C# Data Structures and Algorithms by Marcin Jamro* |
-| 13  | Transparent Origami - first I thought the puzzle might be similar to puzzle 20 of 2020, but it wasn't. Very nice puzzle, with a little clue *New positions of folded dots easily calculated with: foldPos - (dotPos - foldPos)*, the solution was less complex than I thought it to be. Had to convert the `Hashset<Coordinate>` to a String to see the capital letters.
-| 14  | |
+| 13  | Transparent Origami - first I thought the puzzle might be similar to puzzle 20 of 2020, but it wasn't. Very nice puzzle, with a little clue *New positions of folded dots easily calculated with: foldPos - (dotPos - foldPos)*, the solution was less complex than I thought it to be. Had to convert the `Hashset<Coordinate>` to a String to see the capital letters. 🔨 Could need some refactoring. |
+| 14  | Extended Polymerization - first part with 10 iterations works, but the second part with 40 iterations needs optimization 🐎 runtime grows exponentially like puzzle 6 "Lanternfish", found a cool Python solution |
 | 15  | |
 | 16  | |
 | 17  | |
