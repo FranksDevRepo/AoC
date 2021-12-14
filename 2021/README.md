@@ -90,7 +90,7 @@ To setup the environment for a new puzzle solution:
 | 10  | Syntax Scoring - attempted to solve the puzzle by a backreferencing regular expression, but it turned out to be a lot easier, to solve the puzzle with a simple stack, part ii caused an numeric overflow of an int32 so that my result was too low. But my mistake was easy to spot because the were negative values in the list of scores. 🔨 could need some refactoring |
 | 11  | Dumbo Octopus - similar to days 11 part 2 (2d), 17 of 2020 (3d)? |
 | 12  | Passage Pathing - the problem involves a graph, I thought about implementing a graph algorithm with nodes, edges, ... But then I looked into a solution. Found it at [mega-thread solutions scraper](https://aocweb.yulrizka.com/?year=2021&day=12&language=C%23): [encse day 12 c# solution](https://reddit.com/r/adventofcode/comments/rehj2r/2021_day_12_solutions/ho8dez5/). Much simpler approach using only a (adjacency) dictionary of adjacent nodes). It is readable and compact. *for concept of graphs see C# Data Structures and Algorithms by Marcin Jamro* |
-| 13  | |
+| 13  | Transparent Origami - has some similarities to puzzle 20 of 2020 |
 | 14  | |
 | 15  | |
 | 16  | |
