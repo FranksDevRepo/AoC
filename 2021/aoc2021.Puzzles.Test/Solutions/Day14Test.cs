@@ -55,6 +55,6 @@ CN -> C";
         var rootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var input = await File.ReadAllTextAsync(Path.Combine(rootDir ?? throw new InvalidOperationException("Could not find rootDir."), "Input", "Day14.txt"));
 
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("4607749009683", await Solution.Part2Async(input));
     }
 }

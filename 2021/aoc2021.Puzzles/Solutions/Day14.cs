@@ -24,8 +24,8 @@ public sealed class Day14 : SolutionBase
 
     public override string Part2(string input)
     {
-        int mostCommonElement = 0;
-        int leastCommonElement = 0;
+        UInt64 mostCommonElement = 0;
+        UInt64 leastCommonElement = 0;
         (mostCommonElement, leastCommonElement) = ParseInputAndCreatePolymerOptimized(input, 40);
 
         return (mostCommonElement - leastCommonElement).ToString();
@@ -72,7 +72,7 @@ public sealed class Day14 : SolutionBase
         return polymer.ToString();
     }
 
-    private static (int, int) ParseInputAndCreatePolymerOptimized(string input, int count)
+    private static (UInt64, UInt64) ParseInputAndCreatePolymerOptimized(string input, int count)
     {
         var polymerTemplate = GetLines(input).First();
         var rules = GetLines(input)
@@ -86,7 +86,7 @@ public sealed class Day14 : SolutionBase
         var polymerDict = polymerTemplate
             .Select((c, index) => polymerTemplate[(index..(Math.Min(index + 2, polymerTemplate.Length)))])
             .GroupBy(g => g)
-            .ToDictionary(g => g.Key, g => g.Count());
+            .ToDictionary(g => g.Key, g => (UInt64)g.Count());
         //var charsDict = polymerDict
         //        .Keys
         //        .AsEnumerable()
@@ -96,7 +96,7 @@ public sealed class Day14 : SolutionBase
         var charCounter = polymerTemplate
                 .Select(c => c)
                 .GroupBy(c => c)
-                .ToDictionary(k => new string(k.Key, 1), v => v.Count());
+                .ToDictionary(k => new string(k.Key, 1), v => (UInt64)v.Count());
 
         int steps = 0;
         //StringBuilder polymer = new StringBuilder(polymerTemplate);
@@ -106,25 +106,25 @@ public sealed class Day14 : SolutionBase
             int order = 00;
 
             //foreach (var polymer in polymerDict.Where(k => k.Value > 0).Select(k => k.Key).ToList())
-            foreach (var polymer in polymerDict.RepeatKeys((kvp, index) => index < kvp.Value).ToList())
+            foreach (var polymer in polymerDict.Where(k => k.Value > 0).ToList())
             {
-                if (!rules.ContainsKey(polymer))
+                if (!rules.ContainsKey(polymer.Key))
                     continue;
-                polymerDict[polymer]--;
-                var pairs = polymer.ToCharArray();
-                var newElement = rules[polymer];
+                polymerDict[polymer.Key] = polymerDict[polymer.Key] - polymer.Value;
+                var pairs = polymer.Key.ToCharArray();
+                var newElement = rules[polymer.Key];
                 if (!polymerDict.ContainsKey(pairs[0] + newElement))
-                    polymerDict.Add(pairs[0] + newElement, 1);
+                    polymerDict.Add(pairs[0] + newElement, polymer.Value);
                 else
-                    polymerDict[pairs[0] + newElement] = polymerDict[pairs[0] + newElement] + 1;
+                    polymerDict[pairs[0] + newElement] = polymerDict[pairs[0] + newElement] + polymer.Value;
                 if (!polymerDict.ContainsKey(newElement + pairs[1]))
-                    polymerDict.Add(newElement + pairs[1], 1);
+                    polymerDict.Add(newElement + pairs[1], polymer.Value);
                 else
-                    polymerDict[newElement + pairs[1]] = polymerDict[newElement + pairs[1]] + 1;
+                    polymerDict[newElement + pairs[1]] = polymerDict[newElement + pairs[1]] + polymer.Value;
                 if (!charCounter.ContainsKey(newElement))
-                    charCounter.Add(newElement, 1);
+                    charCounter.Add(newElement, polymer.Value);
                 else
-                    charCounter[newElement] = charCounter[newElement] + 1;
+                    charCounter[newElement] = charCounter[newElement] + polymer.Value;
             }
         } while (steps < count);
 
