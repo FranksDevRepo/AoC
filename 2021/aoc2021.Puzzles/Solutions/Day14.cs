@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using aoc2021.Puzzles.Extensions;
 
 namespace aoc2021.Puzzles.Solutions;
 
@@ -23,11 +24,9 @@ public sealed class Day14 : SolutionBase
 
     public override string Part2(string input)
     {
-        var polymer = ParseInputAndCreatePolymer(input, 40);
-
         int mostCommonElement = 0;
         int leastCommonElement = 0;
-        (mostCommonElement, leastCommonElement) = CountCommonElements(polymer);
+        (mostCommonElement, leastCommonElement) = ParseInputAndCreatePolymerOptimized(input, 40);
 
         return (mostCommonElement - leastCommonElement).ToString();
         //return Solve(input, 40).ToString();
@@ -73,6 +72,67 @@ public sealed class Day14 : SolutionBase
         return polymer.ToString();
     }
 
+    private static (int, int) ParseInputAndCreatePolymerOptimized(string input, int count)
+    {
+        var polymerTemplate = GetLines(input).First();
+        var rules = GetLines(input)
+            .Where(l => l.Contains("->", StringComparison.InvariantCulture))
+            .Select(l => l.Split("->", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+            .ToDictionary(k => k[0], v => v[1]);
+        //.Select(parts => (molecule: parts[0], element: parts[1]))
+        //.ToDictionary(k => k.molecule, v => v.molecule[0] + v.element + v.molecule[1]);
+
+        //Dictionary<string, int> polymerDic = new();
+        var polymerDict = polymerTemplate
+            .Select((c, index) => polymerTemplate[(index..(Math.Min(index + 2, polymerTemplate.Length)))])
+            .GroupBy(g => g)
+            .ToDictionary(g => g.Key, g => g.Count());
+        //var charsDict = polymerDict
+        //        .Keys
+        //        .AsEnumerable()
+        //        .SelectMany(c => c)
+        //        .GroupBy(c => c)
+        //        .ToDictionary(k => k, v => v.Count());
+        var charCounter = polymerTemplate
+                .Select(c => c)
+                .GroupBy(c => c)
+                .ToDictionary(k => new string(k.Key, 1), v => v.Count());
+
+        int steps = 0;
+        //StringBuilder polymer = new StringBuilder(polymerTemplate);
+        do
+        {
+            steps++;
+            int order = 00;
+
+            //foreach (var polymer in polymerDict.Where(k => k.Value > 0).Select(k => k.Key).ToList())
+            foreach (var polymer in polymerDict.RepeatKeys((kvp, index) => index < kvp.Value).ToList())
+            {
+                if (!rules.ContainsKey(polymer))
+                    continue;
+                polymerDict[polymer]--;
+                var pairs = polymer.ToCharArray();
+                var newElement = rules[polymer];
+                if (!polymerDict.ContainsKey(pairs[0] + newElement))
+                    polymerDict.Add(pairs[0] + newElement, 1);
+                else
+                    polymerDict[pairs[0] + newElement] = polymerDict[pairs[0] + newElement] + 1;
+                if (!polymerDict.ContainsKey(newElement + pairs[1]))
+                    polymerDict.Add(newElement + pairs[1], 1);
+                else
+                    polymerDict[newElement + pairs[1]] = polymerDict[newElement + pairs[1]] + 1;
+                if (!charCounter.ContainsKey(newElement))
+                    charCounter.Add(newElement, 1);
+                else
+                    charCounter[newElement] = charCounter[newElement] + 1;
+            }
+        } while (steps < count);
+
+        var mostCommonElement = charCounter.First(c => c.Value == charCounter.Max(c => c.Value)).Value;
+        var leastCommonElement = charCounter.First(c => c.Value == charCounter.Min(c => c.Value)).Value;
+
+        return (mostCommonElement, leastCommonElement);
+    }
 
     long Solve(string input, int steps)
     {

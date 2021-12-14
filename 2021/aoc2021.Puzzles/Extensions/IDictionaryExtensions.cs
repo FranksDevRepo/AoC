@@ -21,4 +21,13 @@ public static class IDictionaryExtensions
         key = keyValuePair.Key;
         value = keyValuePair.Value;
     }
+
+    public static IEnumerable<TKey> RepeatKeys<TKey, TValue>(this IDictionary<TKey, TValue> keyValuePair, Func<KeyValuePair<TKey, TValue>, int, bool> countFunc)
+    where TValue : struct 
+    {
+        foreach (var item in keyValuePair)
+            for (int i = 0; countFunc(item, i); i++)
+                yield return item.Key;
+    }
+
 }
