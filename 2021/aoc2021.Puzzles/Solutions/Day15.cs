@@ -17,7 +17,7 @@ public sealed class Day15 : SolutionBase
             .Select(row => row
                 .Select(c => Convert.ToInt32(Char.GetNumericValue(c))).ToArray()).ToArray();
 
-        var graph = new Graph<Coordinate>(false, true);
+        var graph = new Graph<Coordinate>(true, true);
         Dictionary<Coordinate, Node<Coordinate>> nodes = new();
 
         for (int y = 0; y < map[0].Length; y++)
@@ -40,12 +40,14 @@ public sealed class Day15 : SolutionBase
                 {
                     var n2 = nodes[new Coordinate(x + 1, y)];
                     graph.AddEdge(n1, n2, map[y][x + 1]);
+                    graph.AddEdge(n2, n1, map[y][x]);
                 }
 
                 if (y + 1 < map[0].Length)
                 {
                     var n3 = nodes[new Coordinate(x, y + 1)];
                     graph.AddEdge(n1, n3, map[y + 1][x]);
+                    graph.AddEdge(n3, n1, map[y][x]);
                 }
             }
         }
