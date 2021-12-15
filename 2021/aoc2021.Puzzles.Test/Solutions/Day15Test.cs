@@ -10,10 +10,7 @@ namespace aoc2021.Puzzles.Test.Solutions;
 
 public sealed class Day15Test : TestBase<Day15>
 {
-    [Fact]
-    public async Task Part1()
-    {
-        var input = @"1163751742
+    private readonly string _input = @"1163751742
 1381373672
 2136511328
 3694931569
@@ -23,14 +20,17 @@ public sealed class Day15Test : TestBase<Day15>
 3125421639
 1293138521
 2311944581";
-        Assert.Equal("40", await Solution.Part1Async(input));
+
+    [Fact]
+    public async Task Part1()
+    {
+        Assert.Equal("40", await Solution.Part1Async(_input));
     }
 
     [Fact]
     public async Task Part2()
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part2Async(input));
+        Assert.Equal("315", await Solution.Part2Async(_input));
     }
 
     [Fact]
