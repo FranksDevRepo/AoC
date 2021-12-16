@@ -73,7 +73,7 @@ To setup the environment for a new puzzle solution:
   - [Johannes Norrbacka](https://github.com/norrbacka/aoc2021) - functional style
   - [Giannis Ntovas](https://github.com/ntovas/AdventOfCode) - tries to solve with LINQ
   - [Stuart Turner](https://github.com/viceroypenguin/adventofcode/tree/master/2021) - smart
-  - [David Camp](https://github.com/Bpendragon/AdventOfCodeCSharp/)
+  - [David Camp](https://github.com/Bpendragon/AdventOfCodeCSharp/) - Linq
   - [Dana Larose](https://github.com/DanaL/AdventOfCode) - ywgdana has some nice explanations on reddit 
   - [AlFasGD template](https://github.com/AlFasGD/AdventOfCSharp), [AlFasGD solutions 2015-](https://github.com/AlFasGD/AdventOfCode)
 - F\#
@@ -105,7 +105,7 @@ To setup the environment for a new puzzle solution:
 | 13  | Transparent Origami - first I thought the puzzle might be similar to puzzle 20 of 2020, but it wasn't. Very nice puzzle, with a little clue *New positions of folded dots easily calculated with: foldPos - (dotPos - foldPos)*, the solution was less complex than I thought it to be. Had to convert the `Hashset<Coordinate>` to a String to see the capital letters. 🔨 Could need some refactoring. |
 | 14  | Extended Polymerization - first part with 10 iterations works, but the second part with 40 iterations needs optimization 🐎 runtime grows exponentially like puzzle 6 "Lanternfish", found a cool idea how to speed up the algorithm by a Python solution, after I had optimized the code, I got negative values which I first could not recognize as numeric overflow errors, so I digged deeper into debugging and finally found my error: instead of int I needed UInt64, 💩 up to now code looks ugly and needs refactoring 🔨 and cleanup IDictionaryExtensions.RepeatKeys too slow, proud I got an efficient solution for the second part |
 | 15  | Chiton - Shortest path algorithm same problem as [Project Euler #83](https://projecteuler.net/problem=83) : [Djikstra's algorithm](https://github.com/matiii/Dijkstra.NET), [NetworkX](https://github.com/JakaJenko/INA_Graph_library), [A* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) : 💡 I used Djikstra's algorithm as published in github repo of book [C# Data Structures and Algorithms](https://github.com/PacktPublishing/C-Sharp-Data-Structures-and-Algorithms), in first part I oversaw that you need to use a directed graph because edges (a -> b, b -> a) have different weights, the second part needs some time to compute 🐎, but the result was correct at first try, did some refactoring, so that I'm satisfied with the solution. 🔨 .Net 6 finally has a PriorityQueue collection, so I could probably remove the NuGet package OptimizedPriorityQueue. A* is supposed to be faster. |
-| 16  | Packet Decoder - 🚧 |
+| 16  | Packet Decoder - 🚧 [Perska](https://github.com/Perska/AoC2021/blob/master/AoC2021/Days/Day16.cs), [David Camp](https://github.com/Bpendragon/AdventOfCodeCSharp/blob/01ebdd/AdventOfCode/Solutions/Year2021/Day16-Solution.cs) |
 | 17  | |
 | 18  | |
 | 19  | |
