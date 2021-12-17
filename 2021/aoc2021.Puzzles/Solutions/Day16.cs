@@ -39,7 +39,7 @@ public sealed class Day16 : SolutionBase
     }
 
     private static string RemoveNewLine(string input)
-        => input.Replace(Environment.NewLine, string.Empty);
+        => input.Replace(Environment.NewLine, string.Empty).Replace("\n", string.Empty);
 
     private static string ConvertHexToBinary(string input) 
         => string.Join(string.Empty, input.Select(c => Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')));

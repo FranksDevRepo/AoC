@@ -66,6 +66,7 @@ To setup the environment for a new puzzle solution:
   - [Brad Wilson on Twitch](https://www.twitch.tv/BradWilson72)
 - GitHub
   - [Awesome Advent of Code](https://github.com/Bogdanp/awesome-advent-of-code)
+  - [Advent of Code Statistics of first top 100](https://www.maurits.vdschee.nl/scatterplot/), [Maurits van der Schee, Java Source](https://github.com/mevdschee/aoc-stats), [TQ dev.com mainly GopherCon](https://tqdev.com)
   - [David Nemeth Cs.](https://github.com/encse/adventofcode) - smart and functional style, immutability and LINQ
   - [Eduardo Cáceres](https://github.com/eduherminio/AoC2021)
   - [AoCHelper](https://github.com/eduherminio/AoCHelper)
