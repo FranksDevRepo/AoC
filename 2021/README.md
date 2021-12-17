@@ -64,6 +64,7 @@ To setup the environment for a new puzzle solution:
 - YouTube
   - [Brad Wilson, xUnit maintainer](https://www.youtube.com/user/dotnetguy64)
   - [Brad Wilson on Twitch](https://www.twitch.tv/BradWilson72)
+  - [Lurf Jurf, Python Live Coding](https://www.youtube.com/watch?v=KMzPf4om2k4)
 - GitHub
   - [Awesome Advent of Code](https://github.com/Bogdanp/awesome-advent-of-code)
   - [Advent of Code Statistics of first top 100](https://www.maurits.vdschee.nl/scatterplot/), [Maurits van der Schee, Java Source](https://github.com/mevdschee/aoc-stats), [TQ dev.com mainly GopherCon](https://tqdev.com)
@@ -95,9 +96,9 @@ To setup the environment for a new puzzle solution:
 | 2   | Dive! - parsing commands by **regex** expression , used IPosition Interface to simplify code |
 | 3   | Binary Diagnostic - checking bits in a row, although easy , I had some trouble finding a solution, data structures, used `Func<long, long, bool>`-Delegate to avoid code duplication in the `CalculateRating()`-Method |
 | 4   | Giant Squid - bingo boards, data structure, part 1 find winning bingo board, part 2 find last winning bingo board, 🔨 could need some refactoring |
-| 5   | Hydrothermal Venture - part 2 was tricky because of diagonals, 📈 visualisation would be nice, 🐎 could need some optimization |
+| 5   | Hydrothermal Venture - part 2 was tricky because of diagonals, 📈 visualisation would be nice, 🐎 could need some optimization [LINQ solution](https://www.reddit.com/r/adventofcode/comments/r9824c/2021_day_5_solutions/hncsi2x/)|
 | 6   | Lanternfish - solved part 1 - surprisingly, part 2 execution time seems to be exponential, 🐎 💩 needs optimization, need to look at this clever [circular shift register](https://www.reddit.com/r/adventofcode/comments/r9z49j/2021_day_6_solutions/hnfhi24/) solution by [David Nemeth Cs.](https://github.com/encse/adventofcode/blob/master/2021/Day06/Solution.cs) |
-| 7   | The Treachery of Whales - rather straight forward, easy |
+| 7   | The Treachery of Whales - rather straight forward, easy [LINQ solution](https://www.reddit.com/r/adventofcode/comments/rar7ty/2021_day_7_solutions/hnk6z1a/) |
 | 8   | Seven Segment Search - at first reading, seemed very complicated, but the first part was not. But I was overfitting the regular expression, so it didn't match. Second part was tricky to get one's head round, I looked into reddit to get an idea for an algorithm. Somehow it reminded me of a puzzle in 2020, where I solved a puzzle by an elimination approach: Using the 4 digits with a unique number of segments, you can find the digits with 5 segments (2, 3, 5) and the digits with 6 segments (6, 9, 0). The order of decoding in `Decode5CharSegments()` is significant. 💩 Ugly code in `DecodeXCharSegments()` |
 | 9   | Smoke Basin - 🚧 |
 | 10  | Syntax Scoring - attempted to solve the puzzle by a backreferencing regular expression, but it turned out to be a lot easier, to solve the puzzle with a simple stack, part ii caused an numeric overflow of an int32 so that my result was too low. But my mistake was easy to spot because the were negative values in the list of scores. 🔨 could need some refactoring |
