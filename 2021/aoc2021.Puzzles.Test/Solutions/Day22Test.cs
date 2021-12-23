@@ -11,7 +11,7 @@ namespace aoc2021.Puzzles.Test.Solutions;
 public sealed class Day22Test : TestBase<Day22>
 {
     [Theory]
-    [MemberData(nameof(GetExampleTestcasesPart1)]
+    [MemberData(nameof(GetExampleTestcasesPart1))]
     public async Task Part1(string input, string expected)
     {
         Assert.Equal(expected, await Solution.Part1Async(input));

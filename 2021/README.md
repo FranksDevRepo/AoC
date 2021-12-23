@@ -64,6 +64,7 @@ To setup the environment for a new puzzle solution:
 - YouTube
   - [Brad Wilson, xUnit maintainer](https://www.youtube.com/user/dotnetguy64)
   - [Brad Wilson on Twitch](https://www.twitch.tv/BradWilson72)
+  - [Mark Heath AoC 2015 in C# using LINQ, and F#](https://youtube.com/playlist?list=PLzUdt2T2KyAfhCdO3RRDmEl67pSEWMwzY), [Mark Heath Blog](https://markheath.net)
   - [Lurf Jurf, Python Live Coding](https://www.youtube.com/watch?v=KMzPf4om2k4)
 - GitHub
   - [Awesome Advent of Code](https://github.com/Bogdanp/awesome-advent-of-code)
@@ -110,11 +111,11 @@ To setup the environment for a new puzzle solution:
 | 16  | Packet Decoder - Found David's solution very clean and readable, made some minor modifications, had to work on Analytics reports, [Perska](https://github.com/Perska/AoC2021/blob/master/AoC2021/Days/Day16.cs), [David Camp](https://github.com/Bpendragon/AdventOfCodeCSharp/blob/01ebdd/AdventOfCode/Solutions/Year2021/Day16-Solution.cs), could use [BitArray](https://docs.microsoft.com/en-us/dotnet/api/system.collections.bitarray?view=net-6.0) |
 | 17  | Trick Shot - |
 | 18  | Snailfish - |
-| 19  | |
-| 20  | |
-| 21  | |
-| 22  | |
-| 23  | |
+| 19  | Beacon Scanner - |
+| 20  | Trench Map - |
+| 21  | Dirac Dice - |
+| 22  | Reactor Reboot - |
+| 23  | Amphipod - |
 | 24  | |
 | 25  | |
 
