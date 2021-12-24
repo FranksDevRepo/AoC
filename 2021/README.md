@@ -114,7 +114,7 @@ To setup the environment for a new puzzle solution:
 | 19  | Beacon Scanner - |
 | 20  | Trench Map - |
 | 21  | Dirac Dice - |
-| 22  | Reactor Reboot - |
+| 22  | Reactor Reboot - tried to use brute force, works for part 1 if you did not miss this extra condition: *"The initialization procedure only uses cubes that have x, y, and z positions of at least -50 and at most 50. For now, ignore cubes outside this region"* 🐎|
 | 23  | Amphipod - |
 | 24  | |
 | 25  | |

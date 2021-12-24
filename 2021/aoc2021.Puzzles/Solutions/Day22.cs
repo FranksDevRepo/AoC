@@ -31,11 +31,11 @@ public sealed class Day22 : SolutionBase
             var zMin = int.Parse(match.Groups["zMin"].Value);
             var zMax = int.Parse(match.Groups["zMax"].Value);
 
-            for(int z = (zMin < zMax ? zMin : zMax); z <= (zMin < zMax ? zMax : zMin); z += (zMin < zMax) ? 1 : -1)
+            for(int z = Math.Max(zMin, -50); z <= Math.Min(zMax, 50); z++)
             {
-                for (int y = (yMin < yMax ? yMin : yMax) ; y <= (yMin < yMax ? yMax : yMin); y += (yMin < yMax) ? 1 : -1)
+                for (int y = Math.Max(yMin, -50); y <= Math.Min(yMax, 50); y++)
                 {
-                    for (int x = (xMin < xMax ? xMin : xMax); x <= (xMin < xMax ? xMax : xMin); x += (xMin < xMax) ? 1 : -1)
+                    for (int x = Math.Max(xMin, -50); x <= Math.Min(xMax, 50); x++)
                     {
                         var coord = new Coord3D(x, y, z);
                         if(state.Equals("on"))
