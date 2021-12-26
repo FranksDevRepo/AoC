@@ -12,8 +12,16 @@ public sealed class Day25Test : TestBase<Day25>
     [Fact]
     public async Task Part1()
     {
-        var input = @"";
-        Assert.Equal("", await Solution.Part1Async(input));
+        var input = @"v...>>.vv>
+.vv>>.vv..
+>>.>v>...v
+>>v>>.>.v.
+v>v.vv.v..
+>.>>..v...
+.vv..>.>v.
+v.v..>>v.v
+....v..v.>";
+        Assert.Equal("58", await Solution.Part1Async(input));
     }
 
     [Fact]
