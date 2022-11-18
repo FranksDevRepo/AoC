@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+	<div class="sidebar" style="display: flex; flex-direction: column; width: 350px;">
+	    <NavMenu />
+	</div>
+
+	<div class="main">
+	    <div class="top-row px-4">
+	        <a href="https://www.reddit.com/r/adventofcode/wiki/solution_megathreads/" target="_blank" class="ml-md-auto">reddit Solution Megathreads</a>
+	        <a href="http://www.maurits.vdschee.nl/scatterplot/" target="_blank" class="ml-md-auto">Scatterplot of first 100</a>
+	        <a href="https://sanraith.github.io/aoc2019/" target="_blank" class="ml-md-auto">2019</a>
+	        <a href="https://sanraith.github.io/aoc2020/" target="_blank" class="ml-md-auto">2020</a>
+	        <a href="https://sanraith.github.io/aoc2021/" target="_blank" class="ml-md-auto">2021</a>
+	        <a href="http://blazor.net" target="_blank" class="ml-md-auto">Blazor</a>
+	    </div>
+
+	    <div class="content px-4">
+	        @Body
+	    </div>
+	</div>
+</div>

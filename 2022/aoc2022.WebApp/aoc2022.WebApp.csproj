@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Visualizers\Day13Visualizer.razor.cs" />
+    <Compile Remove="Visualizers\Day15Visualizer.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Visualizers\Day13Visualizer.razor" />
+    <Content Remove="Visualizers\Day15Visualizer.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\aoc2022.Puzzles\aoc2022.Puzzles.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\description\" />
+    <Folder Include="wwwroot\input\" />
+    <Folder Include="wwwroot\source\" />
+  </ItemGroup>
+
+  <Target Name="DeleteInputs" BeforeTargets="BeforeBuild">
+    <Message Importance="high" Text="Deleting puzzle files from WebApp wwwroot..." />
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)wwwroot\input" />
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)wwwroot\description" />
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)wwwroot\source" />
+  </Target>
+
+  <Target Name="CopyInputs" BeforeTargets="BeforeBuild">
+    <Message Importance="high" Text="Copying puzzle files to WebApp wwwroot..." />
+    <ItemGroup>
+      <InputFiles Include="$(MSBuildThisFileDirectory)..\aoc2022.Puzzles\Input\day*.txt" />
+      <DescriptionFiles Include="$(MSBuildThisFileDirectory)..\aoc2022.Puzzles\Descriptions\day*.html" />
+      <SourceFiles Include="$(MSBuildThisFileDirectory)..\aoc2022.Puzzles\Solutions\Day*.cs" />
+    </ItemGroup>
+    <Copy SourceFiles="@(InputFiles)" DestinationFolder="$(MSBuildThisFileDirectory)wwwroot\input\" />
+    <Copy SourceFiles="@(DescriptionFiles)" DestinationFolder="$(MSBuildThisFileDirectory)wwwroot\description\" />
+    <Copy SourceFiles="@(SourceFiles)" DestinationFolder="$(MSBuildThisFileDirectory)wwwroot\source\" />
+  </Target>
+  
+</Project>
